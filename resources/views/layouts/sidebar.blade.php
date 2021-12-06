@@ -47,6 +47,14 @@
                 </a>
             </li>
             <li class="nav-item">
+                <a href="/lokal" class="nav-link">
+                    <i class="nav-icon fas fa-thumbtack"></i>
+                    <p>
+                        Imut Lokal
+                    </p>
+                </a>
+            </li>
+            <li class="nav-item">
                 <a href="#" class="nav-link">
                     <i class="nav-icon fas fa-database"></i>
                     <p>
@@ -66,6 +74,12 @@
                         <a href="/unit" class="nav-link">
                             <i class="far fa-building nav-icon"></i>
                             <p>Master Unit</p>
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a href="/tahun" class="nav-link">
+                            <i class="far fa-calendar-alt nav-icon"></i>
+                            <p>Master Tahun</p>
                         </a>
                     </li>
                 </ul>

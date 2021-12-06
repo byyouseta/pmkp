@@ -13,44 +13,62 @@
             <div class="row">
                 <div class="col-12">
                     <div class="card">
+                        <div class="card-body">
+                            <table class="table table-borderless">
+                                <tbody>
+                                    <tr>
+                                        <th scope="row">Tahun</th>
+                                        <th>Unit Pengusul</th>
+                                        <th>Pengusul</th>
+                                        <th>Status</th>
+                                    </tr>
+                                    <tr>
+                                        <td scope="row">{{ $data->tahun->nama }}</td>
+                                        <td>{{ $data->unit->nama }}</td>
+                                        <td>{{ $data->user->name }}</td>
+                                        <td>{{ $data->status }}</td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                    <div class="card">
                         <div class="card-header">
                             {{-- <h3 class="card-title">{{ session('anak') }}</h3> --}}
                             <button class="btn btn-primary btn-sm" data-toggle="modal" data-target="#modal-default">
                                 <i class="fa fa-plus-circle"></i> Tambah</a>
                             </button>
+                            <a href="/lokal/detail/send/{{ Crypt::encrypt($data->id) }}"
+                                class="right btn btn-success btn-sm delete-confirm" data-toggle="tooltip"
+                                data-placement="bottom" title="Ajukan Usulan">
+                                <i class="fas fa-paper-plane"></i> Ajukan
+                            </a>
                         </div>
                         <!-- /.card-header -->
                         <div class="card-body">
                             <table id="example2" class="table table-bordered table-hover">
                                 <thead>
                                     <tr>
-                                        <th>Nama</th>
-                                        <th>Email</th>
-                                        <th>Akses</th>
+                                        <th>Indikator</th>
+                                        <th>Target</th>
                                         <th>Aksi</th>
+
                                     </tr>
                                 </thead>
                                 <tbody>
-                                    @foreach ($data as $data)
+                                    @foreach ($data2 as $data2)
                                         <tr>
-                                            <td>{{ $data->name }}</td>
-                                            <td>{{ $data->email }}</td>
-                                            <td>
-                                                @if ($data->akses == 1)
-                                                    Admin
-                                                @else
-                                                    User
-                                                @endif
-                                            </td>
+                                            <td>{{ $data2->nama }}</td>
+                                            <td>{{ $data2->target }}</td>
                                             <td>
                                                 <div class="col text-center">
                                                     <div class="btn-group">
-                                                        <a href="/user/edit/{{ Crypt::encrypt($data->id) }}"
+                                                        <a href="/lokal/detail/edit/{{ Crypt::encrypt($data2->id) }}"
                                                             class="btn btn-warning btn-sm" data-toggle="tooltip"
                                                             data-placement="bottom" title="Edit">
                                                             <i class="fas fa-pencil-alt"></i>
                                                         </a>
-                                                        <a href="/user/delete/{{ Crypt::encrypt($data->id) }}"
+                                                        <a href="/lokal/detail/delete/{{ Crypt::encrypt($data2->id) }}"
                                                             class="btn btn-danger btn-sm delete-confirm"
                                                             data-toggle="tooltip" data-placement="bottom" title="Delete">
                                                             <i class="fas fa-ban"></i>
@@ -76,12 +94,12 @@
     </section>
 
     <div class="modal fade" id="modal-default">
-        <div class="modal-dialog modal-lg">
+        <div class="modal-dialog">
             <div class="modal-content">
-                <form method="POST" action="/user/store">
+                <form method="POST" action="/lokal/detail/store">
                     @csrf
                     <div class="modal-header">
-                        <h4 class="modal-title">Tambah User <i class="fas fa-user-plus"></i></h4>
+                        <h4 class="modal-title">Tambah Indikator Lokal</h4>
                         <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                             <span aria-hidden="true">&times;</span>
                         </button>
@@ -89,93 +107,35 @@
                     <div class="modal-body">
                         <div class="row">
                             <!-- text input -->
-                            <div class="col-6">
+                            <div class="col-12">
+                                <input type="hidden" name="id" value="{{ $data->id }}" />
                                 <div class="form-group">
-                                    <label>Nama User</label>
-                                    <input type="text" class="form-control" placeholder="Masukkan Nama User" name="name"
-                                        value="{{ old('name') }}">
-                                    @if ($errors->has('name'))
+                                    <label>Indikator</label>
+                                    <textarea name="indikator" rows="3" class="form-control"
+                                        required>{{ old('indikator') }}</textarea>
+                                    @if ($errors->has('indikator'))
                                         <div class="text-danger">
-                                            {{ $errors->first('name') }}
+                                            {{ $errors->first('indikator') }}
                                         </div>
                                     @endif
                                 </div>
                                 <div class="form-group">
-                                    <label>NIP/PIN</label>
-                                    <input type="text" class="form-control" placeholder="Masukkan NIP/PIN SIMADAM"
-                                        name="username" value="{{ old('username') }}">
-                                    @if ($errors->has('username'))
-                                        <div class="text-danger">
-                                            {{ $errors->first('username') }}
-                                        </div>
-                                    @endif
-                                </div>
-                                <div class="form-group">
-                                    <label>Email</label>
-                                    <input type="text" class="form-control" placeholder="Masukkan Email User" name="email"
-                                        value="{{ old('email') }}">
-                                    @if ($errors->has('email'))
-                                        <div class="text-danger">
-                                            {{ $errors->first('email') }}
-                                        </div>
-                                    @endif
-                                </div>
-                                <div class="form-group">
-                                    <label>Alamat</label>
-                                    <textarea class="form-control" rows="3" placeholder="Masukkan Alamat Rumah"
-                                        name="alamat">{{ old('alamat') }}</textarea>
-                                    @if ($errors->has('alamat'))
-                                        <div class="text-danger">
-                                            {{ $errors->first('alamat') }}
-                                        </div>
-                                    @endif
-                                </div>
-                            </div>
+                                    <label>Target</label>
+                                    <div class="input-group mb-3">
 
-
-                            <div class="col-6">
-                                <div class="form-group">
-                                    <label>No Handphone</label>
-
-                                    <div class="input-group">
-                                        <input type="text" class="form-control" value="{{ old('nohp') }}" name="nohp">
+                                        <input type="text" name="target" class="form-control" required
+                                            value="{{ old('target') }}" />
+                                        <div class="input-group-append">
+                                            <span class="input-group-text"><i class="fas fa-percent"></i></span>
+                                        </div>
                                     </div>
-                                    @if ($errors->has('nohp'))
+                                    @if ($errors->has('target'))
                                         <div class="text-danger">
-                                            {{ $errors->first('nohp') }}
+                                            {{ $errors->first('target') }}
                                         </div>
                                     @endif
                                 </div>
-                                <div class="form-group">
-                                    <label>Unit</label>
-                                    <select class="form-control select2 " name="unit">
-                                        <option value="">Pilih</option>
-                                        @foreach ($data2 as $u)
-                                            <option value="{{ $u->id }}"
-                                                {{ old('unit') == $u->id ? 'selected' : '' }}>
-                                                {{ $u->nama }}
-                                            </option>
-                                        @endforeach
-                                    </select>
-                                    @if ($errors->has('unit'))
-                                        <div class="text-danger">
-                                            {{ $errors->first('unit') }}
-                                        </div>
-                                    @endif
-                                </div>
-                                <div class="form-group">
-                                    <label>Hak Akses</label>
-                                    <select class="form-control" name="akses">
-                                        <option value="" selected>Pilih</option>
-                                        <option value="0" {{ old('akses') == '0' ? 'selected' : '' }}>User</option>
-                                        <option value="1" {{ old('akses') == '1' ? 'selected' : '' }}>Admin</option>
-                                    </select>
-                                    @if ($errors->has('akses'))
-                                        <div class="text-danger">
-                                            {{ $errors->first('akses') }}
-                                        </div>
-                                    @endif
-                                </div>
+
                             </div>
                         </div>
                     </div>
@@ -212,11 +172,11 @@
     <script>
         $(function() {
             $('#example2').DataTable({
-                "paging": true,
-                "lengthChange": true,
+                "paging": false,
+                "lengthChange": false,
                 "searching": true,
-                "ordering": true,
-                "info": true,
+                "ordering": false,
+                "info": false,
                 "autoWidth": false,
                 "responsive": false,
             });

@@ -24,37 +24,39 @@
                             <table id="example2" class="table table-bordered table-hover">
                                 <thead>
                                     <tr>
-                                        <th>Nama</th>
-                                        <th>Email</th>
-                                        <th>Akses</th>
+                                        <th>Tahun</th>
+                                        <th>Unit Pengusul</th>
+                                        <th>Pengusul</th>
+                                        <th>Status</th>
                                         <th>Aksi</th>
                                     </tr>
                                 </thead>
                                 <tbody>
                                     @foreach ($data as $data)
                                         <tr>
-                                            <td>{{ $data->name }}</td>
-                                            <td>{{ $data->email }}</td>
+                                            <td>{{ $data->tahun->nama }}</td>
+                                            <td>{{ $data->unit->nama }}</td>
+                                            <td>{{ $data->user->name }}</td>
                                             <td>
-                                                @if ($data->akses == 1)
-                                                    Admin
+                                                @if ($data->status == 1)
+                                                    Pengajuan
                                                 @else
-                                                    User
+                                                    <span class="badge badge-secondary">Draf</span>
                                                 @endif
                                             </td>
                                             <td>
                                                 <div class="col text-center">
                                                     <div class="btn-group">
-                                                        <a href="/user/edit/{{ Crypt::encrypt($data->id) }}"
-                                                            class="btn btn-warning btn-sm" data-toggle="tooltip"
-                                                            data-placement="bottom" title="Edit">
-                                                            <i class="fas fa-pencil-alt"></i>
+                                                        <a href="/lokal/{{ Crypt::encrypt($data->id) }}"
+                                                            class="btn btn-primary btn-sm" data-toggle="tooltip"
+                                                            data-placement="bottom" title="Lihat Detail">
+                                                            <i class="fas fa-eye"></i>
                                                         </a>
-                                                        <a href="/user/delete/{{ Crypt::encrypt($data->id) }}"
+                                                        {{-- <a href="/user/delete/{{ Crypt::encrypt($data->id) }}"
                                                             class="btn btn-danger btn-sm delete-confirm"
                                                             data-toggle="tooltip" data-placement="bottom" title="Delete">
                                                             <i class="fas fa-ban"></i>
-                                                        </a>
+                                                        </a> --}}
                                                     </div>
                                                 </div>
                                             </td>
@@ -76,12 +78,12 @@
     </section>
 
     <div class="modal fade" id="modal-default">
-        <div class="modal-dialog modal-lg">
+        <div class="modal-dialog">
             <div class="modal-content">
-                <form method="POST" action="/user/store">
+                <form method="POST" action="/lokal/store">
                     @csrf
                     <div class="modal-header">
-                        <h4 class="modal-title">Tambah User <i class="fas fa-user-plus"></i></h4>
+                        <h4 class="modal-title">Tambah Imut Lokal</h4>
                         <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                             <span aria-hidden="true">&times;</span>
                         </button>
@@ -89,90 +91,51 @@
                     <div class="modal-body">
                         <div class="row">
                             <!-- text input -->
-                            <div class="col-6">
-                                <div class="form-group">
-                                    <label>Nama User</label>
-                                    <input type="text" class="form-control" placeholder="Masukkan Nama User" name="name"
-                                        value="{{ old('name') }}">
-                                    @if ($errors->has('name'))
-                                        <div class="text-danger">
-                                            {{ $errors->first('name') }}
-                                        </div>
-                                    @endif
-                                </div>
-                                <div class="form-group">
-                                    <label>NIP/PIN</label>
-                                    <input type="text" class="form-control" placeholder="Masukkan NIP/PIN SIMADAM"
-                                        name="username" value="{{ old('username') }}">
-                                    @if ($errors->has('username'))
-                                        <div class="text-danger">
-                                            {{ $errors->first('username') }}
-                                        </div>
-                                    @endif
-                                </div>
-                                <div class="form-group">
-                                    <label>Email</label>
-                                    <input type="text" class="form-control" placeholder="Masukkan Email User" name="email"
-                                        value="{{ old('email') }}">
-                                    @if ($errors->has('email'))
-                                        <div class="text-danger">
-                                            {{ $errors->first('email') }}
-                                        </div>
-                                    @endif
-                                </div>
-                                <div class="form-group">
-                                    <label>Alamat</label>
-                                    <textarea class="form-control" rows="3" placeholder="Masukkan Alamat Rumah"
-                                        name="alamat">{{ old('alamat') }}</textarea>
-                                    @if ($errors->has('alamat'))
-                                        <div class="text-danger">
-                                            {{ $errors->first('alamat') }}
-                                        </div>
-                                    @endif
-                                </div>
-                            </div>
+                            <div class="col-12">
 
-
-                            <div class="col-6">
                                 <div class="form-group">
-                                    <label>No Handphone</label>
-
-                                    <div class="input-group">
-                                        <input type="text" class="form-control" value="{{ old('nohp') }}" name="nohp">
-                                    </div>
-                                    @if ($errors->has('nohp'))
+                                    <label>Tahun</label>
+                                    <select class="form-control select2 " name="tahun" required>
+                                        <option value="">Pilih</option>
+                                        @foreach ($data2 as $tahun)
+                                            <option value="{{ $tahun->id }}"
+                                                {{ old('tahun') == $tahun->id ? 'selected' : '' }}>
+                                                {{ $tahun->nama }}
+                                            </option>
+                                        @endforeach
+                                    </select>
+                                    @if ($errors->has('tahun'))
                                         <div class="text-danger">
-                                            {{ $errors->first('nohp') }}
+                                            {{ $errors->first('tahun') }}
                                         </div>
                                     @endif
                                 </div>
                                 <div class="form-group">
                                     <label>Unit</label>
-                                    <select class="form-control select2 " name="unit">
+                                    {{-- <input type="text" name="unit" class="form-control" readonly
+                                        value="{{ Auth::user()->unit->nama }}" /> --}}
+                                    <select class="form-control select2 " name="unit_id" required>
                                         <option value="">Pilih</option>
-                                        @foreach ($data2 as $u)
-                                            <option value="{{ $u->id }}"
-                                                {{ old('unit') == $u->id ? 'selected' : '' }}>
-                                                {{ $u->nama }}
+                                        @foreach ($data3 as $unit)
+                                            <option value="{{ $unit->id }}"
+                                                {{ old('unit_id') == $unit->id ? 'selected' : '' }}>
+                                                {{ $unit->nama }}
                                             </option>
                                         @endforeach
                                     </select>
-                                    @if ($errors->has('unit'))
+                                    @if ($errors->has('unit_id'))
                                         <div class="text-danger">
-                                            {{ $errors->first('unit') }}
+                                            {{ $errors->first('unit_id') }}
                                         </div>
                                     @endif
                                 </div>
                                 <div class="form-group">
-                                    <label>Hak Akses</label>
-                                    <select class="form-control" name="akses">
-                                        <option value="" selected>Pilih</option>
-                                        <option value="0" {{ old('akses') == '0' ? 'selected' : '' }}>User</option>
-                                        <option value="1" {{ old('akses') == '1' ? 'selected' : '' }}>Admin</option>
-                                    </select>
-                                    @if ($errors->has('akses'))
+                                    <label>Keterangan</label>
+                                    <textarea class="form-control" rows="3" placeholder="Masukkan Keterangan(Jika ada)"
+                                        name="keterangan">{{ old('keterangan') }}</textarea>
+                                    @if ($errors->has('keterangan'))
                                         <div class="text-danger">
-                                            {{ $errors->first('akses') }}
+                                            {{ $errors->first('keterangan') }}
                                         </div>
                                     @endif
                                 </div>

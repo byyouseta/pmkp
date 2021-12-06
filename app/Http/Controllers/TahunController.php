@@ -2,13 +2,14 @@
 
 namespace App\Http\Controllers;
 
-use App\Unit;
+use App\Tahun;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Crypt;
 use Illuminate\Support\Facades\Session;
 
-class UnitController extends Controller
+class TahunController extends Controller
 {
+    //
     public function __construct()
     {
         $this->middleware('auth');
@@ -19,33 +20,33 @@ class UnitController extends Controller
         session()->put('ibu', 'Master');
         session()->put('anak', 'Master Unit');
 
-        $data = Unit::all();
+        $data = Tahun::all();
 
-        return view('units', compact('data'));
+        return view('tahuns', compact('data'));
     }
 
     public function store(Request $request)
     {
         $this->validate($request, [
             'nama' => 'required',
-            'keterangan' => 'required',
+            // 'keterangan' => 'required',
         ]);
 
-        $unit = new Unit();
+        $unit = new Tahun();
         $unit->nama = $request->nama;
-        $unit->keterangan = $request->keterangan;
+        // $unit->keterangan = $request->keterangan;
         $unit->save();
 
         Session::flash('sukses', 'Data Berhasil ditambahkan!');
 
-        return redirect('/unit');
+        return redirect('/tahun');
     }
 
     public function edit($id)
     {
         $id = Crypt::decrypt($id);
-        $data = Unit::find($id);
-        return view('units_edit', ['data' => $data]);
+        $data = Tahun::find($id);
+        return view('tahuns_edit', ['data' => $data]);
     }
 
     public function update($id, Request $request)
@@ -53,27 +54,27 @@ class UnitController extends Controller
 
         $this->validate($request, [
             'nama' => 'required',
-            'keterangan' => 'required',
+            // 'keterangan' => 'required',
         ]);
 
-        $unit = Unit::find($id);
+        $unit = Tahun::find($id);
         $unit->nama = $request->nama;
         $unit->keterangan = $request->keterangan;
         $unit->save();
 
         Session::flash('sukses', 'Data Berhasil diperbaharui!');
 
-        return redirect('/unit');
+        return redirect('/tahun');
     }
 
     public function delete($id)
     {
         $id = Crypt::decrypt($id);
-        $unit = Unit::find($id);
-        $unit->delete();
+        $tahun = Tahun::find($id);
+        $tahun->delete();
 
         Session::flash('sukses', 'Data Berhasil dihapus!');
 
-        return redirect('/unit');
+        return redirect('/tahun');
     }
 }

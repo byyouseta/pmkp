@@ -5,21 +5,16 @@ namespace App;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 
-class Unit extends Model
+class Tahun extends Model
 {
     //
     use SoftDeletes;
 
     protected $fillable = [
-        'nama', 'keterangan'
+        'nama'
     ];
 
-    public function user()
-    {
-        return $this->hasMany('App\User');
-    }
-
-    public function lokal()
+    public function imutlokal()
     {
         return $this->hasMany('App\Lokal');
     }

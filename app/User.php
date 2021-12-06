@@ -43,4 +43,9 @@ class User extends Authenticatable
     {
         return $this->belongsTo('App\Unit');
     }
+
+    public function imutlokal()
+    {
+        return $this->hasMany('App\Lokal');
+    }
 }
