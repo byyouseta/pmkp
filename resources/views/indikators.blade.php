@@ -39,15 +39,19 @@
                                             <td>{{ $data->user->name }}</td>
                                             <td>
                                                 @if ($data->status == 1)
-                                                    Pengajuan
-                                                @else
+                                                    <span class="badge badge-warning">Pengajuan</span>
+                                                @elseif ($data->status == 0)
                                                     <span class="badge badge-secondary">Draf</span>
+                                                @elseif ($data->status == 2)
+                                                    <span class="badge badge-danger">Revisi</span>
+                                                @elseif ($data->status == 3)
+                                                    <span class="badge badge-success">Disetujui</span>
                                                 @endif
                                             </td>
                                             <td>
                                                 <div class="col text-center">
                                                     <div class="btn-group">
-                                                        <a href="/lokal/{{ Crypt::encrypt($data->id) }}"
+                                                        <a href="/indikator/{{ Crypt::encrypt($data->id) }}"
                                                             class="btn btn-primary btn-sm" data-toggle="tooltip"
                                                             data-placement="bottom" title="Lihat Detail">
                                                             <i class="fas fa-eye"></i>
@@ -80,7 +84,7 @@
     <div class="modal fade" id="modal-default">
         <div class="modal-dialog">
             <div class="modal-content">
-                <form method="POST" action="/lokal/store">
+                <form method="POST" action="/indikator/store">
                     @csrf
                     <div class="modal-header">
                         <h4 class="modal-title">Tambah Imut Lokal</h4>

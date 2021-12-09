@@ -18,7 +18,7 @@ class TahunController extends Controller
     public function index()
     {
         session()->put('ibu', 'Master');
-        session()->put('anak', 'Master Unit');
+        session()->put('anak', 'Master Tahun');
 
         $data = Tahun::all();
 

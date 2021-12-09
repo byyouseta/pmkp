@@ -2,16 +2,15 @@
 
 namespace App\Http\Controllers;
 
-use App\Lokal;
+use App\Indikator;
 use App\Tahun;
 use App\Unit;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
-use Illuminate\Support\Facades\Crypt;
 use Illuminate\Support\Facades\Session;
 use Illuminate\Validation\Rule;
 
-class LokalController extends Controller
+class IndikatorController extends Controller
 {
     public function __construct()
     {
@@ -20,11 +19,11 @@ class LokalController extends Controller
 
     public function index()
     {
-        session()->put('ibu', 'Imut Lokal');
-        //session()->put('anak', 'Master Unit');
-        Session::forget('anak');
+        session()->put('ibu', 'Indikator Mutu');
+        session()->put('anak', 'Pengajuan');
+        //Session::forget('anak');
 
-        $data = Lokal::all();
+        $data = Indikator::all();
         $data2 = Tahun::all();
         if (Auth::user()->akses === 1) {
             $data3 = Unit::all();
@@ -34,7 +33,7 @@ class LokalController extends Controller
             // dd($data3);
         }
 
-        return view('lokals', [
+        return view('indikators', [
             'data' => $data,
             'data2' => $data2,
             'data3' => $data3
@@ -45,7 +44,7 @@ class LokalController extends Controller
     {
         $this->validate($request, [
             'tahun' => 'required',
-            'unit_id' => Rule::unique('lokals')->where(function ($query) use ($request) {
+            'unit_id' => Rule::unique('indikators')->where(function ($query) use ($request) {
                 return $query->where('tahun_id', $request->tahun);
             }),
             // 'keterangan' => 'required',
@@ -53,7 +52,7 @@ class LokalController extends Controller
             'unit_id.unique' => 'Imut Unit sudah ditambahkan dalam periode Tahun yang sama!'
         ]);
 
-        $lokal = new Lokal();
+        $lokal = new Indikator();
         $lokal->tahun_id = $request->tahun;
         $lokal->unit_id = $request->unit_id;
         $lokal->keterangan = $request->keterangan;
@@ -63,17 +62,17 @@ class LokalController extends Controller
 
         Session::flash('sukses', 'Data Berhasil ditambahkan!');
 
-        return redirect('/lokal');
+        return redirect('/indikator');
     }
 
     public function approval()
     {
-        session()->put('ibu', 'Approval Imut Lokal');
-        //session()->put('anak', 'Master Unit');
-        Session::forget('anak');
+        session()->put('ibu', 'Indikator Mutu');
+        session()->put('anak', 'Persetujuan Indikator Mutu');
+        // Session::forget('anak');
 
         // $data = Lokal::where('status', '1')->get();
-        $data = Lokal::all();
+        $data = Indikator::all();
         // $data2 = Tahun::all();
         // if (Auth::user()->akses === 1) {
         //     $data3 = Unit::all();
@@ -83,7 +82,7 @@ class LokalController extends Controller
         //     // dd($data3);
         // }
 
-        return view('approval_lokals', [
+        return view('approval_indikators', [
             'data' => $data,
             // 'data2' => $data2,
             // 'data3' => $data3

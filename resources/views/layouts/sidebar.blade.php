@@ -47,13 +47,44 @@
                 </a>
             </li>
             <li class="nav-item">
-                <a href="/lokal" class="nav-link">
+                <a href="#" class="nav-link">
                     <i class="nav-icon fas fa-thumbtack"></i>
                     <p>
                         Imut Lokal
+                        <i class="right fas fa-angle-left"></i>
                     </p>
                 </a>
+                <ul class="nav nav-treeview">
+                    <li class="nav-item">
+                        <a href="/indikator" class="nav-link">
+                            <i class="fas fa-thumbtack nav-icon"></i>
+
+                            <p>Pengajuan Imut</p>
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a href="/indikator/approval" class="nav-link">
+                            <i class="far fa-sticky-note nav-icon"></i>
+                            <p>Persetujuan Imut</p>
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a href="/indikator/list" class="nav-link">
+                            <i class="far fa-edit nav-icon"></i>
+                            <p>Pengisian Imut</p>
+                        </a>
+                    </li>
+                </ul>
             </li>
+            {{-- <li class="nav-item">
+                <a href="/lokal/approval" class="nav-link">
+                    <i class="nav-icon fas fa-sticky-note"></i>
+                    <p>
+                        Persetujuan Imut Lokal
+                    </p>
+                </a>
+
+            </li> --}}
             <li class="nav-item">
                 <a href="#" class="nav-link">
                     <i class="nav-icon fas fa-database"></i>
@@ -80,6 +111,12 @@
                         <a href="/tahun" class="nav-link">
                             <i class="far fa-calendar-alt nav-icon"></i>
                             <p>Master Tahun</p>
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a href="/kategori" class="nav-link">
+                            <i class="fab fa-buromobelexperte nav-icon"></i>
+                            <p>Master Kategori Imut</p>
                         </a>
                     </li>
                 </ul>

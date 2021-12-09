@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class CreateDetailLokalsTable extends Migration
+class CreateNilaisTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,12 +13,11 @@ class CreateDetailLokalsTable extends Migration
      */
     public function up()
     {
-        Schema::create('detail_lokals', function (Blueprint $table) {
+        Schema::create('nilais', function (Blueprint $table) {
             $table->bigIncrements('id');
-            $table->bigInteger('lokal_id');
-            $table->string('nama');
-            $table->mediumInteger('target');
-            // $table->softDeletes();
+            $table->bigInteger('detail_indikator_id');
+            $table->date('tanggal');
+            $table->smallInteger('nilai');
             $table->timestamps();
         });
     }
@@ -30,6 +29,6 @@ class CreateDetailLokalsTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('detail_lokals');
+        Schema::dropIfExists('nilais');
     }
 }

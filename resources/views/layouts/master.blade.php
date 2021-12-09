@@ -157,12 +157,13 @@ scratch. This page gets rid of all links and provides the needed markup only.
 
     @if (session()->has('error'))
         <script>
-            swal.fire({
-                title: "{{ __('Error!') }}",
-                text: "{{ Session::get('error') }}",
-                type: "error",
-                icon: "warning",
-            });
+            // swal.fire({
+            //     title: "{{ __('Error!') }}",
+            //     text: "{{ Session::get('error') }}",
+            //     type: "error",
+            //     icon: "warning",
+            // });
+            toastr.error("{{ Session::get('error') }}");
         </script>
     @endif
 

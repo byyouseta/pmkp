@@ -11,6 +11,8 @@
 |
 */
 
+// use Illuminate\Routing\Route;
+
 Route::get('/', function () {
     return view('auth.login');
 });
@@ -42,8 +44,24 @@ Route::post('/tahun/store', 'TahunController@store')->name('tahun.store');
 // Route::post('/tahun/update/{id}', 'TahunController@update')->name('tahun.update');
 Route::get('/tahun/delete/{id}', 'TahunController@delete')->name('tahun.delete');
 
-Route::get('/lokal', 'LokalController@index')->name('lokal');
-Route::post('/lokal/store', 'LokalController@store')->name('lokal.store');
+Route::get('/kategori', 'KategoriController@index')->name('kategori.index');
+Route::post('/kategori/store', 'KategoriController@store')->name('kategori.store');
+Route::get('/kategori/edit/{id}', 'KategoriController@edit')->name('kategori.edit');
+Route::post('/kategori/update/{id}', 'KategoriController@update')->name('kategori.update');
+Route::get('/kategori/delete/{id}', 'KategoriController@delete')->name('kategori.delete');
 
-Route::get('/lokal/{id}', 'DetailLokalController@index')->name('detaillokal');
-Route::post('/lokal/detail/store', 'DetailLokalController@store')->name('detaillokal.store');
+Route::get('/indikator', 'IndikatorController@index')->name('indikator');
+Route::post('/indikator/store', 'IndikatorController@store')->name('indikator.store');
+Route::get('/indikator/approval', 'IndikatorController@approval')->name('indikator.approval');
+
+Route::get('/indikator/list', 'ListIndikatorController@index')->name('listindikator');
+Route::post('/indikator/list/store', 'ListIndikatorController@store')->name('listindikator.store');
+
+Route::get('/indikator/{id}', 'DetailIndikatorController@index')->name('detailindikator');
+Route::post('/indikator/detail/store', 'DetailIndikatorController@store')->name('detailindikator.store');
+Route::get('/indikator/detail/edit/{id}', 'DetailIndikatorController@edit')->name('detailindikator.edit');
+Route::post('/indikator/detail/update/{id}', 'DetailIndikatorController@update')->name('detailindikator.update');
+Route::get('/indikator/detail/delete/{id}', 'DetailIndikatorController@delete')->name('detailindikator.delete');
+Route::get('/indikator/detail/send/{id}', 'DetailIndikatorController@send')->name('detailindikator.send');
+Route::get('/indikator/approval/{id}', 'DetailIndikatorController@detail')->name('detailindikator.detail');
+Route::post('/indikator/approval/{id}', 'DetailIndikatorController@approved')->name('detailindikator.approved');
