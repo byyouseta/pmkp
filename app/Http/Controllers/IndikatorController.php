@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Indikator;
+use App\Satuan;
 use App\Tahun;
 use App\Unit;
 use Illuminate\Http\Request;
@@ -25,6 +26,7 @@ class IndikatorController extends Controller
 
         $data = Indikator::all();
         $data2 = Tahun::all();
+        //data Unit
         if (Auth::user()->akses === 1) {
             $data3 = Unit::all();
         } else {
@@ -33,10 +35,11 @@ class IndikatorController extends Controller
             // dd($data3);
         }
 
+
         return view('indikators', [
             'data' => $data,
             'data2' => $data2,
-            'data3' => $data3
+            'data3' => $data3,
         ]);
     }
 

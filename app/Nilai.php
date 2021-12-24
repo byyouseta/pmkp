@@ -14,4 +14,16 @@ class Nilai extends Model
     {
         return $this->belongsTo('App\DetailIndikator');
     }
+
+    public static function list($id, $ids)
+    {
+        $query =  Nilai::where('detail_indikator_id', '=', $id)
+            ->where('tanggal', '=', $ids)
+            ->first();
+
+        // $nilai = $query->nilai;
+        // dd($query);
+
+        return $query;
+    }
 }

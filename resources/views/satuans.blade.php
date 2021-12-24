@@ -13,48 +13,39 @@
             <div class="row">
                 <div class="col-12">
                     <div class="card">
-                        {{-- <div class="card-header">
-                            <h3 class="card-title">{{ session('anak') }}</h3>
+                        <div class="card-header">
                             <button class="btn btn-primary btn-sm" data-toggle="modal" data-target="#modal-default">
                                 <i class="fa fa-plus-circle"></i> Tambah</a>
                             </button>
-                        </div> --}}
+                        </div>
                         <!-- /.card-header -->
                         <div class="card-body">
                             <table id="example2" class="table table-bordered table-hover">
                                 <thead>
                                     <tr>
-                                        <th>Tahun</th>
-                                        <th>Unit Pengusul</th>
-                                        <th>Pengusul</th>
-                                        <th>Status</th>
+                                        <th>Nama</th>
+                                        <th>Keterangan</th>
                                         <th>Aksi</th>
                                     </tr>
                                 </thead>
                                 <tbody>
                                     @foreach ($data as $data)
                                         <tr>
-                                            <td>{{ $data->tahun->nama }}</td>
-                                            <td>{{ $data->unit->nama }}</td>
-                                            <td>{{ $data->user->name }}</td>
-                                            <td>
-                                                @php
-                                                    echo \App\Indikator::status($data->status);
-                                                @endphp
-                                            </td>
+                                            <td>{{ $data->nama }}</td>
+                                            <td>{{ $data->keterangan }}</td>
                                             <td>
                                                 <div class="col text-center">
-                                                    <div class="btn-group">
-                                                        <a href="/indikator/approval/{{ Crypt::encrypt($data->id) }}"
-                                                            class="btn btn-primary btn-sm" data-toggle="tooltip"
-                                                            data-placement="bottom" title="Lihat Detail">
-                                                            <i class="fas fa-eye"></i>
-                                                        </a>
-                                                        {{-- <a href="/user/delete/{{ Crypt::encrypt($data->id) }}"
-                                                            class="btn btn-danger btn-sm delete-confirm"
-                                                            data-toggle="tooltip" data-placement="bottom" title="Delete">
-                                                            <i class="fas fa-ban"></i>
+                                                    <div class="btn-group align-center">
+                                                        {{-- <a href="/tahun/edit/{{ Crypt::encrypt($data->id) }}"
+                                                            class="btn btn-warning btn-sm" data-toggle="tooltip"
+                                                            data-placement="bottom" title="Ubah">
+                                                            <i class="fas fa-pencil-alt"></i>
                                                         </a> --}}
+                                                        <a href="/tahun/delete/{{ Crypt::encrypt($data->id) }}"
+                                                            class="btn btn-danger btn-sm delete-confirm"
+                                                            data-toggle="tooltip" data-placement="bottom" title="Hapus">
+                                                            <i class="fas fa-ban"></i>
+                                                        </a>
                                                     </div>
                                                 </div>
                                             </td>
@@ -75,7 +66,49 @@
         <!-- /.container-fluid -->
     </section>
 
+    <div class="modal fade" id="modal-default">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h4 class="modal-title">Tambah Satuan</h4>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <form method="POST" action="/satuan/store">
+                        @csrf
+                        <div class="form-group">
+                            <label>Nama Satuan</label>
+                            <input type="text" class="form-control" name="nama" value="{{ old('nama') }}" required />
+                            @error('nama')
+                                <span class="invalid-feedback text-red" role="alert">
+                                    <strong>{{ $message }}</strong>
+                                </span>
+                            @enderror
+                        </div>
 
+                        <div class="form-group">
+                            <label>Keterangan</label>
+                            <textarea class="form-control" name="keterangan" required>{{ old('keterangan') }}</textarea>
+                            @error('keterangan')
+                                <span class="invalid-feedback text-red" role="alert">
+                                    <strong>{{ $message }}</strong>
+                                </span>
+                            @enderror
+                        </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-default pull-right" data-dismiss="modal">Tutup</button>
+                    <button type="Submit" class="btn btn-primary">Simpan</button>
+                </div>
+                </form>
+            </div>
+            <!-- /.modal-content -->
+        </div>
+        <!-- /.modal-dialog -->
+    </div>
+    <!-- /.modal -->
 @endsection
 @section('plugin')
     {{-- <!-- jQuery -->

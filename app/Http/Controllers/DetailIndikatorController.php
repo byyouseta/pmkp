@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\DetailIndikator;
 use App\Indikator;
 use App\Kategori;
+use App\Satuan;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Crypt;
 use Illuminate\Support\Facades\Session;
@@ -28,11 +29,14 @@ class DetailIndikatorController extends Controller
         $data2 = DetailIndikator::where('indikator_id', '=', $id)
             ->get();
         $data3 = Kategori::all();
+        //data satuan
+        $data4 = Satuan::all();
 
         return view('detail_indikators', [
             'data' => $data,
             'data2' => $data2,
             'data3' => $data3,
+            'data4' => $data4,
         ]);
     }
 
@@ -41,7 +45,7 @@ class DetailIndikatorController extends Controller
         $this->validate($request, [
             'indikator' => 'required',
             'target' => 'required|numeric',
-            // 'keterangan' => 'required',
+            'satuan' => 'required',
         ], [
             'target.numeric' => 'Target ditulis dengan format Angka!'
         ]);
@@ -52,7 +56,9 @@ class DetailIndikatorController extends Controller
         $detail->indikator_id = $request->id;
         $detail->nama = $request->indikator;
         $detail->target = $request->target;
+        $detail->satuan_id = $request->satuan;
         $detail->kategori_id = $request->kategori;
+        $detail->catatan = $request->catatan;
 
         $detail->save();
 

@@ -38,15 +38,9 @@
                                             <td>{{ $data->unit->nama }}</td>
                                             <td>{{ $data->user->name }}</td>
                                             <td>
-                                                @if ($data->status == 1)
-                                                    <span class="badge badge-warning">Pengajuan</span>
-                                                @elseif ($data->status == 0)
-                                                    <span class="badge badge-secondary">Draf</span>
-                                                @elseif ($data->status == 2)
-                                                    <span class="badge badge-danger">Revisi</span>
-                                                @elseif ($data->status == 3)
-                                                    <span class="badge badge-success">Disetujui</span>
-                                                @endif
+                                                @php
+                                                    echo \App\Indikator::status($data->status);
+                                                @endphp
                                             </td>
                                             <td>
                                                 <div class="col text-center">
@@ -87,7 +81,7 @@
                 <form method="POST" action="/indikator/store">
                     @csrf
                     <div class="modal-header">
-                        <h4 class="modal-title">Tambah Imut Lokal</h4>
+                        <h4 class="modal-title">Tambah Pengajuan Imut</h4>
                         <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                             <span aria-hidden="true">&times;</span>
                         </button>

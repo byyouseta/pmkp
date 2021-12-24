@@ -72,15 +72,16 @@
                                     <tr>
                                         <th>Indikator</th>
                                         <th>Target</th>
+                                        <th>Catatan</th>
                                         <th>Aksi</th>
-
                                     </tr>
                                 </thead>
                                 <tbody>
                                     @foreach ($data2 as $data2)
                                         <tr>
                                             <td>{{ $data2->nama }}</td>
-                                            <td>{{ $data2->target }}</td>
+                                            <td>{{ $data2->target }} {{ $data2->satuan->nama }}</td>
+                                            <td>{{ $data2->catatan }}</td>
                                             <td>
                                                 @if ($data->status == 0 or $data->status == 2)
                                                     <div class="col text-center">
@@ -140,7 +141,7 @@
                 <form method="POST" action="/indikator/detail/store">
                     @csrf
                     <div class="modal-header">
-                        <h4 class="modal-title">Tambah Indikator Lokal</h4>
+                        <h4 class="modal-title">Tambah Indikator</h4>
                         <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                             <span aria-hidden="true">&times;</span>
                         </button>
@@ -177,15 +178,17 @@
                                         </div>
                                     @endif
                                 </div>
+                            </div>
+                            <div class="col-6">
                                 <div class="form-group">
                                     <label>Target</label>
                                     <div class="input-group mb-3">
 
                                         <input type="text" name="target" class="form-control" required
                                             value="{{ old('target') }}" />
-                                        <div class="input-group-append">
+                                        {{-- <div class="input-group-append">
                                             <span class="input-group-text"><i class="fas fa-percent"></i></span>
-                                        </div>
+                                        </div> --}}
                                     </div>
                                     @if ($errors->has('target'))
                                         <div class="text-danger">
@@ -193,13 +196,43 @@
                                         </div>
                                     @endif
                                 </div>
-
+                            </div>
+                            <div class="col-6">
+                                <div class="form-group">
+                                    <label>Satuan</label>
+                                    <select class="form-control select2 " name="satuan" required>
+                                        <option value="">Pilih</option>
+                                        @foreach ($data4 as $list)
+                                            <option value="{{ $list->id }}"
+                                                {{ old('satuan') == $list->id ? 'selected' : '' }}>
+                                                {{ $list->nama }}
+                                            </option>
+                                        @endforeach
+                                    </select>
+                                    @if ($errors->has('satuan'))
+                                        <div class="text-danger">
+                                            {{ $errors->first('satuan') }}
+                                        </div>
+                                    @endif
+                                </div>
+                            </div>
+                            <div class="col-12">
+                                <div class="form-group">
+                                    <label>Catatan (Jika Perlu)</label>
+                                    <textarea name="catatan" rows="2"
+                                        class="form-control">{{ old('catatan') }}</textarea>
+                                    @if ($errors->has('catatan'))
+                                        <div class="text-danger">
+                                            {{ $errors->first('catatan') }}
+                                        </div>
+                                    @endif
+                                </div>
                             </div>
                         </div>
                     </div>
-                    <div class="modal-footer">
-                        <button type="button" class="btn btn-default pull-left" data-dismiss="modal">Tutup</button>
-                        <button type="Submit" class="btn btn-primary">Simpan</button>
+                    <div class="modal-footer justify-content-between">
+                        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                        <button type="submit" class="btn btn-primary">Simpan</button>
                     </div>
                 </form>
             </div>

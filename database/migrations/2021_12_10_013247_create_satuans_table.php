@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class CreateDetailIndikatorsTable extends Migration
+class CreateSatuansTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,14 +13,11 @@ class CreateDetailIndikatorsTable extends Migration
      */
     public function up()
     {
-        Schema::create('detail_indikators', function (Blueprint $table) {
+        Schema::create('satuans', function (Blueprint $table) {
             $table->bigIncrements('id');
-            $table->bigInteger('indikator_id');
-            $table->string('nama');
-            $table->mediumInteger('target');
-            $table->integer('satuan_id');
-            $table->string('catatan')->nullable();
-            $table->integer('kategori_id');
+            $table->string('nama', 30);
+            $table->string('keterangan', 30);
+            $table->softDeletes();
             $table->timestamps();
         });
     }
@@ -32,6 +29,6 @@ class CreateDetailIndikatorsTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('detail_indikators');
+        Schema::dropIfExists('satuans');
     }
 }

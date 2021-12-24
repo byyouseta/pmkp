@@ -32,4 +32,19 @@ class Indikator extends Model
     {
         return $this->hasMany('App\DetailIndikator');
     }
+
+    public static function status($id)
+    {
+        if ($id == 1) {
+            $status = "<span class='badge badge-warning'>Pengajuan</span>";
+        } elseif ($id == 0) {
+            $status = '<span class="badge badge-secondary">Draf</span>';
+        } elseif ($id == 2) {
+            $status = '<span class="badge badge-danger">Revisi</span>';
+        } elseif ($id == 3) {
+            $status = "<span class='badge badge-success'>Disetujui</span>";
+        }
+
+        return $status;
+    }
 }

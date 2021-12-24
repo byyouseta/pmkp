@@ -14,15 +14,15 @@
         <ul class="nav nav-pills nav-sidebar flex-column" data-widget="treeview" role="menu" data-accordion="false">
             <!-- Add icons to the links using the .nav-icon class
    with font-awesome or any other icon font library -->
-            <li class="nav-item menu-open">
-                <a href="#" class="nav-link active">
+            <li class="nav-item">
+                <a href="/home" class="nav-link">
                     <i class="nav-icon fas fa-tachometer-alt"></i>
                     <p>
                         Dashboard
-                        <i class="right fas fa-angle-left"></i>
+
                     </p>
                 </a>
-                <ul class="nav nav-treeview">
+                {{-- <ul class="nav nav-treeview">
                     <li class="nav-item">
                         <a href="#" class="nav-link active">
                             <i class="far fa-circle nav-icon"></i>
@@ -35,22 +35,14 @@
                             <p>Inactive Page</p>
                         </a>
                     </li>
-                </ul>
+                </ul> --}}
             </li>
-            <li class="nav-item">
-                <a href="#" class="nav-link">
-                    <i class="nav-icon fas fa-th"></i>
-                    <p>
-                        Simple Link
-                        <span class="right badge badge-danger">New</span>
-                    </p>
-                </a>
-            </li>
+
             <li class="nav-item">
                 <a href="#" class="nav-link">
                     <i class="nav-icon fas fa-thumbtack"></i>
                     <p>
-                        Imut Lokal
+                        Imut
                         <i class="right fas fa-angle-left"></i>
                     </p>
                 </a>
@@ -72,6 +64,12 @@
                         <a href="/indikator/list" class="nav-link">
                             <i class="far fa-edit nav-icon"></i>
                             <p>Pengisian Imut</p>
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a href="/indikator/report" class="nav-link">
+                            <i class="far fa-edit nav-icon"></i>
+                            <p>Rekap Imut</p>
                         </a>
                     </li>
                 </ul>
@@ -96,7 +94,7 @@
                 <ul class="nav nav-treeview">
                     <li class="nav-item">
                         <a href="/user" class="nav-link">
-                            <i class="fas fa-users-cog nav-icon"></i>
+                            <i class="fas fa-users nav-icon"></i>
 
                             <p>Master User</p>
                         </a>
@@ -114,12 +112,58 @@
                         </a>
                     </li>
                     <li class="nav-item">
+                        <a href="/satuan" class="nav-link">
+                            <i class="fas fa-pencil-ruler nav-icon"></i>
+                            <p>Master Satuan</p>
+                        </a>
+                    </li>
+                    <li class="nav-item">
                         <a href="/kategori" class="nav-link">
                             <i class="fab fa-buromobelexperte nav-icon"></i>
                             <p>Master Kategori Imut</p>
                         </a>
                     </li>
                 </ul>
+            </li>
+            <li class="nav-item">
+                <a href="#" class="nav-link">
+                    <i class="nav-icon fas fa-tools"></i>
+                    <p>
+                        Managemen Akses
+                        <i class="right fas fa-angle-left"></i>
+                    </p>
+                </a>
+                <ul class="nav nav-treeview">
+                    <li class="nav-item">
+                        <a href="/akses/grup" class="nav-link">
+                            <i class="fas fa-users-cog nav-icon"></i>
+
+                            <p>Akses Grup</p>
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a href="/menu" class="nav-link">
+                            <i class="far fa-folder-open nav-icon"></i>
+                            <p>List Menu</p>
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a href="/akses/menu" class="nav-link">
+                            <i class="fas fa-user-shield nav-icon"></i>
+                            <p>Akses Menu</p>
+                        </a>
+                    </li>
+                    
+                </ul>
+            </li>
+            <li class="nav-item">
+                <a href="/profile" class="nav-link">
+                    <i class="nav-icon fas fa-user"></i>
+                    <p>
+                        Profil
+                        {{-- <span class="right badge badge-danger">New</span> --}}
+                    </p>
+                </a>
             </li>
             <li class="nav-item">
                 <a href="#" class="nav-link" onclick="event.preventDefault();

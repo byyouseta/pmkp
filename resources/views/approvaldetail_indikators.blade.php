@@ -26,7 +26,11 @@
                                         <td scope="row">{{ $data->tahun->nama }}</td>
                                         <td>{{ $data->unit->nama }}</td>
                                         <td>{{ $data->user->name }}</td>
-                                        <td>{{ $data->status }}</td>
+                                        <td>
+                                            @php
+                                                echo \App\Indikator::status($data->status);
+                                            @endphp
+                                        </td>
                                     </tr>
                                 </tbody>
                             </table>
@@ -40,7 +44,9 @@
                                 <thead>
                                     <tr>
                                         <th>Indikator</th>
+                                        <th>Jenis Indikator</th>
                                         <th>Target</th>
+                                        <th>Catatan</th>
                                         {{-- <th>Aksi</th> --}}
 
                                     </tr>
@@ -49,7 +55,9 @@
                                     @foreach ($data2 as $data2)
                                         <tr>
                                             <td>{{ $data2->nama }}</td>
-                                            <td>{{ $data2->target }}</td>
+                                            <td>{{ $data2->kategori->nama }}</td>
+                                            <td>{{ $data2->target }} {{ $data2->satuan->nama }}</td>
+                                            <td>{{ $data2->catatan }}</td>
 
                                         </tr>
                                     @endforeach
@@ -103,14 +111,14 @@
                                             @endif
                                         </div>
                                     </div>
-                                    <div class="col-12">
-                                        <div class="form-group">
-                                            <button type="button" class="btn btn-default pull-left"
-                                                data-dismiss="modal">Tutup</button>
-                                            <button type="Submit" class="btn btn-primary pull-right">Simpan</button>
-                                        </div>
+                                </div>
+                                {{-- <div class="card-footer"> --}}
+                                <div class="col-12">
+                                    <div class="form-group">
+                                        <button type="Submit" class="btn btn-primary pull-right">Simpan</button>
                                     </div>
                                 </div>
+                                {{-- </div> --}}
                             </form>
                         </div>
                     </div>
@@ -148,7 +156,7 @@
                 "paging": false,
                 "lengthChange": false,
                 "searching": true,
-                "ordering": false,
+                "ordering": true,
                 "info": false,
                 "autoWidth": false,
                 "responsive": false,

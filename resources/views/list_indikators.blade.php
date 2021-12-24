@@ -40,28 +40,35 @@
                                     <thead>
                                         <tr>
                                             <th>Nama</th>
-                                            <th>Target</th>
                                             <th>Kategori</th>
+                                            <th>Target</th>
+                                            <th>Catatan</th>
                                             {{-- <th>Status</th> --}}
                                             <th>Nilai</th>
                                         </tr>
                                     </thead>
                                     <tbody>
-                                        @foreach ($data2 as $index => $data2)
+                                        @foreach ($data2 as $index => $item)
                                             <tr>
-                                                <td>{{ $data2->nama }}</td>
-                                                <td>{{ $data2->target }}</td>
-                                                <td>{{ $data2->kategori->nama }}</td>
+                                                <td>{{ $item->nama }}</td>
+                                                <td>{{ $item->kategori->nama }}</td>
+                                                <td>{{ $item->target }}{{ $item->satuan->nama }}</td>
+                                                <td>{{ $item->catatan }}</td>
                                                 <td>
                                                     <input type="hidden" name="id[{{ $index }}]"
-                                                        value="{{ $data2->id }}">
-                                                    <input type="text" name="nilai[{{ $index }}]"
-                                                        class="form-control" placeholder="Ketikkan Nilai sesuai Tanggal"
-                                                        required />
+                                                        value="{{ $item->id }}">
+                                                    <div class="input-group">
+                                                        <input type="text" name="nilai[{{ $index }}]"
+                                                            class="form-control"
+                                                            placeholder="Ketikkan Nilai sesuai Tanggal" required />
+                                                        <div class="input-group-append">
+                                                            <span
+                                                                class="input-group-text">{{ $item->satuan->nama }}</span>
+                                                        </div>
+                                                    </div>
                                                 </td>
                                             </tr>
                                         @endforeach
-
                                     </tbody>
                                 </table>
                             </div>
@@ -72,6 +79,67 @@
                         </div>
                         <!-- /.card -->
                     </form>
+                    <div class="card">
+                        <div class="card-header">Info
+                            @php
+                                $hari = \Carbon\Carbon::now();
+                                $jmlhari = \Carbon\Carbon::now()->daysInMonth;
+                            @endphp
+                        </div>
+                        <div class="card-body">
+                            <div style="overflow-x:auto;">
+                                <table class="table table-bordered table-hover">
+                                    <thead>
+                                        <tr>
+                                            <th rowspan="2">Nama Indikator</th>
+                                            <th colspan="{{ $jmlhari }}" class="text-center">
+                                                {{ \Carbon\Carbon::now()->locale('id')->monthName }}
+                                                {{ \Carbon\Carbon::now()->locale('id')->year }}
+                                            </th>
+                                        </tr>
+                                        <tr>
+                                            @for ($i = 1; $i <= $jmlhari; $i++)
+                                                @php
+                                                    $tgl = \Carbon\Carbon::create($hari->year, $hari->month, $i, 0, 0, 0);
+                                                    $hariini = $tgl->locale('id')->dayName;
+                                                @endphp
+                                                @if (($hariini == 'Sabtu') | ($hariini == 'Minggu'))
+                                                    <th class="text-danger">{{ $i }}</th>
+                                                @else
+                                                    <th>{{ $i }}</th>
+                                                @endif
+                                            @endfor
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        @foreach ($data2 as $main)
+                                            <tr>
+                                                <td>
+                                                    {{ $main->nama }}
+                                                </td>
+
+                                                @for ($n = 1; $n <= $jmlhari; $n++)
+                                                    @php
+                                                        $tgl = \Carbon\Carbon::create($hari->year, $hari->month, $n, 0, 0, 0);
+                                                    @endphp
+                                                    @if (!empty(\App\Nilai::list($main->id, $tgl)))
+                                                        <td>{{ \App\Nilai::list($main->id, $tgl)->nilai }}{{ $main->satuan->nama }}
+                                                        </td>
+                                                    @else
+                                                        <td> -
+                                                        </td>
+                                                    @endif
+                                                @endfor
+
+                                            </tr>
+                                        @endforeach
+
+
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
                 </div>
                 <!-- /.col -->
             </div>
@@ -80,82 +148,7 @@
         <!-- /.container-fluid -->
     </section>
 
-    <div class="modal fade" id="modal-default">
-        <div class="modal-dialog">
-            <div class="modal-content">
-                <form method="POST" action="/indikator/store">
-                    @csrf
-                    <div class="modal-header">
-                        <h4 class="modal-title">Tambah Imut Lokal</h4>
-                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                            <span aria-hidden="true">&times;</span>
-                        </button>
-                    </div>
-                    <div class="modal-body">
-                        <div class="row">
-                            <!-- text input -->
-                            <div class="col-12">
 
-                                <div class="form-group">
-                                    <label>Tahun</label>
-                                    <select class="form-control select2 " name="tahun" required>
-                                        <option value="">Pilih</option>
-                                        {{-- @foreach ($data2 as $tahun)
-                                            <option value="{{ $tahun->id }}"
-                                                {{ old('tahun') == $tahun->id ? 'selected' : '' }}>
-                                                {{ $tahun->nama }}
-                                            </option>
-                                        @endforeach --}}
-                                    </select>
-                                    @if ($errors->has('tahun'))
-                                        <div class="text-danger">
-                                            {{ $errors->first('tahun') }}
-                                        </div>
-                                    @endif
-                                </div>
-                                <div class="form-group">
-                                    <label>Unit</label>
-                                    {{-- <input type="text" name="unit" class="form-control" readonly
-                                        value="{{ Auth::user()->unit->nama }}" /> --}}
-                                    <select class="form-control select2 " name="unit_id" required>
-                                        <option value="">Pilih</option>
-                                        {{-- @foreach ($data3 as $unit)
-                                            <option value="{{ $unit->id }}"
-                                                {{ old('unit_id') == $unit->id ? 'selected' : '' }}>
-                                                {{ $unit->nama }}
-                                            </option>
-                                        @endforeach --}}
-                                    </select>
-                                    @if ($errors->has('unit_id'))
-                                        <div class="text-danger">
-                                            {{ $errors->first('unit_id') }}
-                                        </div>
-                                    @endif
-                                </div>
-                                <div class="form-group">
-                                    <label>Keterangan</label>
-                                    <textarea class="form-control" rows="3" placeholder="Masukkan Keterangan(Jika ada)"
-                                        name="keterangan">{{ old('keterangan') }}</textarea>
-                                    @if ($errors->has('keterangan'))
-                                        <div class="text-danger">
-                                            {{ $errors->first('keterangan') }}
-                                        </div>
-                                    @endif
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="modal-footer">
-                        <button type="button" class="btn btn-default pull-left" data-dismiss="modal">Tutup</button>
-                        <button type="Submit" class="btn btn-primary">Simpan</button>
-                    </div>
-                </form>
-            </div>
-            <!-- /.modal-content -->
-        </div>
-        <!-- /.modal-dialog -->
-    </div>
-    <!-- /.modal -->
 @endsection
 @section('plugin')
     {{-- <!-- jQuery -->
