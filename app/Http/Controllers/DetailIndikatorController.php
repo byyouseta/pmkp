@@ -92,11 +92,12 @@ class DetailIndikatorController extends Controller
         $update->nama = $request->indikator;
         $update->target = $request->target;
         $update->kategori_id = $request->kategori;
+        $update->catatan = $request->catatan;
         $update->save();
 
         Session::flash('sukses', 'Data Berhasil diperbaharui!');
 
-        $id = Crypt::encrypt($id);
+        $id = Crypt::encrypt($update->indikator_id);
 
         return redirect("/indikator/$id");
     }

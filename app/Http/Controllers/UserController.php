@@ -9,13 +9,18 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Crypt;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Session;
+use Spatie\Permission\Models\Role;
+use DB;
 
 class UserController extends Controller
 {
     //
     public function __construct()
     {
-        $this->middleware('auth');
+        $this->middleware('permission:user-list|user-create|user-edit|user-delete', ['only' => ['index']]);
+        $this->middleware('permission:user-create', ['only' => ['store']]);
+        $this->middleware('permission:user-edit', ['only' => ['edit', 'update']]);
+        $this->middleware('permission:user-delete', ['only' => ['delete']]);
     }
 
     public function index()
@@ -25,8 +30,9 @@ class UserController extends Controller
 
         $data = User::all();
         $data2 = Unit::all();
+        $data3 = Role::all();
 
-        return view('users', compact('data', 'data2'));
+        return view('masters.users', compact('data', 'data2', 'data3'));
     }
 
     public function store(Request $request)
@@ -35,9 +41,9 @@ class UserController extends Controller
             'name' => 'required',
             'username' => 'required|unique:users,username',
             'email' => 'required|email|unique:users,email',
-            'akses' => 'required',
             'unit' => 'required',
-            'nohp' => 'numeric|digits_between:10,13'
+            'nohp' => 'numeric|digits_between:10,13',
+            'akses' => 'required',
         ]);
 
         $user = new User();
@@ -50,6 +56,7 @@ class UserController extends Controller
         $user->akses = $request->akses;
         $user->password = Hash::make($request->username);
         $user->save();
+        $user->assignRole($request->input('akses'));
 
         Session::flash('sukses', 'Data Berhasil ditambahkan!');
 
@@ -61,7 +68,13 @@ class UserController extends Controller
         $id = Crypt::decrypt($id);
         $data = User::find($id);
         $data2 = Unit::all();
-        return view('users_edit', ['data' => $data, 'data2' => $data2]);
+        $data3 = Role::all();
+
+        return view('masters.users_edit', [
+            'data' => $data,
+            'data2' => $data2,
+            'data3' => $data3
+        ]);
     }
 
     public function update($id, Request $request)
@@ -85,6 +98,10 @@ class UserController extends Controller
         $user->unit_id = $request->unit;
         $user->akses = $request->akses;
         $user->save();
+
+        DB::table('model_has_roles')->where('model_id', $id)->delete();
+
+        $user->assignRole($request->input('akses'));
 
         Session::flash('sukses', 'Data Berhasil diperbaharui!');
 

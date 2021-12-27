@@ -12,7 +12,10 @@ class TahunController extends Controller
     //
     public function __construct()
     {
-        $this->middleware('auth');
+        $this->middleware('permission:tahun-list|tahun-create|tahun-edit|tahun-delete', ['only' => ['index']]);
+        $this->middleware('permission:tahun-create', ['only' => ['store']]);
+        $this->middleware('permission:tahun-edit', ['only' => ['edit', 'update']]);
+        $this->middleware('permission:tahun-delete', ['only' => ['delete']]);
     }
 
     public function index()
@@ -22,7 +25,7 @@ class TahunController extends Controller
 
         $data = Tahun::all();
 
-        return view('tahuns', compact('data'));
+        return view('masters.tahuns', compact('data'));
     }
 
     public function store(Request $request)
@@ -48,20 +51,22 @@ class TahunController extends Controller
     {
         $id = Crypt::decrypt($id);
         $data = Tahun::find($id);
-        return view('tahuns_edit', ['data' => $data]);
+        return view('masters.tahuns_edit', ['data' => $data]);
     }
 
     public function update($id, Request $request)
     {
 
         $this->validate($request, [
-            'nama' => 'required',
+            'nama' => 'required|unique:tahuns,nama,' . $id,
             // 'keterangan' => 'required',
+        ], [
+            'nama.unique' => 'Tahun yang dimasukkan sudah digunakan!'
         ]);
 
         $unit = Tahun::find($id);
         $unit->nama = $request->nama;
-        $unit->keterangan = $request->keterangan;
+        // $unit->keterangan = $request->keterangan;
         $unit->save();
 
         Session::flash('sukses', 'Data Berhasil diperbaharui!');

@@ -95,8 +95,11 @@
                                     <label>Hak Akses</label>
                                     <select class="form-control" name="akses">
                                         <option value="" selected>Pilih</option>
-                                        <option value="0" {{ $data->akses == '0' ? 'selected' : '' }}>User</option>
-                                        <option value="1" {{ $data->akses == '1' ? 'selected' : '' }}>Admin</option>
+                                        @foreach ($data3 as $roles)
+                                            <option value="{{ $roles->id }}"
+                                                {{ $data->akses == $roles->id ? 'selected' : '' }}>{{ $roles->name }}
+                                            </option>
+                                        @endforeach
                                     </select>
                                     @if ($errors->has('akses'))
                                         <div class="text-danger">

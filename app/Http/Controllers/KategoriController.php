@@ -11,7 +11,10 @@ class KategoriController extends Controller
 {
     public function __construct()
     {
-        $this->middleware('auth');
+        $this->middleware('permission:kategori-list|kategori-create|kategori-edit|kategori-delete', ['only' => ['index']]);
+        $this->middleware('permission:kategori-create', ['only' => ['store']]);
+        $this->middleware('permission:kategori-edit', ['only' => ['edit', 'update']]);
+        $this->middleware('permission:kategori-delete', ['only' => ['delete']]);
     }
 
     public function index()
@@ -21,7 +24,7 @@ class KategoriController extends Controller
 
         $data = Kategori::all();
 
-        return view('kategoris', compact('data'));
+        return view('masters.kategoris', compact('data'));
     }
 
     public function store(Request $request)
@@ -47,7 +50,7 @@ class KategoriController extends Controller
     {
         $id = Crypt::decrypt($id);
         $data = Kategori::find($id);
-        return view('kategoris_edit', ['data' => $data]);
+        return view('masters.kategoris_edit', ['data' => $data]);
     }
 
     public function update($id, Request $request)

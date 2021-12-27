@@ -11,7 +11,10 @@ class UnitController extends Controller
 {
     public function __construct()
     {
-        $this->middleware('auth');
+        $this->middleware('permission:unit-list|unit-create|unit-edit|unit-delete', ['only' => ['index']]);
+        $this->middleware('permission:unit-create', ['only' => ['store']]);
+        $this->middleware('permission:unit-edit', ['only' => ['edit', 'update']]);
+        $this->middleware('permission:unit-delete', ['only' => ['delete']]);
     }
 
     public function index()
@@ -21,7 +24,7 @@ class UnitController extends Controller
 
         $data = Unit::all();
 
-        return view('units', compact('data'));
+        return view('masters.units', compact('data'));
     }
 
     public function store(Request $request)
@@ -45,7 +48,7 @@ class UnitController extends Controller
     {
         $id = Crypt::decrypt($id);
         $data = Unit::find($id);
-        return view('units_edit', ['data' => $data]);
+        return view('masters.units_edit', ['data' => $data]);
     }
 
     public function update($id, Request $request)

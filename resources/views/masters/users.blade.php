@@ -15,9 +15,11 @@
                     <div class="card">
                         <div class="card-header">
                             {{-- <h3 class="card-title">{{ session('anak') }}</h3> --}}
-                            <button class="btn btn-primary btn-sm" data-toggle="modal" data-target="#modal-default">
-                                <i class="fa fa-plus-circle"></i> Tambah</a>
-                            </button>
+                            @can('user-create')
+                                <button class="btn btn-primary btn-sm" data-toggle="modal" data-target="#modal-default">
+                                    <i class="fa fa-plus-circle"></i> Tambah</a>
+                                </button>
+                            @endcan
                         </div>
                         <!-- /.card-header -->
                         <div class="card-body">
@@ -36,22 +38,29 @@
                                             <td>{{ $data->name }}</td>
                                             <td>{{ $data->email }}</td>
                                             <td>
-                                                @if ($data->akses == 1)
-                                                    Admin
-                                                @else
-                                                    User
-                                                @endif
+                                                {{-- @php
+                                                    echo $data->getRoleNames();
+                                                @endphp --}}
+                                                @foreach ($data3 as $akses)
+                                                    @if ($akses->id == $data->akses)
+                                                        {{ $akses->name }}
+                                                    @endif
+                                                @endforeach
                                             </td>
                                             <td>
                                                 <div class="col text-center">
                                                     <div class="btn-group">
                                                         <a href="/user/edit/{{ Crypt::encrypt($data->id) }}"
-                                                            class="btn btn-warning btn-sm" data-toggle="tooltip"
-                                                            data-placement="bottom" title="Edit">
+                                                            class="btn btn-warning btn-sm @cannot('user-edit')
+                                                                disabled
+                                                            @endcannot"
+                                                            data-toggle="tooltip" data-placement="bottom" title="Edit">
                                                             <i class="fas fa-pencil-alt"></i>
                                                         </a>
                                                         <a href="/user/delete/{{ Crypt::encrypt($data->id) }}"
-                                                            class="btn btn-danger btn-sm delete-confirm"
+                                                            class="btn btn-danger btn-sm delete-confirm @cannot('user-delete')
+                                                            disabled
+                                                        @endcannot"
                                                             data-toggle="tooltip" data-placement="bottom" title="Delete">
                                                             <i class="fas fa-ban"></i>
                                                         </a>
@@ -167,8 +176,11 @@
                                     <label>Hak Akses</label>
                                     <select class="form-control" name="akses">
                                         <option value="" selected>Pilih</option>
-                                        <option value="0" {{ old('akses') == '0' ? 'selected' : '' }}>User</option>
-                                        <option value="1" {{ old('akses') == '1' ? 'selected' : '' }}>Admin</option>
+                                        @foreach ($data3 as $roles)
+                                            <option value="{{ $roles->id }}"
+                                                {{ old('akses') == $roles->id ? 'selected' : '' }}>{{ $roles->name }}
+                                            </option>
+                                        @endforeach
                                     </select>
                                     @if ($errors->has('akses'))
                                         <div class="text-danger">

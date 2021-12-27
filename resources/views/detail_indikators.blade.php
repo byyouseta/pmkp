@@ -26,7 +26,11 @@
                                         <td scope="row">{{ $data->tahun->nama }}</td>
                                         <td>{{ $data->unit->nama }}</td>
                                         <td>{{ $data->user->name }}</td>
-                                        <td>{{ $data->status }}</td>
+                                        <td>
+                                            @php
+                                                echo \App\Indikator::status($data->status);
+                                            @endphp
+                                        </td>
                                     </tr>
 
                                 </tbody>
@@ -45,32 +49,35 @@
                     <div class="card">
                         <div class="card-header">
                             {{-- <h3 class="card-title">{{ session('anak') }}</h3> --}}
+
                             @if ($data->status == 0 or $data->status == 2)
                                 <button class="btn btn-primary btn-sm" data-toggle="modal" data-target="#modal-default">
                                     <i class="fa fa-plus-circle"></i> Tambah</a>
                                 </button>
                                 <a href="/indikator/detail/send/{{ Crypt::encrypt($data->id) }}"
-                                    class="right btn btn-success btn-sm kirim-confirm" data-toggle="tooltip"
+                                    class="btn btn-success btn-sm kirim-confirm" data-toggle="tooltip"
                                     data-placement="bottom" title="Ajukan Usulan">
-                                    <i class="fas fa-paper-plane"></i> Ajukan
-                                @else
-                                    <button class="btn btn-primary btn-sm disabled" data-toggle="modal"
-                                        data-target="#modal-default">
-                                        <i class="fa fa-plus-circle"></i> Tambah</a>
+                                    <i class="fas fa-paper-plane"></i> Ajukan</a>
+                            @else
+                                <button class="btn btn-primary btn-sm disabled" data-toggle="modal"
+                                    data-target="#modal-default">
+                                    <i class="fa fa-plus-circle"></i> Tambah</a>
                                 </button>
                                 <a href="/indikator/detail/send/{{ Crypt::encrypt($data->id) }}"
-                                    class="right btn btn-success btn-sm disabled kirim-confirm" data-toggle="tooltip"
+                                    class="btn btn-success btn-sm disabled kirim-confirm" data-toggle="tooltip"
                                     data-placement="bottom" title="Ajukan Usulan">
-                                    <i class="fas fa-paper-plane"></i> Ajukan
+                                    <i class="fas fa-paper-plane"></i> Ajukan</a>
                             @endif
-                            </a>
+                            <a href="/indikator" class="btn btn-secondary btn-sm"><i class="fas fa-arrow-circle-left"></i>
+                                Kembali</a>
                         </div>
                         <!-- /.card-header -->
                         <div class="card-body">
-                            <table id="example2" class="table table-bordered table-hover">
+                            <table id="example1" class="table table-bordered table-hover">
                                 <thead>
                                     <tr>
                                         <th>Indikator</th>
+                                        <th>Kategori</th>
                                         <th>Target</th>
                                         <th>Catatan</th>
                                         <th>Aksi</th>
@@ -80,6 +87,7 @@
                                     @foreach ($data2 as $data2)
                                         <tr>
                                             <td>{{ $data2->nama }}</td>
+                                            <td>{{ $data2->kategori->nama }}</td>
                                             <td>{{ $data2->target }} {{ $data2->satuan->nama }}</td>
                                             <td>{{ $data2->catatan }}</td>
                                             <td>
@@ -262,14 +270,22 @@
     <script src="{{ asset('template/plugins/datatables-buttons/js/buttons.colVis.min.js') }}"></script>
     <script>
         $(function() {
-            $('#example2').DataTable({
-                "paging": false,
+            $("#example1").DataTable({
+                "responsive": true,
                 "lengthChange": false,
-                "searching": true,
-                "ordering": false,
-                "info": false,
                 "autoWidth": false,
-                "responsive": false,
+                "paging": false,
+                "info": false,
+                "buttons": ["excel", "pdf", "print"]
+            }).buttons().container().appendTo('#example1_wrapper .col-md-6:eq(0)');
+            $('#example2').DataTable({
+                "paging": true,
+                "lengthChange": false,
+                "searching": false,
+                "ordering": true,
+                "info": true,
+                "autoWidth": false,
+                "responsive": true,
             });
         });
     </script>

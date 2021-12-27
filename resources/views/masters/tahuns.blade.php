@@ -24,7 +24,7 @@
                                 <thead>
                                     <tr>
                                         <th>Nama</th>
-                                        <th>Keterangan</th>
+                                        {{-- <th>Keterangan</th> --}}
                                         <th>Aksi</th>
                                     </tr>
                                 </thead>
@@ -32,17 +32,21 @@
                                     @foreach ($data as $data)
                                         <tr>
                                             <td>{{ $data->nama }}</td>
-                                            <td>{{ $data->keterangan }}</td>
+                                            {{-- <td>{{ $data->keterangan }}</td> --}}
                                             <td>
                                                 <div class="col text-center">
                                                     <div class="btn-group align-center">
-                                                        <a href="/kategori/edit/{{ Crypt::encrypt($data->id) }}"
-                                                            class="btn btn-warning btn-sm" data-toggle="tooltip"
-                                                            data-placement="bottom" title="Ubah">
+                                                        <a href="/tahun/edit/{{ Crypt::encrypt($data->id) }}"
+                                                            class="btn btn-warning btn-sm @cannot('tahun-edit')
+                                                            disabled
+                                                        @endcannot"
+                                                            data-toggle="tooltip" data-placement="bottom" title="Ubah">
                                                             <i class="fas fa-pencil-alt"></i>
                                                         </a>
-                                                        <a href="/kategori/delete/{{ Crypt::encrypt($data->id) }}"
-                                                            class="btn btn-danger btn-sm delete-confirm"
+                                                        <a href="/tahun/delete/{{ Crypt::encrypt($data->id) }}"
+                                                            class="btn btn-danger btn-sm delete-confirm @cannot('tahun-delete')
+                                                            disabled
+                                                        @endcannot"
                                                             data-toggle="tooltip" data-placement="bottom" title="Hapus">
                                                             <i class="fas fa-ban"></i>
                                                         </a>
@@ -70,17 +74,23 @@
         <div class="modal-dialog">
             <div class="modal-content">
                 <div class="modal-header">
-                    <h4 class="modal-title">Tambah Kategori</h4>
+                    <h4 class="modal-title">Tambah Tahun</h4>
                     <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                         <span aria-hidden="true">&times;</span>
                     </button>
                 </div>
                 <div class="modal-body">
-                    <form method="POST" action="/kategori/store">
+                    <form method="POST" action="/tahun/store">
                         @csrf
                         <div class="form-group">
-                            <label>Nama Kategori</label>
-                            <input type="text" class="form-control" name="nama" required value="{{ old('nama') }}">
+                            <label>Nama Tahun</label>
+                            <select class="form-control" name="nama">
+                                {{ $nextyear = date('Y') + 1 }}
+                                <option value="">Pilih</option>
+                                @for ($i = 2021; $i <= $nextyear; $i++)
+                                    <option value="{{ $i }}">{{ $i }}</option>
+                                @endfor
+                            </select>
                             @error('nama')
                                 <span class="invalid-feedback text-red" role="alert">
                                     <strong>{{ $message }}</strong>
@@ -88,15 +98,15 @@
                             @enderror
                         </div>
 
-                        <div class="form-group">
+                        {{-- <div class="form-group">
                             <label>Keterangan</label>
-                            <textarea class="form-control" name="keterangan" required>{{ old('keterangan') }}</textarea>
+                            <textarea class="form-control" name="keterangan"></textarea>
                             @error('keterangan')
                                 <span class="invalid-feedback text-red" role="alert">
                                     <strong>{{ $message }}</strong>
                                 </span>
                             @enderror
-                        </div>
+                        </div> --}}
                 </div>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-default pull-right" data-dismiss="modal">Tutup</button>

@@ -81,6 +81,16 @@
                                             value="{{ $data->created_at }}" readonly>
                                     </div>
                                 </div>
+                                <div class="form-group">
+                                    <label>Catatan</label>
+                                    <textarea name="catatan" rows="5" class="form-control"
+                                        required>{{ $data->catatan }}</textarea>
+                                    @if ($errors->has('catatan'))
+                                        <div class="text-danger">
+                                            {{ $errors->first('catatan') }}
+                                        </div>
+                                    @endif
+                                </div>
                             </div>
                         </div>
                     </div>
@@ -88,7 +98,7 @@
 
                     <!-- /.box-body -->
                     <div class="card-footer">
-                        <a href="/unit" class="btn btn-default">Kembali</a>
+                        <a href="{{ url()->previous() }}" class="btn btn-default">Kembali</a>
                         <button type="submit" class="btn btn-primary">Perbaharui</button>
                     </div>
 

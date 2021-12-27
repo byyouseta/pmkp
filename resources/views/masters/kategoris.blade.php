@@ -14,9 +14,11 @@
                 <div class="col-12">
                     <div class="card">
                         <div class="card-header">
-                            <button class="btn btn-primary btn-sm" data-toggle="modal" data-target="#modal-default">
-                                <i class="fa fa-plus-circle"></i> Tambah</a>
-                            </button>
+                            @can('kategori-create')
+                                <button class="btn btn-primary btn-sm" data-toggle="modal" data-target="#modal-default">
+                                    <i class="fa fa-plus-circle"></i> Tambah</a>
+                                </button>
+                            @endcan
                         </div>
                         <!-- /.card-header -->
                         <div class="card-body">
@@ -36,13 +38,17 @@
                                             <td>
                                                 <div class="col text-center">
                                                     <div class="btn-group align-center">
-                                                        {{-- <a href="/tahun/edit/{{ Crypt::encrypt($data->id) }}"
-                                                            class="btn btn-warning btn-sm" data-toggle="tooltip"
-                                                            data-placement="bottom" title="Ubah">
+                                                        <a href="/kategori/edit/{{ Crypt::encrypt($data->id) }}"
+                                                            class="btn btn-warning btn-sm @cannot('kategori-edit')
+                                                            disabled
+                                                        @endcannot"
+                                                            data-toggle="tooltip" data-placement="bottom" title="Ubah">
                                                             <i class="fas fa-pencil-alt"></i>
-                                                        </a> --}}
-                                                        <a href="/tahun/delete/{{ Crypt::encrypt($data->id) }}"
-                                                            class="btn btn-danger btn-sm delete-confirm"
+                                                        </a>
+                                                        <a href="/kategori/delete/{{ Crypt::encrypt($data->id) }}"
+                                                            class="btn btn-danger btn-sm delete-confirm @cannot('kategori-delete')
+                                                            disabled
+                                                        @endcannot"
                                                             data-toggle="tooltip" data-placement="bottom" title="Hapus">
                                                             <i class="fas fa-ban"></i>
                                                         </a>
@@ -70,17 +76,17 @@
         <div class="modal-dialog">
             <div class="modal-content">
                 <div class="modal-header">
-                    <h4 class="modal-title">Tambah Satuan</h4>
+                    <h4 class="modal-title">Tambah Kategori</h4>
                     <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                         <span aria-hidden="true">&times;</span>
                     </button>
                 </div>
                 <div class="modal-body">
-                    <form method="POST" action="/satuan/store">
+                    <form method="POST" action="/kategori/store">
                         @csrf
                         <div class="form-group">
-                            <label>Nama Satuan</label>
-                            <input type="text" class="form-control" name="nama" value="{{ old('nama') }}" required />
+                            <label>Nama Kategori</label>
+                            <input type="text" class="form-control" name="nama" required value="{{ old('nama') }}">
                             @error('nama')
                                 <span class="invalid-feedback text-red" role="alert">
                                     <strong>{{ $message }}</strong>

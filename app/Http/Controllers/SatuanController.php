@@ -11,7 +11,10 @@ class SatuanController extends Controller
 {
     public function __construct()
     {
-        $this->middleware('auth');
+        $this->middleware('permission:satuan-list|satuan-create|satuan-edit|satuan-delete', ['only' => ['index']]);
+        $this->middleware('permission:satuan-create', ['only' => ['store']]);
+        $this->middleware('permission:satuan-edit', ['only' => ['edit', 'update']]);
+        $this->middleware('permission:satuan-delete', ['only' => ['delete']]);
     }
 
     public function index()
@@ -21,7 +24,7 @@ class SatuanController extends Controller
 
         $data = Satuan::all();
 
-        return view('satuans', compact('data'));
+        return view('masters.satuans', compact('data'));
     }
 
     public function store(Request $request)
@@ -47,7 +50,7 @@ class SatuanController extends Controller
     {
         $id = Crypt::decrypt($id);
         $data = Satuan::find($id);
-        return view('satuans_edit', ['data' => $data]);
+        return view('masters.satuans_edit', ['data' => $data]);
     }
 
     public function update($id, Request $request)

@@ -14,9 +14,12 @@
                 <div class="col-12">
                     <div class="card">
                         <div class="card-header">
-                            <button class="btn btn-primary btn-sm" data-toggle="modal" data-target="#modal-default">
-                                <i class="fa fa-plus-circle"></i> Tambah</a>
-                            </button>
+                            @can('permission-create')
+                                <button class="btn btn-primary btn-sm" data-toggle="modal" data-target="#modal-default">
+                                    <i class="fa fa-plus-circle"></i> Tambah</a>
+                                </button>
+                            @endcan
+
                         </div>
                         <!-- /.card-header -->
                         <div class="card-body">
@@ -24,25 +27,27 @@
                                 <thead>
                                     <tr>
                                         <th>Nama</th>
-                                        {{-- <th>Keterangan</th> --}}
+                                        <th>Dibuat</th>
+                                        <th>Update</th>
                                         <th>Aksi</th>
                                     </tr>
                                 </thead>
                                 <tbody>
                                     @foreach ($data as $data)
                                         <tr>
-                                            <td>{{ $data->nama }}</td>
-                                            {{-- <td>{{ $data->keterangan }}</td> --}}
+                                            <td>{{ $data->name }}</td>
+                                            <td>{{ $data->created_at }}</td>
+                                            <td>{{ $data->updated_at }}</td>
                                             <td>
                                                 <div class="col text-center">
                                                     <div class="btn-group align-center">
-                                                        {{-- <a href="/tahun/edit/{{ Crypt::encrypt($data->id) }}"
-                                                            class="btn btn-warning btn-sm" data-toggle="tooltip"
-                                                            data-placement="bottom" title="Ubah">
+                                                        <a href="/permission/edit/{{ Crypt::encrypt($data->id) }}"
+                                                            class="btn btn-warning btn-sm @cannot('permission-edit') disabled @endcannot"
+                                                            data-toggle="tooltip" data-placement="bottom" title="Ubah">
                                                             <i class="fas fa-pencil-alt"></i>
-                                                        </a> --}}
-                                                        <a href="/tahun/delete/{{ Crypt::encrypt($data->id) }}"
-                                                            class="btn btn-danger btn-sm delete-confirm"
+                                                        </a>
+                                                        <a href="/permission/delete/{{ Crypt::encrypt($data->id) }}"
+                                                            class="btn btn-danger btn-sm delete-confirm @cannot('permission-delete') disabled @endcannot"
                                                             data-toggle="tooltip" data-placement="bottom" title="Hapus">
                                                             <i class="fas fa-ban"></i>
                                                         </a>
@@ -70,39 +75,23 @@
         <div class="modal-dialog">
             <div class="modal-content">
                 <div class="modal-header">
-                    <h4 class="modal-title">Tambah Tahun</h4>
+                    <h4 class="modal-title">Tambah Permission</h4>
                     <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                         <span aria-hidden="true">&times;</span>
                     </button>
                 </div>
                 <div class="modal-body">
-                    <form method="POST" action="/tahun/store">
+                    <form method="POST" action="/permission/store">
                         @csrf
                         <div class="form-group">
-                            <label>Nama Tahun</label>
-                            <select class="form-control" name="nama">
-                                {{ $nextyear = date('Y') + 1 }}
-                                <option value="">Pilih</option>
-                                @for ($i = 2021; $i <= $nextyear; $i++)
-                                    <option value="{{ $i }}">{{ $i }}</option>
-                                @endfor
-                            </select>
+                            <label>Nama Permission</label>
+                            <input type="text" class="form-control" name="nama" required value="{{ old('nama') }}">
                             @error('nama')
                                 <span class="invalid-feedback text-red" role="alert">
                                     <strong>{{ $message }}</strong>
                                 </span>
                             @enderror
                         </div>
-
-                        {{-- <div class="form-group">
-                            <label>Keterangan</label>
-                            <textarea class="form-control" name="keterangan"></textarea>
-                            @error('keterangan')
-                                <span class="invalid-feedback text-red" role="alert">
-                                    <strong>{{ $message }}</strong>
-                                </span>
-                            @enderror
-                        </div> --}}
                 </div>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-default pull-right" data-dismiss="modal">Tutup</button>

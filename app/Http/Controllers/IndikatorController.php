@@ -8,6 +8,7 @@ use App\Tahun;
 use App\Unit;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Crypt;
 use Illuminate\Support\Facades\Session;
 use Illuminate\Validation\Rule;
 
@@ -24,17 +25,18 @@ class IndikatorController extends Controller
         session()->put('anak', 'Pengajuan');
         //Session::forget('anak');
 
-        $data = Indikator::all();
+
         $data2 = Tahun::all();
         //data Unit
         if (Auth::user()->akses === 1) {
             $data3 = Unit::all();
+            $data = Indikator::all();
         } else {
             $unit = (Auth::user()->unit_id);
             $data3 = Unit::where('id', '=', $unit)->get();
+            $data = Indikator::where('unit_id', '=', $unit)->get();
             // dd($data3);
         }
-
 
         return view('indikators', [
             'data' => $data,
@@ -90,41 +92,5 @@ class IndikatorController extends Controller
             // 'data2' => $data2,
             // 'data3' => $data3
         ]);
-    }
-
-    public function edit($id)
-    {
-        $id = Crypt::decrypt($id);
-        $data = Tahun::find($id);
-        return view('tahuns_edit', ['data' => $data]);
-    }
-
-    public function update($id, Request $request)
-    {
-
-        $this->validate($request, [
-            'nama' => 'required',
-            // 'keterangan' => 'required',
-        ]);
-
-        $unit = Lokal::find($id);
-        $unit->nama = $request->nama;
-        $unit->keterangan = $request->keterangan;
-        $unit->save();
-
-        Session::flash('sukses', 'Data Berhasil diperbaharui!');
-
-        return redirect('/lokal');
-    }
-
-    public function delete($id)
-    {
-        $id = Crypt::decrypt($id);
-        $lokal = Lokal::find($id);
-        $lokal->delete();
-
-        Session::flash('sukses', 'Data Berhasil dihapus!');
-
-        return redirect('/lokal');
     }
 }

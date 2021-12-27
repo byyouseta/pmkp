@@ -14,9 +14,11 @@
                 <div class="col-12">
                     <div class="card">
                         <div class="card-header">
-                            <button class="btn btn-primary btn-sm" data-toggle="modal" data-target="#modal-default">
-                                <i class="fa fa-plus-circle"></i> Tambah</a>
-                            </button>
+                            @can('unit-create')
+                                <button class="btn btn-primary btn-sm" data-toggle="modal" data-target="#modal-default">
+                                    <i class="fa fa-plus-circle"></i> Tambah</a>
+                                </button>
+                            @endcan
                         </div>
                         <!-- /.card-header -->
                         <div class="card-body">
@@ -37,12 +39,16 @@
                                                 <div class="col text-center">
                                                     <div class="btn-group align-center">
                                                         <a href="/unit/edit/{{ Crypt::encrypt($data->id) }}"
-                                                            class="btn btn-warning btn-sm" data-toggle="tooltip"
-                                                            data-placement="bottom" title="Ubah">
+                                                            class="btn btn-warning btn-sm @cannot('unit-edit')
+                                                            disabled
+                                                        @endcannot"
+                                                            data-toggle="tooltip" data-placement="bottom" title="Ubah">
                                                             <i class="fas fa-pencil-alt"></i>
                                                         </a>
                                                         <a href="/unit/delete/{{ Crypt::encrypt($data->id) }}"
-                                                            class="btn btn-danger btn-sm delete-confirm"
+                                                            class="btn btn-danger btn-sm delete-confirm @cannot('unit-delete')
+                                                            disabled
+                                                        @endcannot"
                                                             data-toggle="tooltip" data-placement="bottom" title="Hapus">
                                                             <i class="fas fa-ban"></i>
                                                         </a>
