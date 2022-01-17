@@ -2,9 +2,61 @@
 
 @section('head')
     <!-- DataTables -->
-    <link rel="stylesheet" href="{{ asset('template/plugins/datatables-bs4/css/dataTables.bootstrap4.min.css') }}">
+    {{-- <link rel="stylesheet" href="{{ asset('template/plugins/datatables-bs4/css/dataTables.bootstrap4.min.css') }}">
     <link rel="stylesheet" href="{{ asset('template/plugins/datatables-responsive/css/responsive.bootstrap4.min.css') }}">
-    <link rel="stylesheet" href="{{ asset('template/plugins/datatables-buttons/css/buttons.bootstrap4.min.css') }}">
+    <link rel="stylesheet" href="{{ asset('template/plugins/datatables-buttons/css/buttons.bootstrap4.min.css') }}"> --}}
+
+    <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.11.3/css/dataTables.bootstrap4.min.css">
+    <link rel="stylesheet" type="text/css"
+        href="https://cdn.datatables.net/fixedcolumns/4.0.1/css/fixedColumns.bootstrap4.min.css">
+    <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/buttons/2.1.0/css/buttons.dataTables.min.css">
+
+    <style type="text/css" class="init">
+
+    </style>
+
+    <script type="text/javascript" language="javascript" src="https://code.jquery.com/jquery-3.5.1.js"></script>
+    <script type="text/javascript" language="javascript"
+        src="https://cdn.datatables.net/1.11.3/js/jquery.dataTables.min.js"></script>
+    <script type="text/javascript" language="javascript"
+        src="https://cdn.datatables.net/1.11.3/js/dataTables.bootstrap4.min.js"></script>
+    <script type="text/javascript" language="javascript"
+        src="https://cdn.datatables.net/fixedcolumns/4.0.1/js/dataTables.fixedColumns.min.js"></script>
+    <script type="text/javascript" language="javascript"
+        src="https://cdn.datatables.net/buttons/2.1.0/js/dataTables.buttons.min.js"></script>
+    <script type="text/javascript" language="javascript"
+        src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.1.3/jszip.min.js"></script>
+    <script type="text/javascript" language="javascript"
+        src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.53/pdfmake.min.js"></script>
+    <script type="text/javascript" language="javascript"
+        src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.53/vfs_fonts.js"></script>
+    <script type="text/javascript" language="javascript"
+        src="https://cdn.datatables.net/buttons/2.1.0/js/buttons.html5.min.js"></script>
+    <script type="text/javascript" language="javascript"
+        src="https://cdn.datatables.net/buttons/2.1.0/js/buttons.print.min.js"></script>
+    <script type="text/javascript" class="init">
+        $(document).ready(function() {
+            var table = $('#example').DataTable({
+                scrollY: "400px",
+                scrollX: true,
+                scrollCollapse: true,
+                paging: false,
+                info: false,
+                fixedColumns: {
+                    left: 2,
+                },
+                dom: 'Bfrtip',
+                buttons: [
+                    'excel',
+                    {
+                        extend: 'pdfHtml5',
+                        orientation: 'landscape',
+                        pageSize: 'A4'
+                    }
+                ]
+            });
+        });
+    </script>
 @endsection
 
 @section('content')
@@ -36,19 +88,21 @@
                             </table>
                         </div>
                     </div>
-                    <div class="card">
 
-                        <!-- /.card-header -->
+                    <div class="card">
+                        <div class="card-header">
+                            <div class="card-title">
+                                <strong>Indikator yang diajukan</strong>
+                            </div>
+                        </div>
                         <div class="card-body">
-                            <table id="example2" class="table table-bordered table-hover">
+                            {{-- <table id="example2" class="table table-bordered table-hover">
                                 <thead>
                                     <tr>
                                         <th>Indikator</th>
                                         <th>Jenis Indikator</th>
                                         <th>Target</th>
                                         <th>Catatan</th>
-                                        {{-- <th>Aksi</th> --}}
-
                                     </tr>
                                 </thead>
                                 <tbody>
@@ -58,6 +112,52 @@
                                             <td>{{ $data2->kategori->nama }}</td>
                                             <td>{{ $data2->target }} {{ $data2->satuan->nama }}</td>
                                             <td>{{ $data2->catatan }}</td>
+                                        </tr>
+                                    @endforeach
+                                </tbody>
+                            </table> --}}
+                            <table id="example" class="table table-striped table-bordered nowrap" style="width:100%">
+                                <thead>
+                                    <tr>
+                                        <th>Kategori</th>
+                                        <th>Indikator</th>
+                                        <th>Definisi Operational</th>
+                                        <th>Frekuensi Pengumpulan</th>
+                                        <th>Periode Pelaporan</th>
+                                        <th>Numerator</th>
+                                        <th>Denumerator</th>
+                                        <th>Sumber Data</th>
+                                        <th>Target</th>
+                                        <th style="min-width: 250px">Catatan</th>
+                                        <th>PIC</th>
+
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    @foreach ($data2 as $data2)
+                                        <tr>
+                                            <td>{{ $data2->kategori->nama }}</td>
+                                            <td>{{ $data2->nama }}</td>
+                                            <td>{{ $data2->do }}</td>
+                                            <td>{{ $data2->pengumpulan }}</td>
+                                            <td>{{ $data2->pelaporan }}</td>
+                                            <td>{{ $data2->numerator }}</td>
+                                            <td>{{ $data2->denumerator }}</td>
+                                            <td>{{ $data2->sumberdata }}</td>
+                                            <td>{{ $data2->target }} {{ $data2->satuan->nama }}</td>
+                                            <td>
+                                                @php
+                                                    $paragraphs = explode(PHP_EOL, $data2->catatan);
+                                                @endphp
+                                                @foreach ($paragraphs as $paragraph)
+                                                    <p>{{ $paragraph }}</p>
+                                                @endforeach
+                                            </td>
+                                            <td>
+                                                @if (!empty($data2->user_id))
+                                                    {{ $data2->user->name }}
+                                                @endif
+                                            </td>
 
                                         </tr>
                                     @endforeach
@@ -65,19 +165,18 @@
                                 </tbody>
                             </table>
                         </div>
-                        <!-- /.card-body -->
-
                     </div>
+
                     <!-- /.card -->
                     <div class="card">
                         <div class="card-header">
-                            <h4>Persetujuan</h4>
+                            <div class="card-title">
+                                <strong>Persetujuan</strong>
+                            </div>
                         </div>
                         <div class="card-body">
                             <form action="/indikator/approval/{{ $data->id }}" method="POST">
                                 <div class="row">
-                                    <!-- text input -->
-
                                     @csrf
                                     <div class="col-6">
 
@@ -150,6 +249,8 @@
     <script src="{{ asset('template/plugins/datatables-buttons/js/buttons.html5.min.js') }}"></script>
     <script src="{{ asset('template/plugins/datatables-buttons/js/buttons.print.min.js') }}"></script>
     <script src="{{ asset('template/plugins/datatables-buttons/js/buttons.colVis.min.js') }}"></script>
+    <script src="https://cdn.datatables.net/fixedcolumns/4.0.1/js/dataTables.fixedColumns.min.js"></script>
+
     <script>
         $(function() {
             $('#example2').DataTable({

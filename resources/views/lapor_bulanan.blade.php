@@ -33,7 +33,8 @@
                             <form action="/indikator/report/month" method="GET">
 
                                 <div class="form-group row">
-                                    <div class="col-sm-2 col-form-label">
+                                    {{-- <div class="col-sm-2 col-form-label">
+                                        <label>Tahun</label>
                                         <select class="form-control select2 " name="bulan" required>
                                             <option value="1" {{ $hariini->month == 1 ? 'selected' : '' }}>Januari
                                             </option>
@@ -55,8 +56,9 @@
                                             <option value="12" {{ $hariini->month == 12 ? 'selected' : '' }}>Desember
                                             </option>
                                         </select>
-                                    </div>
+                                    </div> --}}
                                     <div class="col-sm-2 col-form-label">
+
                                         <select class="form-control select2 " name="tahun" required>
                                             @foreach ($data as $tahun)
                                                 <option value="{{ $tahun->nama }}"
@@ -65,17 +67,7 @@
                                             @endforeach
                                         </select>
                                     </div>
-                                    @can('approval-edit')
-                                        <div class="col-sm-2 col-form-label">
-                                            <select class="form-control select2 " name="unit" required>
-                                                @foreach ($data3 as $unit)
-                                                    <option value="{{ $unit->id }}"
-                                                        {{ Request::get('unit') == $unit->id ? 'selected' : '' }}>
-                                                        {{ $unit->nama }}</option>
-                                                @endforeach
-                                            </select>
-                                        </div>
-                                    @endcan
+
                                     <div class="col-sm-2 col-form-label">
                                         <button type="Submit" class="btn btn-primary">Lihat</button>
                                     </div>
@@ -103,112 +95,65 @@
                                             <th rowspan="2" class="align-middle">Nama Indikator</th>
                                             <th rowspan="2" class="align-middle">Kategori</th>
                                             <th rowspan="2" class="align-middle">Target</th>
-                                            <th rowspan="2" class="align-middle">Catatan</th>
-                                            <th colspan="{{ $jmlhari }}" class="text-center">
-                                                {{ $hariini->locale('id')->monthName }}
+                                            <th colspan="12" class="text-center">
                                                 {{ $hariini->locale('id')->year }}
                                             </th>
-                                            <th rowspan="2" class="align-middle">Rerata</th>
                                         </tr>
                                         <tr>
-                                            @php
-                                                //variabel awal
-                                                $hariaktif = 0;
-                                                $mingguaktif = 0;
-                                            @endphp
-                                            @for ($i = 1; $i <= $jmlhari; $i++)
-                                                @php
-                                                    $tgl = \Carbon\Carbon::create($hari->year, $hari->month, $i, 0, 0, 0);
-                                                    $hariini = $tgl->locale('id')->dayName;
-                                                @endphp
-                                                @if (($hariini == 'Sabtu') | ($hariini == 'Minggu'))
-                                                    <th class="text-center text-danger">{{ $i }}</th>
-                                                    @if ($hariini == 'Sabtu')
-                                                        @php
-                                                            $mingguaktif++;
-                                                        @endphp
-                                                    @endif
-                                                @else
-                                                    @php
-                                                        $hariaktif++;
-                                                    @endphp
-                                                    <th class="text-center">{{ $i }}</th>
-                                                @endif
-                                            @endfor
+                                            <th>Jan</th>
+                                            <th>Feb</th>
+                                            <th>Mar</th>
+                                            <th>Apr</th>
+                                            <th>Mei</th>
+                                            <th>Jun</th>
+                                            <th>Jul</th>
+                                            <th>Agu</th>
+                                            <th>Sep</th>
+                                            <th>Okt</th>
+                                            <th>Nov</th>
+                                            <th>Des</th>
                                         </tr>
                                     </thead>
                                     <tbody>
-                                        @if (!empty($data2))
-                                            @foreach ($data2 as $index => $main)
-                                                @php
-                                                    $totalnilai = 0;
-                                                @endphp
-                                                <tr>
-                                                    <td>
-                                                        {{ ++$index }}
-                                                    </td>
-                                                    <td>
-                                                        {{ $main->nama }}
-                                                    </td>
-                                                    <td>
-                                                        {{ $main->kategori->nama }}
-                                                    </td>
-                                                    <td>
-                                                        {{ $main->target }}{{ $main->satuan->nama }}
-                                                    </td>
-                                                    <td>
-                                                        {{ $main->catatan }}
-                                                    </td>
-                                                    @for ($n = 1; $n <= $jmlhari; $n++)
-                                                        @php
-                                                            $tgl = \Carbon\Carbon::create($hari->year, $hari->month, $n, 0, 0, 0);
-                                                            
-                                                        @endphp
-                                                        @if (!empty(\App\Nilai::list($main->id, $tgl)))
-                                                            <td>
-                                                                @if (!empty(\App\Nilai::list($main->id, $tgl)->nilai))
-                                                                    {{ \App\Nilai::list($main->id, $tgl)->nilai }}{{ $main->satuan->nama }}
-                                                                    @php
-                                                                        $totalnilai = $totalnilai + \App\Nilai::list($main->id, $tgl)->nilai;
-                                                                    @endphp
+                                        @foreach ($data2 as $index => $list)
+                                            <tr>
+                                                <td>{{ ++$index }}</td>
+                                                <td><a href="/indikator/list/{{ Crypt::encrypt($list->id) }}"
+                                                        data-toggle="tooltip" data-placement="right"
+                                                        title="Klik untuk Input Data">{{ $list->nama }}
+                                                    </a>
+                                                </td>
+                                                <td>{{ $list->kategori->nama }}</td>
+                                                <td>{{ $list->target }} {{ $list->satuan->nama }}</td>
+                                                @for ($i = 1; $i <= 12; $i++)
+                                                    @php
+                                                        $tgl = \Carbon\Carbon::create($hari->year, $i, 1, 0, 0, 0);
+                                                    @endphp
+                                                    @if (!empty(\App\Nilai::list($list->id, $tgl)))
+                                                        <td>
+                                                            <a
+                                                                href="/indikator/{{ Crypt::encrypt($list->id) }}/edit/{{ Crypt::encrypt($tgl) }}">
+                                                                @if (!empty(\App\Nilai::list($list->id, $tgl)->nilai))
+                                                                    {{ \App\Nilai::list($list->id, $tgl)->nilai }}{{ $list->satuan->nama }}
                                                                 @else
                                                                     @php
-                                                                        $nilai = (\App\Nilai::list($main->id, $tgl)->nilai_n / \App\Nilai::list($main->id, $tgl)->nilai_d) * 100;
-                                                                        $totalnilai = $totalnilai + $nilai;
+                                                                        $nilai = (\App\Nilai::list($list->id, $tgl)->nilai_n / \App\Nilai::list($list->id, $tgl)->nilai_d) * 100;
                                                                     @endphp
-                                                                    {{ $nilai }}{{ $main->satuan->nama }}
+                                                                    {{ number_format($nilai, 2) }}{{ $list->satuan->nama }}
                                                                 @endif
-                                                            </td>
-                                                        @else
-                                                            <td> -
-                                                            </td>
-                                                        @endif
-                                                    @endfor
-                                                    <td>
-                                                        @if ($main->pengumpulan == 'Harian')
-                                                            {{ number_format($totalnilai / $hariaktif, 2) }}{{ $main->satuan->nama }}
-                                                        @elseif ($main->pengumpulan == "Mingguan")
-                                                            {{ number_format($totalnilai / $mingguaktif, 2) }}{{ $main->satuan->nama }}
-                                                        @else
-                                                            {{ number_format($totalnilai) }}{{ $main->satuan->nama }}
-                                                        @endif
-                                                    </td>
-                                                </tr>
-                                            @endforeach
-                                        @else
-                                            @php
-                                                $panjang = 5 + $jmlhari;
-                                            @endphp
-                                            <tr>
-                                                <td colspan="{{ $panjang }}" class="text-center">Data Pencarian
-                                                    Kosong...</td>
+                                                            </a>
+                                                        </td>
+                                                    @else
+                                                        <td> -
+                                                        </td>
+                                                    @endif
+                                                @endfor
                                             </tr>
-                                        @endif
-
-
-
+                                        @endforeach
                                     </tbody>
                                 </table>
+                                <small>* Klik pada indikator untuk input nilai</small><br>
+                                <small>* Klik pada nilai untuk edit nilai</small>
                             </div>
                         </div>
                     </div>

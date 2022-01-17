@@ -73,16 +73,27 @@ Route::group(['middleware' => ['auth']], function () {
     Route::get('/indikator/approval', 'IndikatorController@approval')->name('indikator.approval');
 
     Route::get('/indikator/list', 'ListIndikatorController@index')->name('listindikator');
+    Route::get('/indikator/list/{id}', 'ListIndikatorController@detail')->name('listindikator.detail');
     Route::post('/indikator/list/store', 'ListIndikatorController@store')->name('listindikator.store');
+    Route::get('/indikator/{id}/edit/{idt}', 'ListIndikatorController@edit')->name('listindikator.edit');
+    Route::post('/indikator/list/update', 'ListIndikatorController@update')->name('listindikator.update');
+    Route::get('/indikator/list/file/{id}', 'ListIndikatorController@show')->name('listindikator.show');
+    Route::get('/indikator/list/destroy/{id}', 'ListIndikatorController@destroy')->name('listindikator.destroy');
 
     Route::get('/indikator/report', 'RekapController@index')->name('rekap');
     Route::get('/indikator/report/month', 'RekapController@month')->name('rekap.month');
 
+    Route::get('/detail/range/{id}', 'RangeController@index')->name('rangeindikator');
+    Route::post('/range/store', 'RangeController@store')->name('rangeindikator.store');
+    Route::get('/range/delete/{id}', 'RangeController@delete')->name('rangeindikator.delete');
+
+    Route::get('/pelaporan/bulanan', 'PelaporanController@index')->name('lapor.bulanan');
+
     Route::get('/indikator/{id}', 'DetailIndikatorController@index')->name('detailindikator');
     Route::post('/indikator/detail/store', 'DetailIndikatorController@store')->name('detailindikator.store');
-    Route::get('/indikator/detail/edit/{id}', 'DetailIndikatorController@edit')->name('detailindikator.edit');
-    Route::post('/indikator/detail/update/{id}', 'DetailIndikatorController@update')->name('detailindikator.update');
-    Route::get('/indikator/detail/delete/{id}', 'DetailIndikatorController@delete')->name('detailindikator.delete');
+    Route::get('/detail/edit/{id}', 'DetailIndikatorController@edit')->name('detailindikator.edit');
+    Route::post('/detail/update/{id}', 'DetailIndikatorController@update')->name('detailindikator.update');
+    Route::get('/detail/delete/{id}', 'DetailIndikatorController@delete')->name('detailindikator.delete');
     Route::get('/indikator/detail/send/{id}', 'DetailIndikatorController@send')->name('detailindikator.send');
     Route::get('/indikator/approval/{id}', 'DetailIndikatorController@detail')->name('detailindikator.detail');
     Route::post('/indikator/approval/{id}', 'DetailIndikatorController@approved')->name('detailindikator.approved');

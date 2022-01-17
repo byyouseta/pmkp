@@ -9,7 +9,7 @@ use Illuminate\Support\Facades\DB;
 class DetailIndikator extends Model
 {
     protected $fillable = [
-        'nama', 'target', 'kategori_id', 'indikator_id', 'satuan_id'
+        'nama', 'target', 'kategori_id', 'indikator_id', 'satuan_id', 'do', 'numerator', 'denumerator', 'pengumpulan', 'pelaporan', 'sumberdata', 'user_id'
     ];
 
     public function indikator()
@@ -27,8 +27,18 @@ class DetailIndikator extends Model
         return $this->belongsTo('App\Satuan');
     }
 
+    public function user()
+    {
+        return $this->belongsTo('App\User');
+    }
+
     public function nilai()
     {
         return $this->hasMany('App\Nilai');
+    }
+
+    public function range()
+    {
+        return $this->hasMany('App\Range');
     }
 }

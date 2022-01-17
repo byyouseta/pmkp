@@ -2,7 +2,8 @@
     <!-- Sidebar user panel (optional) -->
     <div class="user-panel mt-3 pb-3 mb-3 d-flex">
         <div class="image">
-            <img src="{{ asset('template/dist/img/avatar4.png') }}" class="img-circle elevation-2" alt="User Image">
+            <img src="{{ asset('template/dist/img/avatar-default.png') }}" class="img-circle elevation-2"
+                alt="User Image">
         </div>
         <div class="info">
             <a href="#" class="d-block">{{ Auth::user()->name }}</a>
@@ -19,7 +20,6 @@
                     <i class="nav-icon fas fa-tachometer-alt"></i>
                     <p>
                         Dashboard
-
                     </p>
                 </a>
                 {{-- <ul class="nav nav-treeview">
@@ -42,23 +42,23 @@
                 <a href="#" class="nav-link">
                     <i class="nav-icon fas fa-thumbtack"></i>
                     <p>
-                        Imut
+                        Indikator
                         <i class="right fas fa-angle-left"></i>
                     </p>
                 </a>
                 <ul class="nav nav-treeview">
                     <li class="nav-item">
                         <a href="/indikator" class="nav-link">
-                            <i class="fas fa-thumbtack nav-icon"></i>
+                            <i class="fas fa-paper-plane nav-icon"></i>
 
-                            <p>Pengajuan Imut</p>
+                            <p>Pengajuan Indikator</p>
                         </a>
                     </li>
                     @can('approval-list')
                         <li class="nav-item">
                             <a href="/indikator/approval" class="nav-link">
-                                <i class="far fa-sticky-note nav-icon"></i>
-                                <p>Persetujuan Imut</p>
+                                <i class="fas fa-pen-fancy nav-icon"></i>
+                                <p>Persetujuan Indikator</p>
                             </a>
                         </li>
                     @endcan
@@ -66,26 +66,25 @@
                     <li class="nav-item">
                         <a href="/indikator/list" class="nav-link">
                             <i class="far fa-edit nav-icon"></i>
-                            <p>Pengisian Imut</p>
+                            <p>Pengisian Indikator</p>
                         </a>
                     </li>
                     <li class="nav-item">
                         <a href="/indikator/report" class="nav-link">
-                            <i class="far fa-edit nav-icon"></i>
-                            <p>Rekap Imut</p>
+                            <i class="far fa-calendar-alt nav-icon"></i>
+                            <p>Rekap Indikator Bulanan</p>
                         </a>
                     </li>
                 </ul>
             </li>
-            {{-- <li class="nav-item">
-                <a href="/lokal/approval" class="nav-link">
-                    <i class="nav-icon fas fa-sticky-note"></i>
+            <li class="nav-item">
+                <a href="/pelaporan/bulanan" class="nav-link">
+                    <i class="nav-icon fas fa-pen"></i>
                     <p>
-                        Persetujuan Imut Lokal
+                        Pelaporan Bulanan
                     </p>
                 </a>
-
-            </li> --}}
+            </li>
             @if (Auth::user()->can('user-list') || Auth::user()->can('unit-list') || Auth::user()->can('satuan-list') || Auth::user()->can('kategori-list'))
                 <li class="nav-item">
                     <a href="#" class="nav-link">

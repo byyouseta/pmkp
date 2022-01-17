@@ -76,7 +76,9 @@ class IndikatorController extends Controller
         session()->put('anak', 'Persetujuan Indikator Mutu');
         // Session::forget('anak');
 
-        // $data = Lokal::where('status', '1')->get();
+        // $data = Indikator::where('status', '1')
+        //     ->orWhere('status', '2')
+        //     ->get();
         $data = Indikator::all();
         // $data2 = Tahun::all();
         // if (Auth::user()->akses === 1) {

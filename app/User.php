@@ -50,4 +50,9 @@ class User extends Authenticatable
     {
         return $this->hasMany('App\Lokal');
     }
+
+    public function detailindikator()
+    {
+        return $this->hasMany('App\DetailIndikator');
+    }
 }

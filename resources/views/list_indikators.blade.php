@@ -15,11 +15,11 @@
         <div class="container-fluid">
             <div class="row">
                 <div class="col-12">
-                    <form action="/indikator/list/store" method="POST">
+                    {{-- <form action="/indikator/list/store" method="POST">
                         @csrf
                         <div class="card">
                             <div class="card-header">
-                                {{-- <h3 class="card-title">{{ session('anak') }}</h3> --}}
+                                
                                 <div class="form-group row">
                                     <label class="col-sm-1 col-form-label">Tanggal</label>
 
@@ -43,7 +43,6 @@
                                             <th>Kategori</th>
                                             <th>Target</th>
                                             <th>Catatan</th>
-                                            {{-- <th>Status</th> --}}
                                             <th>Nilai</th>
                                         </tr>
                                     </thead>
@@ -57,15 +56,18 @@
                                                 <td>
                                                     <input type="hidden" name="id[{{ $index }}]"
                                                         value="{{ $item->id }}">
-                                                    <div class="input-group">
-                                                        <input type="text" name="nilai[{{ $index }}]"
-                                                            class="form-control"
-                                                            placeholder="Ketikkan Nilai sesuai Tanggal" required />
-                                                        <div class="input-group-append">
-                                                            <span
-                                                                class="input-group-text">{{ $item->satuan->nama }}</span>
+                                                    @if (empty($item->denumerator) and empty($item->numerator))
+                                                        <div class="input-group">
+                                                            <input type="text" name="nilai[{{ $index }}]"
+                                                                class="form-control"
+                                                                placeholder="Ketikkan Nilai sesuai Tanggal" required />
+                                                            <div class="input-group-append">
+                                                                <span
+                                                                    class="input-group-text">{{ $item->satuan->nama }}</span>
+                                                            </div>
                                                         </div>
-                                                    </div>
+                                                    @endif
+
                                                 </td>
                                             </tr>
                                         @endforeach
@@ -78,17 +80,21 @@
                             </div>
                         </div>
                         <!-- /.card -->
-                    </form>
+                    </form> --}}
                     <div class="card">
-                        <div class="card-header">Info
+                        <div class="card-header">
+                            <div class="card-title">
+                                <b>List Indikator</b>
+                            </div>
                             @php
                                 $hari = \Carbon\Carbon::now();
                                 $jmlhari = \Carbon\Carbon::now()->daysInMonth;
                             @endphp
                         </div>
                         <div class="card-body">
+
                             <div style="overflow-x:auto;">
-                                <table class="table table-bordered table-hover">
+                                <table class="table table-striped table-bordered nowrap">
                                     <thead>
                                         <tr>
                                             <th rowspan="2">Nama Indikator</th>
@@ -115,7 +121,9 @@
                                         @foreach ($data2 as $main)
                                             <tr>
                                                 <td>
-                                                    {{ $main->nama }}
+                                                    <a href="/indikator/list/{{ Crypt::encrypt($main->id) }}"
+                                                        data-toggle="tooltip" data-placement="right"
+                                                        title="Klik untuk Input Data">{{ $main->nama }}</a>
                                                 </td>
 
                                                 @for ($n = 1; $n <= $jmlhari; $n++)
@@ -123,7 +131,18 @@
                                                         $tgl = \Carbon\Carbon::create($hari->year, $hari->month, $n, 0, 0, 0);
                                                     @endphp
                                                     @if (!empty(\App\Nilai::list($main->id, $tgl)))
-                                                        <td>{{ \App\Nilai::list($main->id, $tgl)->nilai }}{{ $main->satuan->nama }}
+                                                        <td>
+                                                            <a
+                                                                href="/indikator/{{ Crypt::encrypt($main->id) }}/edit/{{ Crypt::encrypt($tgl) }}">
+                                                                @if (!empty(\App\Nilai::list($main->id, $tgl)->nilai))
+                                                                    {{ \App\Nilai::list($main->id, $tgl)->nilai }}{{ $main->satuan->nama }}
+                                                                @else
+                                                                    @php
+                                                                        $nilai = (\App\Nilai::list($main->id, $tgl)->nilai_n / \App\Nilai::list($main->id, $tgl)->nilai_d) * 100;
+                                                                    @endphp
+                                                                    {{ number_format($nilai, 2) }}{{ $main->satuan->nama }}
+                                                                @endif
+                                                            </a>
                                                         </td>
                                                     @else
                                                         <td> -
@@ -138,6 +157,8 @@
                                     </tbody>
                                 </table>
                             </div>
+                            <small>* Klik pada indikator untuk input nilai</small><br>
+                            <small>* Klik pada nilai untuk edit nilai</small>
                         </div>
                     </div>
                 </div>
