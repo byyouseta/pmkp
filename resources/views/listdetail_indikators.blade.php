@@ -82,7 +82,7 @@
                                 <input type="hidden" name="id" value="{{ $data->id }}">
                                 @if (empty($data->denumerator) and empty($data->numerator))
                                     <div class="form-group row">
-                                        <label class="col-sm-2 col-form-label">Nilai</label>
+                                        <label class="col-sm-2 col-form-label">Capaian</label>
                                         <div class="col-sm-3 input-group">
                                             <input type="number" name="nilai" class="form-control"
                                                 placeholder="Ketikkan Nilai sesuai Tanggal" value="{{ old('nilai') }}"

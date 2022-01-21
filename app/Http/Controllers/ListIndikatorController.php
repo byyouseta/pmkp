@@ -19,7 +19,10 @@ class ListIndikatorController extends Controller
 {
     public function __construct()
     {
-        $this->middleware('auth');
+        $this->middleware('permission:pelaporan-harian-list', ['only' => ['index']]);
+        $this->middleware('permission:pelaporan-create', ['only' => ['store', 'detail', 'show']]);
+        $this->middleware('permission:pelaporan-edit', ['only' => ['edit', 'update']]);
+        $this->middleware('permission:pelaporan-delete', ['only' => ['delete', 'destroy']]);
     }
 
     public function index()
@@ -148,7 +151,6 @@ class ListIndikatorController extends Controller
         // code below
 
         if ($cek > 0) {
-
             Session::flash('error', 'Data pada tanggal tersebut sudah dimasukkan');
         } else {
 

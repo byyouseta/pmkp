@@ -15,7 +15,12 @@ class DetailIndikatorController extends Controller
 {
     public function __construct()
     {
-        $this->middleware('auth');
+        $this->middleware('permission:pengajuan-list', ['only' => ['index']]);
+        $this->middleware('permission:pengajuan-create', ['only' => ['store', 'send']]);
+        $this->middleware('permission:pengajuan-edit', ['only' => ['edit', 'update']]);
+        $this->middleware('permission:pengajuan-delete', ['only' => ['delete']]);
+        $this->middleware('permission:approval-list', ['only' => ['detail']]);
+        $this->middleware('permission:approval-create', ['only' => ['approved']]);
     }
 
     public function index($id)
@@ -56,7 +61,7 @@ class DetailIndikatorController extends Controller
             'target.numeric' => 'Target ditulis dengan format Angka!'
         ]);
 
-        // dd($request);
+        // dd(number_format($request->bobot, 2, '.', ','));
 
         $detail = new DetailIndikator();
         $detail->indikator_id = $request->id;
@@ -70,6 +75,7 @@ class DetailIndikatorController extends Controller
         $detail->numerator = $request->numerator;
         $detail->denumerator = $request->denumerator;
         $detail->sumberdata = $request->sumberdata;
+        $detail->bobot = number_format($request->bobot, 2, '.', '');
         $detail->catatan = $request->catatan;
         $detail->user_id = Auth::user()->id;
 
@@ -102,7 +108,7 @@ class DetailIndikatorController extends Controller
             'indikator' => 'required',
             'target' => 'required|numeric',
         ]);
-
+        // dd(number_format($request->bobot, 2, '.', ''));
         $update = DetailIndikator::find($id);
         $update->nama = $request->indikator;
         $update->target = $request->target;
@@ -114,6 +120,7 @@ class DetailIndikatorController extends Controller
         $update->numerator = $request->numerator;
         $update->denumerator = $request->denumerator;
         $update->sumberdata = $request->sumberdata;
+        $update->bobot = number_format($request->bobot, 2, '.', '');
         $update->catatan = $request->catatan;
         $update->user_id = Auth::user()->id;
         $update->save();

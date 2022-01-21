@@ -38,6 +38,12 @@
                                         </div>
                                     @endif
                                 </div>
+
+
+                            </div>
+
+
+                            <div class="col-6">
                                 <div class="form-group">
                                     <label>Kategori</label>
                                     <select class="form-control select2 " name="kategori" required>
@@ -52,6 +58,39 @@
                                     @if ($errors->has('kategori'))
                                         <div class="text-danger">
                                             {{ $errors->first('kategori') }}
+                                        </div>
+                                    @endif
+                                </div>
+                                <div class="form-group">
+                                    <label>Sumber Data</label><small>* Optional</small>
+                                    <div class="input-group mb-3">
+
+                                        <input type="text" name="sumberdata" class="form-control"
+                                            value="{{ $data->sumberdata }}" />
+                                        {{-- <div class="input-group-append">
+                                            <span class="input-group-text"><i class="fas fa-percent"></i></span>
+                                        </div> --}}
+                                    </div>
+                                    @if ($errors->has('sumberdata'))
+                                        <div class="text-danger">
+                                            {{ $errors->first('sumberdata') }}
+                                        </div>
+                                    @endif
+                                </div>
+                            </div>
+                            <div class="col-6">
+                                <div class="form-group">
+                                    <label>Numerator</label><small>* Optional</small>
+                                    <div class="input-group mb-3">
+                                        <input type="text" name="numerator" class="form-control"
+                                            value="{{ $data->numerator }}" />
+                                        {{-- <div class="input-group-append">
+                                            <span class="input-group-text"><i class="fas fa-percent"></i></span>
+                                        </div> --}}
+                                    </div>
+                                    @if ($errors->has('numerator'))
+                                        <div class="text-danger">
+                                            {{ $errors->first('numerator') }}
                                         </div>
                                     @endif
                                 </div>
@@ -75,6 +114,24 @@
                                         </div>
                                     @endif
                                 </div>
+                            </div>
+                            <div class="col-6">
+                                <div class="form-group">
+                                    <label>Denumerator</label><small>* Optional</small>
+                                    <div class="input-group mb-3">
+
+                                        <input type="text" name="denumerator" class="form-control"
+                                            value="{{ $data->denumerator }}" />
+                                        {{-- <div class="input-group-append">
+                                            <span class="input-group-text"><i class="fas fa-percent"></i></span>
+                                        </div> --}}
+                                    </div>
+                                    @if ($errors->has('denumerator'))
+                                        <div class="text-danger">
+                                            {{ $errors->first('denumerator') }}
+                                        </div>
+                                    @endif
+                                </div>
                                 <div class="form-group">
                                     <label>Periode Pelaporan</label>
                                     <select class="form-control select2 " name="pelaporan" required>
@@ -95,6 +152,8 @@
                                         </div>
                                     @endif
                                 </div>
+                            </div>
+                            <div class="col-4">
                                 <div class="form-group">
                                     <label>Target</label>
                                     <div class="input-group mb-3">
@@ -111,6 +170,8 @@
                                         </div>
                                     @endif
                                 </div>
+                            </div>
+                            <div class="col-4">
                                 <div class="form-group">
                                     <label>Satuan</label>
                                     <select class="form-control select2 " name="satuan" required>
@@ -129,67 +190,36 @@
                                     @endif
                                 </div>
                             </div>
-
-
+                            <div class="col-4">
+                                <div class="form-group">
+                                    <label>Bobot Penilaian</label>
+                                    <div class="input-group mb-3">
+                                        <input type="number" step="0.05" name="bobot" class="form-control" required
+                                            value="{{ $data->bobot }}" />
+                                        <div class="input-group-append">
+                                            <span class="input-group-text"><i class="fas fa-percent"></i></span>
+                                        </div>
+                                    </div>
+                                    @if ($errors->has('bobot'))
+                                        <div class="text-danger">
+                                            {{ $errors->first('bobot') }}
+                                        </div>
+                                    @endif
+                                </div>
+                            </div>
                             <div class="col-6">
                                 <div class="form-group">
-                                    <label>Numerator</label><small>* Optional</small>
-                                    <div class="input-group mb-3">
-                                        <input type="text" name="numerator" class="form-control"
-                                            value="{{ $data->numerator }}" />
-                                        {{-- <div class="input-group-append">
-                                            <span class="input-group-text"><i class="fas fa-percent"></i></span>
-                                        </div> --}}
-                                    </div>
-                                    @if ($errors->has('numerator'))
-                                        <div class="text-danger">
-                                            {{ $errors->first('numerator') }}
-                                        </div>
-                                    @endif
-                                </div>
-
-                                <div class="form-group">
-                                    <label>Denumerator</label><small>* Optional</small>
-                                    <div class="input-group mb-3">
-
-                                        <input type="text" name="denumerator" class="form-control"
-                                            value="{{ $data->denumerator }}" />
-                                        {{-- <div class="input-group-append">
-                                            <span class="input-group-text"><i class="fas fa-percent"></i></span>
-                                        </div> --}}
-                                    </div>
-                                    @if ($errors->has('denumerator'))
-                                        <div class="text-danger">
-                                            {{ $errors->first('denumerator') }}
-                                        </div>
-                                    @endif
-                                </div>
-                                <div class="form-group">
-                                    <label>Sumber Data</label><small>* Optional</small>
-                                    <div class="input-group mb-3">
-
-                                        <input type="text" name="sumberdata" class="form-control"
-                                            value="{{ $data->sumberdata }}" />
-                                        {{-- <div class="input-group-append">
-                                            <span class="input-group-text"><i class="fas fa-percent"></i></span>
-                                        </div> --}}
-                                    </div>
-                                    @if ($errors->has('sumberdata'))
-                                        <div class="text-danger">
-                                            {{ $errors->first('sumberdata') }}
-                                        </div>
-                                    @endif
-                                </div>
-                                <div class="form-group">
                                     <label>Catatan</label><small>* Optional</small>
-                                    <textarea name="catatan" rows="4" class="form-control"
-                                        required>{{ $data->catatan }}</textarea>
+                                    <textarea name="catatan" rows="4"
+                                        class="form-control">{{ $data->catatan }}</textarea>
                                     @if ($errors->has('catatan'))
                                         <div class="text-danger">
                                             {{ $errors->first('catatan') }}
                                         </div>
                                     @endif
                                 </div>
+                            </div>
+                            <div class="col-6">
                                 <div class="form-group">
                                     <label>PIC</label>
 

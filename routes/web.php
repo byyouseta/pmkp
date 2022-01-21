@@ -81,13 +81,19 @@ Route::group(['middleware' => ['auth']], function () {
     Route::get('/indikator/list/destroy/{id}', 'ListIndikatorController@destroy')->name('listindikator.destroy');
 
     Route::get('/indikator/report', 'RekapController@index')->name('rekap');
-    Route::get('/indikator/report/month', 'RekapController@month')->name('rekap.month');
+    Route::get('/indikator/report/harian', 'RekapController@harian')->name('rekap.harian');
+
+    Route::get('/report/bulanan', 'RekapBulananController@index')->name('rekapbulanan');
+    Route::get('/report/bulanan/bulan', 'RekapBulananController@bulanan')->name('rekapbulanan.bulanan');
+    Route::get('/report/{idt}/bulanan/{idh}/{id}', 'RekapBulananController@cetak')->name('rekapbulanan.cetak');
 
     Route::get('/detail/range/{id}', 'RangeController@index')->name('rangeindikator');
     Route::post('/range/store', 'RangeController@store')->name('rangeindikator.store');
     Route::get('/range/delete/{id}', 'RangeController@delete')->name('rangeindikator.delete');
 
-    Route::get('/pelaporan/bulanan', 'PelaporanController@index')->name('lapor.bulanan');
+    Route::get('/pelaporan/bulanan', 'PelaporanController@index')->name('lapor');
+    Route::get('/pelaporan/bulanan/cari', 'PelaporanController@cari')->name('lapor.cari');
+
 
     Route::get('/indikator/{id}', 'DetailIndikatorController@index')->name('detailindikator');
     Route::post('/indikator/detail/store', 'DetailIndikatorController@store')->name('detailindikator.store');

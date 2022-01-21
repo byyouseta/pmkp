@@ -14,10 +14,15 @@ use Illuminate\Support\Facades\Session;
 
 class RekapController extends Controller
 {
+    public function __construct()
+    {
+        $this->middleware('permission:rekap-harian', ['only' => ['index', 'harian']]);
+    }
+
     public function index()
     {
         session()->put('ibu', 'Indikator Mutu');
-        session()->put('anak', 'Rekap Nilai');
+        session()->put('anak', 'Rekap Nilai Harian');
 
         $hari = Carbon::now();
         $jmlhari = $hari->daysInMonth;
@@ -48,13 +53,13 @@ class RekapController extends Controller
         //     return redirect("/indikator");
         // }
 
-        return view('rekap_nilais', compact('data', 'data2', 'data3'));
+        return view('rekap_harian', compact('data', 'data2', 'data3'));
     }
 
-    public function month(Request $request)
+    public function harian(Request $request)
     {
         session()->put('ibu', 'Indikator Mutu');
-        session()->put('anak', 'Rekap Nilai Bulanan');
+        session()->put('anak', 'Rekap Nilai Harian');
 
         $this->validate($request, [
             'bulan' => 'required',
@@ -88,13 +93,15 @@ class RekapController extends Controller
         } else {
 
             $data2 = DetailIndikator::where('indikator_id', '=', $data->id)
+                ->where('pelaporan', 'Harian')
+                ->orWhere('pelaporan', 'Mingguan')
                 ->get();
 
             $data = Tahun::all();
             $data3 = Unit::all();
             // dd($data2);
 
-            return view('rekap_nilais', compact('data', 'data2', 'data3'));
+            return view('rekap_harian', compact('data', 'data2', 'data3'));
         }
     }
 }

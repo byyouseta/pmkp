@@ -50,7 +50,6 @@
                     <li class="nav-item">
                         <a href="/indikator" class="nav-link">
                             <i class="fas fa-paper-plane nav-icon"></i>
-
                             <p>Pengajuan Indikator</p>
                         </a>
                     </li>
@@ -62,29 +61,69 @@
                             </a>
                         </li>
                     @endcan
-
-                    <li class="nav-item">
-                        <a href="/indikator/list" class="nav-link">
-                            <i class="far fa-edit nav-icon"></i>
-                            <p>Pengisian Indikator</p>
-                        </a>
-                    </li>
-                    <li class="nav-item">
-                        <a href="/indikator/report" class="nav-link">
-                            <i class="far fa-calendar-alt nav-icon"></i>
-                            <p>Rekap Indikator Bulanan</p>
-                        </a>
-                    </li>
                 </ul>
             </li>
-            <li class="nav-item">
-                <a href="/pelaporan/bulanan" class="nav-link">
-                    <i class="nav-icon fas fa-pen"></i>
-                    <p>
-                        Pelaporan Bulanan
-                    </p>
-                </a>
-            </li>
+            @if (Auth::user()->can('pelaporan-harian-list') || Auth::user()->can('rekap-harian'))
+                <li class="nav-item">
+                    <a href="#" class="nav-link">
+                        <i class="nav-icon far fa-thumbs-up"></i>
+                        <p>
+                            PMKP
+                            <i class="right fas fa-angle-left"></i>
+                        </p>
+                    </a>
+                    <ul class="nav nav-treeview">
+                        @can('pelaporan-harian-list')
+                            <li class="nav-item">
+                                <a href="/indikator/list" class="nav-link">
+                                    <i class="far fa-edit nav-icon"></i>
+                                    <p>Pengisian Indikator Harian</p>
+                                </a>
+                            </li>
+                        @endcan
+                        @can('rekap-harian')
+                            <li class="nav-item">
+                                <a href="/indikator/report" class="nav-link">
+                                    <i class="far fa-calendar-alt nav-icon"></i>
+                                    <p>Rekap Indikator Harian</p>
+                                </a>
+                            </li>
+                        @endcan
+                    </ul>
+                </li>
+            @endif
+            @if (Auth::user()->can('pelaporan-bulanan-list') || Auth::user()->can('rekap-bulanan'))
+                <li class="nav-item">
+                    <a href="#" class="nav-link">
+                        <i class="nav-icon far fa-hospital"></i>
+                        <p>
+                            IKU
+                            <i class="right fas fa-angle-left"></i>
+                        </p>
+                    </a>
+                    <ul class="nav nav-treeview">
+                        @can('pelaporan-bulanan-list')
+                            <li class="nav-item">
+                                <a href="/pelaporan/bulanan" class="nav-link">
+                                    <i class="nav-icon fas fa-pen"></i>
+                                    <p>
+                                        Pelaporan Bulanan
+                                    </p>
+                                </a>
+                            </li>
+                        @endcan
+                        @can('rekap-bulanan')
+                            <li class="nav-item">
+                                <a href="/report/bulanan" class="nav-link">
+                                    <i class="far fa-calendar-alt nav-icon"></i>
+                                    <p>Rekap Bulanan</p>
+                                </a>
+                            </li>
+                        @endcan
+                    </ul>
+                </li>
+            @endif
+
             @if (Auth::user()->can('user-list') || Auth::user()->can('unit-list') || Auth::user()->can('satuan-list') || Auth::user()->can('kategori-list'))
                 <li class="nav-item">
                     <a href="#" class="nav-link">

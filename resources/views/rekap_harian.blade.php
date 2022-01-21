@@ -30,7 +30,7 @@
 
                     <div class="card">
                         <div class="card-header">
-                            <form action="/indikator/report/month" method="GET">
+                            <form action="/indikator/report/harian" method="GET">
 
                                 <div class="form-group row">
                                     <div class="col-sm-2 col-form-label">
@@ -176,7 +176,7 @@
                                                                         $nilai = (\App\Nilai::list($main->id, $tgl)->nilai_n / \App\Nilai::list($main->id, $tgl)->nilai_d) * 100;
                                                                         $totalnilai = $totalnilai + $nilai;
                                                                     @endphp
-                                                                    {{ $nilai }}{{ $main->satuan->nama }}
+                                                                    {{ number_format($nilai, 2) }}{{ $main->satuan->nama }}
                                                                 @endif
                                                             </td>
                                                         @else
@@ -187,7 +187,7 @@
                                                     <td>
                                                         @if ($main->pengumpulan == 'Harian')
                                                             {{ number_format($totalnilai / $hariaktif, 2) }}{{ $main->satuan->nama }}
-                                                        @elseif ($main->pengumpulan == "Mingguan")
+                                                        @elseif ($main->pengumpulan == 'Mingguan')
                                                             {{ number_format($totalnilai / $mingguaktif, 2) }}{{ $main->satuan->nama }}
                                                         @else
                                                             {{ number_format($totalnilai) }}{{ $main->satuan->nama }}

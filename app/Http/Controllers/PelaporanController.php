@@ -7,6 +7,7 @@ use App\Tahun;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Crypt;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Session;
 
@@ -14,7 +15,7 @@ class PelaporanController extends Controller
 {
     public function __construct()
     {
-        $this->middleware('auth');
+        $this->middleware('permission:pelaporan-bulanan-list', ['only' => ['index']]);
     }
 
     public function index()
@@ -65,5 +66,45 @@ class PelaporanController extends Controller
 
 
         // dd($data, $data2);
+    }
+
+    public function cari(Request $request)
+    {
+        $tahun = $request->input('tahun');
+        // $jmlhari = $hari->daysInMonth;
+
+        // $date1 = Carbon::create($hari->year, $hari->month, 1, 0, 0, 0);
+
+        $cek = DB::table('indikators')
+            ->join('tahuns', 'indikators.tahun_id', '=', 'tahuns.id')
+            ->select('indikators.*', 'tahuns.nama as tahun')
+            ->where('indikators.status', '=', 3)
+            ->where('indikators.unit_id', '=', Auth::user()->unit_id)
+            ->where('tahuns.nama', '=', $tahun)
+            ->first();
+
+        // dd($data);
+
+        if (empty($cek)) {
+            Session::flash('error', 'Belum ada indikator yang disetujui pada tahun ' . $tahun);
+
+            return redirect("/indikator");
+        } else {
+            $data2 = DetailIndikator::where('indikator_id', '=', $cek->id)
+                ->where('pelaporan', '=', 'Bulanan')
+                ->get();
+        }
+        // $query =  Nilai::where('detail_indikator_id', '=', 1)
+        //     ->orderBy('tanggal', 'ASC')
+        //     ->get();
+
+        // dd($data2);
+
+        $data = Tahun::all();
+
+        return view('lapor_bulanan', [
+            'data' => $data,
+            'data2' => $data2,
+        ]);
     }
 }

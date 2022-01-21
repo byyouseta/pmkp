@@ -16,7 +16,9 @@ class IndikatorController extends Controller
 {
     public function __construct()
     {
-        $this->middleware('auth');
+        $this->middleware('permission:indikator-list', ['only' => ['index']]);
+        $this->middleware('permission:indikator-create', ['only' => ['store']]);
+        $this->middleware('permission:approval-list', ['only' => ['approval']]);
     }
 
     public function index()
@@ -34,7 +36,9 @@ class IndikatorController extends Controller
         } else {
             $unit = (Auth::user()->unit_id);
             $data3 = Unit::where('id', '=', $unit)->get();
-            $data = Indikator::where('unit_id', '=', $unit)->get();
+            $data = Indikator::where('unit_id', '=', $unit)
+                ->orderBy('tahun_id', 'desc')
+                ->get();
             // dd($data3);
         }
 

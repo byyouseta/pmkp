@@ -96,25 +96,69 @@
                             </div>
                         </div>
                         <div class="card-body">
-                            {{-- <table id="example2" class="table table-bordered table-hover">
-                                <thead>
+                            {{-- <table class="table table-bordered table-hover">
+                                @foreach ($data2 as $data2)
+                                    <tr class="thead-dark">
+                                        <th>Kategori</th>
+                                        <th colspan="2">{{ $data2->kategori->nama }}</th>
+                                    </tr>
                                     <tr>
                                         <th>Indikator</th>
-                                        <th>Jenis Indikator</th>
-                                        <th>Target</th>
-                                        <th>Catatan</th>
+                                        <td colspan="2">{{ $data2->nama }}</td>
                                     </tr>
-                                </thead>
-                                <tbody>
-                                    @foreach ($data2 as $data2)
-                                        <tr>
-                                            <td>{{ $data2->nama }}</td>
-                                            <td>{{ $data2->kategori->nama }}</td>
-                                            <td>{{ $data2->target }} {{ $data2->satuan->nama }}</td>
-                                            <td>{{ $data2->catatan }}</td>
-                                        </tr>
-                                    @endforeach
-                                </tbody>
+                                    <tr>
+                                        <th>Definisi Operational</th>
+                                        <td colspan="2">{{ $data2->do }}</td>
+                                    </tr>
+                                    <tr>
+                                        <th>Frekuensi Pengumpulan</th>
+                                        <td colspan="2">{{ $data2->pengumpulan }}</td>
+                                    </tr>
+                                    <tr>
+                                        <th>Periode Pelaporan</th>
+                                        <td colspan="2">{{ $data2->pelaporan }}</td>
+                                    </tr>
+                                    <tr>
+                                        <th>Numerator</th>
+                                        <td colspan="2">{{ $data2->nilai_n }}</td>
+                                    </tr>
+                                    <tr>
+                                        <th>Denumerator</th>
+                                        <td colspan="2">{{ $data2->nilai_d }}</td>
+                                    </tr>
+                                    <tr>
+                                        <th>Sumber Data</th>
+                                        <td colspan="2">{{ $data2->sumber }}</td>
+                                    </tr>
+                                    <tr>
+                                        <th>Target</th>
+                                        <td colspan="2">{{ $data2->target }}</td>
+                                    </tr>
+                                    <tr>
+                                        <th>Catatan</th>
+                                        <td colspan="2">{{ $data2->catatan }}</td>
+                                    </tr>
+                                    <tr>
+                                        @if (!empty($data2->range->count()))
+                                            <th rowspan="{{ $data2->range->count() }}">Range</th>
+                                            @foreach ($data2->range as $rangelist)
+                                                <td>{{ $rangelist->awal }}{{ $data2->satuan->nama }} -
+                                                    {{ $rangelist->akhir }}{{ $data2->satuan->nama }}</td>
+                                                <td>{{ $rangelist->nilai }}</td>
+                                    </tr>
+                                @endforeach
+                            @else
+                                <tr>
+                                    <th>Range</th>
+                                    <td colspan="2"> - </td>
+                                </tr>
+                                @endif
+
+                                <tr>
+                                    <th>PIC</th>
+                                    <td colspan="2">{{ $data2->user->name }}</td>
+                                </tr>
+                                @endforeach
                             </table> --}}
                             <table id="example" class="table table-striped table-bordered nowrap" style="width:100%">
                                 <thead>
@@ -128,9 +172,9 @@
                                         <th>Denumerator</th>
                                         <th>Sumber Data</th>
                                         <th>Target</th>
-                                        <th style="min-width: 250px">Catatan</th>
+                                        <th>Bobot</th>
+                                        <th>Range</th>
                                         <th>PIC</th>
-
                                     </tr>
                                 </thead>
                                 <tbody>
@@ -144,24 +188,36 @@
                                             <td>{{ $data2->numerator }}</td>
                                             <td>{{ $data2->denumerator }}</td>
                                             <td>{{ $data2->sumberdata }}</td>
-                                            <td>{{ $data2->target }} {{ $data2->satuan->nama }}</td>
-                                            <td>
+                                            <td>{{ $data2->target }}
+                                                {{ $data2->satuan->nama }}</td>
+                                            <td>{{ $data2->bobot }}%</td>
+
+                                            {{-- <td>
                                                 @php
                                                     $paragraphs = explode(PHP_EOL, $data2->catatan);
                                                 @endphp
                                                 @foreach ($paragraphs as $paragraph)
                                                     <p>{{ $paragraph }}</p>
                                                 @endforeach
+                                            </td> --}}
+
+                                            <td>
+                                                @forelse ($data2->range as $rangelist)
+                                                    {{ $rangelist->nilai }}
+                                                    ({{ $rangelist->awal }}{{ $data2->satuan->nama }} -
+                                                    {{ $rangelist->akhir }}{{ $data2->satuan->nama }})
+                                                    <br>
+                                                @empty
+                                                    -
+                                                @endforelse
                                             </td>
                                             <td>
                                                 @if (!empty($data2->user_id))
                                                     {{ $data2->user->name }}
                                                 @endif
                                             </td>
-
                                         </tr>
                                     @endforeach
-
                                 </tbody>
                             </table>
                         </div>

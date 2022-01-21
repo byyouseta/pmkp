@@ -132,6 +132,9 @@
                                 Kembali</a>
                         </div>
                         <!-- /.card-header -->
+                        @php
+                            $total = 0;
+                        @endphp
                         <div class="card-body">
                             <table id="example" class="table table-striped table-bordered nowrap" style="width:100%">
                                 <thead>
@@ -145,6 +148,7 @@
                                         <th>Denumerator</th>
                                         <th>Sumber Data</th>
                                         <th>Target</th>
+                                        <th>Bobot</th>
                                         <th style="min-width: 250px">Catatan</th>
                                         <th>PIC</th>
                                         <th>Aksi</th>
@@ -162,6 +166,16 @@
                                             <td>{{ $data2->denumerator }}</td>
                                             <td>{{ $data2->sumberdata }}</td>
                                             <td>{{ $data2->target }} {{ $data2->satuan->nama }}</td>
+                                            <td>
+                                                @if (!empty($data2->bobot))
+                                                    {{ $data2->bobot }}%
+                                                    @php
+                                                        $total = $total + $data2->bobot;
+                                                    @endphp
+                                                @else
+                                                    -
+                                                @endif
+                                            </td>
                                             <td>
                                                 @php
                                                     $paragraphs = explode(PHP_EOL, $data2->catatan);
@@ -225,6 +239,25 @@
                                     @endforeach
 
                                 </tbody>
+
+                                <tfoot>
+                                    <tr>
+                                        @if ($total > 100)
+                                            <td colspan="9" class="text-center font-weight-bold text-danger">Total bobot
+                                                lebih dari 100%</td>
+                                            <td colspan="4" class="font-weight-bold text-danger">{{ $total }}%</td>
+                                        @elseif ($total < 100)
+                                            <td colspan="9" class="text-center font-weight-bold text-danger">Total bobot
+                                                kurang dari 100%</td>
+                                            <td colspan="4" class="font-weight-bold text-danger">{{ $total }}%</td>
+                                        @else
+                                            <td colspan="9" class="text-center font-weight-bold">Total bobot
+                                                100%</td>
+                                            <td colspan="4" class="font-weight-bold">{{ $total }}%</td>
+                                        @endif
+                                    </tr>
+                                </tfoot>
+
                             </table>
                         </div>
                         <!-- /.card-body -->
@@ -374,7 +407,7 @@
                                     @endif
                                 </div>
                             </div>
-                            <div class="col-6">
+                            <div class="col-4">
                                 <div class="form-group">
                                     <label>Target</label>
                                     <div class="input-group mb-3">
@@ -392,7 +425,7 @@
                                     @endif
                                 </div>
                             </div>
-                            <div class="col-6">
+                            <div class="col-4">
                                 <div class="form-group">
                                     <label>Satuan</label>
                                     <select class="form-control select2 " name="satuan" required>
@@ -407,6 +440,23 @@
                                     @if ($errors->has('satuan'))
                                         <div class="text-danger">
                                             {{ $errors->first('satuan') }}
+                                        </div>
+                                    @endif
+                                </div>
+                            </div>
+                            <div class="col-4">
+                                <div class="form-group">
+                                    <label>Bobot Penilaian</label>
+                                    <div class="input-group mb-3">
+                                        <input type="text" name="bobot" class="form-control" required
+                                            value="{{ old('bobot') }}" />
+                                        <div class="input-group-append">
+                                            <span class="input-group-text"><i class="fas fa-percent"></i></span>
+                                        </div>
+                                    </div>
+                                    @if ($errors->has('bobot'))
+                                        <div class="text-danger">
+                                            {{ $errors->first('bobot') }}
                                         </div>
                                     @endif
                                 </div>
@@ -426,7 +476,7 @@
                         </div>
                     </div>
                     <div class="modal-footer justify-content-between">
-                        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                        <button type="button" class="btn btn-default" data-dismiss="modal">Tutup</button>
                         <button type="submit" class="btn btn-primary">Simpan</button>
                     </div>
                 </form>

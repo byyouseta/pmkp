@@ -4,8 +4,8 @@
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <link rel="icon" href="{{ asset('template/dist/img/LogoRSUP.png') }}">
-    <title>PMKP RSUP SURAKARTA</title>
+    <link rel="icon" href="{{ asset('template/dist/img/kpi.png') }}">
+    <title>INDIKATOR PERFORMA RSUP SURAKARTA</title>
 
     <!-- Google Font: Source Sans Pro -->
     <link rel="stylesheet"

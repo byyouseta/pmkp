@@ -15,7 +15,7 @@
         <div class="container-fluid">
             <div class="row">
                 <div class="col-12">
-                    @if (Request::get('bulan'))
+                    @if (Request::get('tahun'))
                         @php
                             $hariini = \Carbon\Carbon::create(Request::get('tahun'), Request::get('bulan'), 1, 0, 0, 0);
                             $jmlhari = $hariini->daysInMonth;
@@ -30,33 +30,8 @@
 
                     <div class="card">
                         <div class="card-header">
-                            <form action="/indikator/report/month" method="GET">
-
+                            <form action="/pelaporan/bulanan/cari" method="GET">
                                 <div class="form-group row">
-                                    {{-- <div class="col-sm-2 col-form-label">
-                                        <label>Tahun</label>
-                                        <select class="form-control select2 " name="bulan" required>
-                                            <option value="1" {{ $hariini->month == 1 ? 'selected' : '' }}>Januari
-                                            </option>
-                                            <option value="2" {{ $hariini->month == 2 ? 'selected' : '' }}>Februari
-                                            </option>
-                                            <option value="3" {{ $hariini->month == 3 ? 'selected' : '' }}>Maret</option>
-                                            <option value="4" {{ $hariini->month == 4 ? 'selected' : '' }}>April</option>
-                                            <option value="5" {{ $hariini->month == 5 ? 'selected' : '' }}>Mei</option>
-                                            <option value="6" {{ $hariini->month == 6 ? 'selected' : '' }}>Juni</option>
-                                            <option value="7" {{ $hariini->month == 7 ? 'selected' : '' }}>Juli</option>
-                                            <option value="8" {{ $hariini->month == 8 ? 'selected' : '' }}>Agustus
-                                            </option>
-                                            <option value="9" {{ $hariini->month == 9 ? 'selected' : '' }}>September
-                                            </option>
-                                            <option value="10" {{ $hariini->month == 10 ? 'selected' : '' }}>Oktober
-                                            </option>
-                                            <option value="11" {{ $hariini->month == 11 ? 'selected' : '' }}>November
-                                            </option>
-                                            <option value="12" {{ $hariini->month == 12 ? 'selected' : '' }}>Desember
-                                            </option>
-                                        </select>
-                                    </div> --}}
                                     <div class="col-sm-2 col-form-label">
 
                                         <select class="form-control select2 " name="tahun" required>
@@ -130,21 +105,23 @@
                                                         $tgl = \Carbon\Carbon::create($hari->year, $i, 1, 0, 0, 0);
                                                     @endphp
                                                     @if (!empty(\App\Nilai::list($list->id, $tgl)))
-                                                        <td>
+                                                        <td class="text-center">
                                                             <a
                                                                 href="/indikator/{{ Crypt::encrypt($list->id) }}/edit/{{ Crypt::encrypt($tgl) }}">
                                                                 @if (!empty(\App\Nilai::list($list->id, $tgl)->nilai))
                                                                     {{ \App\Nilai::list($list->id, $tgl)->nilai }}{{ $list->satuan->nama }}
+                                                                    <small>({{ \Carbon\Carbon::parse(\App\Nilai::list($list->id, $tgl)->updated_at)->format('d-m-Y') }})</small>
                                                                 @else
                                                                     @php
                                                                         $nilai = (\App\Nilai::list($list->id, $tgl)->nilai_n / \App\Nilai::list($list->id, $tgl)->nilai_d) * 100;
                                                                     @endphp
                                                                     {{ number_format($nilai, 2) }}{{ $list->satuan->nama }}
+                                                                    <small>({{ \Carbon\Carbon::parse(\App\Nilai::list($list->id, $tgl)->updated_at)->format('d-m-Y') }})</small>
                                                                 @endif
                                                             </a>
                                                         </td>
                                                     @else
-                                                        <td> -
+                                                        <td class="text-center"> -
                                                         </td>
                                                     @endif
                                                 @endfor

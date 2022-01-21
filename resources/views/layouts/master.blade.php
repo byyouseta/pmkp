@@ -8,7 +8,8 @@ scratch. This page gets rid of all links and provides the needed markup only.
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>PMKP RSUP SURAKARTA</title>
+    <link rel="icon" href="{{ asset('template/dist/img/kpi.png') }}">
+    <title>INDIKATOR PERFORMA RSUP SURAKARTA</title>
 
     <!-- Google Font: Source Sans Pro -->
     <link rel="stylesheet"
@@ -37,9 +38,9 @@ scratch. This page gets rid of all links and provides the needed markup only.
         <aside class="main-sidebar sidebar-dark-primary elevation-4">
             <!-- Brand Logo -->
             <a href="/home" class="brand-link text-center">
-                {{-- <img src="dist/img/AdminLTELogo.png" alt="AdminLTE Logo" class="brand-image img-circle elevation-3"
+                {{-- <img src="dist/img/AdminLTELogo.png" alt="KPI Logo" class="brand-image img-circle elevation-3"
                     style="opacity: .8"> --}}
-                <span class="brand-text font-weight-light">PMKP RSUPSKA</span>
+                <span class="brand-text font-weight-light">IP RSUPSKA</span>
             </a>
 
             <!-- Sidebar -->

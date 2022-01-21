@@ -19,8 +19,8 @@ class Unit extends Model
         return $this->hasMany('App\User');
     }
 
-    public function lokal()
+    public function indikator()
     {
-        return $this->hasMany('App\Lokal');
+        return $this->hasMany('App\Indikator');
     }
 }
