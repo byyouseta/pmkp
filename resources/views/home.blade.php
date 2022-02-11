@@ -15,7 +15,8 @@
                                 </div>
                             @endif
 
-                            You are logged in!
+                            Selamat Datang, {{ Auth::user()->name }}. Anda telah masuk ke aplikasi sebagai
+                            {{ Auth::user()->getRoleNames() }} Unit/Poli {{ Auth::user()->unit->nama }}.
                         </div>
                     </div>
                 </div>
