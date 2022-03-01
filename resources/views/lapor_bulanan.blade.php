@@ -22,7 +22,7 @@
                         @endphp
                     @else
                         @php
-                            
+
                             $hariini = \Carbon\Carbon::now();
                             $jmlhari = \Carbon\Carbon::now()->daysInMonth;
                         @endphp
@@ -43,20 +43,20 @@
                                         </select>
                                     </div>
 
-                                    <div class="col-sm-2 col-form-label">
-                                        <button type="Submit" class="btn btn-primary">Lihat</button>
+                                    <div class="col-sm-1 col-form-label">
+                                        <button type="Submit" class="btn btn-primary btn-block">Lihat</button>
                                     </div>
                                 </div>
                             </form>
                             @if (Request::get('bulan'))
                                 @php
                                     $hari = $hariini;
-                                    
+
                                 @endphp
                             @else
                                 @php
                                     $hari = \Carbon\Carbon::now();
-                                    
+
                                 @endphp
                             @endif
 
@@ -141,11 +141,8 @@
         </div>
         <!-- /.container-fluid -->
     </section>
-
-
 @endsection
 @section('plugin')
-
     <script src="{{ asset('template/plugins/datatables/jquery.dataTables.min.js') }}"></script>
     <script src="{{ asset('template/plugins/datatables-bs4/js/dataTables.bootstrap4.min.js') }}"></script>
     <script src="{{ asset('template/plugins/datatables-responsive/js/dataTables.responsive.min.js') }}"></script>

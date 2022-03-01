@@ -88,7 +88,7 @@ class PelaporanController extends Controller
         if (empty($cek)) {
             Session::flash('error', 'Belum ada indikator yang disetujui pada tahun ' . $tahun);
 
-            return redirect("/indikator");
+            return redirect("/pelaporan/bulanan");
         } else {
             $data2 = DetailIndikator::where('indikator_id', '=', $cek->id)
                 ->where('pelaporan', '=', 'Bulanan')

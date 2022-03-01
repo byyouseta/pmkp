@@ -76,12 +76,13 @@
                                         </div>
                                     @endcan
                                     <div class="col-sm-1 col-form-label">
-                                        <button type="Submit" class="btn btn-primary">Lihat</button>
+                                        <button type="Submit" class="btn btn-primary btn-block">Lihat</button>
                                     </div>
                                     @if (!empty(Request::get('bulan')))
-                                        <div class="col-sm-2 col-form-label">
+                                        <div class="col-sm-1 col-form-label">
                                             <a href="/report/{{ Request::get('bulan') }}/bulanan/{{ Request::get('tahun') }}/{{ Crypt::encrypt(Request::get('unit')) }}"
-                                                class="btn btn-secondary" target="_blank"><i class="fas fa-print"></i>
+                                                class="btn btn-secondary btn-block" target="_blank"><i
+                                                    class="fas fa-print"></i>
                                                 Print</a>
                                         </div>
                                     @endif
@@ -134,7 +135,11 @@
                                                                 {{ \App\Nilai::list($list->id, $tgl)->nilai }}{{ $list->satuan->nama }}
                                                             @else
                                                                 @php
-                                                                    $nilai = (\App\Nilai::list($list->id, $tgl)->nilai_n / \App\Nilai::list($list->id, $tgl)->nilai_d) * 100;
+                                                                    if (\App\Nilai::list($list->id, $tgl)->nilai_n != 0 and \App\Nilai::list($list->id, $tgl)->nilai_d != 0) {
+                                                                        $nilai = (\App\Nilai::list($list->id, $tgl)->nilai_n / \App\Nilai::list($list->id, $tgl)->nilai_d) * 100;
+                                                                    } else {
+                                                                        $nilai = 0;
+                                                                    }
                                                                 @endphp
                                                                 {{ number_format($nilai, 2) }}{{ $list->satuan->nama }}
                                                             @endif
@@ -157,25 +162,24 @@
                                                         <td> -
                                                         </td>
                                                     @endif
-                                                    @if ((!empty(\App\Nilai::list($list->id,
-                                                    $tgl)))&&(!empty(\App\Nilai::haper($list->id, $tgl))))
-                                                    @php
-                                                        $persentase = (\App\Nilai::haper($list->id, $tgl)->nilai * $list->bobot) / 100;
-                                                        $totalpersen = $totalpersen + $persentase;
-                                                    @endphp
-                                                    <td>
-                                                        {{ $persentase }}
-                                                    </td>
-                                                @else
-                                                    <td> -
-                                                    </td>
-                                            @endif
+                                                    @if (!empty(\App\Nilai::list($list->id, $tgl)) && !empty(\App\Nilai::haper($list->id, $tgl)))
+                                                        @php
+                                                            $persentase = (\App\Nilai::haper($list->id, $tgl)->nilai * $list->bobot) / 100;
+                                                            $totalpersen = $totalpersen + $persentase;
+                                                        @endphp
+                                                        <td>
+                                                            {{ $persentase }}
+                                                        </td>
+                                                    @else
+                                                        <td> -
+                                                        </td>
+                                                    @endif
+                                                </tr>
+                                            @endforeach
+                                        @else
+                                            <tr>
+                                                <td colspan="16" class="text-center">Data tidak ditemukan</td>
                                             </tr>
-                                        @endforeach
-                                    @else
-                                        <tr>
-                                            <td colspan="16" class="text-center">Data tidak ditemukan</td>
-                                        </tr>
                                         @endif
 
                                     </tbody>
@@ -208,7 +212,6 @@
 
 @endsection
 @section('plugin')
-
     <script src="{{ asset('template/plugins/datatables/jquery.dataTables.min.js') }}"></script>
     <script src="{{ asset('template/plugins/datatables-bs4/js/dataTables.bootstrap4.min.js') }}"></script>
     <script src="{{ asset('template/plugins/datatables-responsive/js/dataTables.responsive.min.js') }}"></script>

@@ -32,11 +32,15 @@ class Nilai extends Model
         $query =  Nilai::where('detail_indikator_id', '=', $id)
             ->where('tanggal', '=', $ids)
             ->first();
-        if (!empty($query->nilai)) {
+        if ((!empty($query->nilai)) and ($query->nilai > 0)) {
             $nilai = $query->nilai;
-        } else {
+        } elseif ((!empty($query->nilai)) and ($query->nilai > 0)) {
+            $nilai = 0;
+        } elseif (($query->nilai_n != 0) and ($query->nilai_d != 0)) {
             $nilai = number_format($query->nilai_n / $query->nilai_d, 2, '.', '');
             $nilai = $nilai * 100;
+        } else {
+            $nilai = 0;
         }
 
         $cek = Range::where('detail_indikator_id', '=', $id)
