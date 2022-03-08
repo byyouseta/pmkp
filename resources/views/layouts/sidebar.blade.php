@@ -37,32 +37,36 @@
                     </li>
                 </ul> --}}
             </li>
+            @if (Auth::user()->can('indikator-list') || Auth::user()->can('approval-list'))
+                <li class="nav-item">
+                    <a href="#" class="nav-link">
+                        <i class="nav-icon fas fa-thumbtack"></i>
+                        <p>
+                            Indikator
+                            <i class="right fas fa-angle-left"></i>
+                        </p>
+                    </a>
+                    <ul class="nav nav-treeview">
+                        @can('indikator-list')
+                            <li class="nav-item">
+                                <a href="/indikator" class="nav-link">
+                                    <i class="fas fa-paper-plane nav-icon"></i>
+                                    <p>Pengajuan Indikator</p>
+                                </a>
+                            </li>
+                        @endcan
+                        @can('approval-list')
+                            <li class="nav-item">
+                                <a href="/indikator/approval" class="nav-link">
+                                    <i class="fas fa-pen-fancy nav-icon"></i>
+                                    <p>Persetujuan Indikator</p>
+                                </a>
+                            </li>
+                        @endcan
+                    </ul>
+                </li>
+            @endif
 
-            <li class="nav-item">
-                <a href="#" class="nav-link">
-                    <i class="nav-icon fas fa-thumbtack"></i>
-                    <p>
-                        Indikator
-                        <i class="right fas fa-angle-left"></i>
-                    </p>
-                </a>
-                <ul class="nav nav-treeview">
-                    <li class="nav-item">
-                        <a href="/indikator" class="nav-link">
-                            <i class="fas fa-paper-plane nav-icon"></i>
-                            <p>Pengajuan Indikator</p>
-                        </a>
-                    </li>
-                    @can('approval-list')
-                        <li class="nav-item">
-                            <a href="/indikator/approval" class="nav-link">
-                                <i class="fas fa-pen-fancy nav-icon"></i>
-                                <p>Persetujuan Indikator</p>
-                            </a>
-                        </li>
-                    @endcan
-                </ul>
-            </li>
             @if (Auth::user()->can('pelaporan-harian-list') || Auth::user()->can('rekap-harian'))
                 <li class="nav-item">
                     <a href="#" class="nav-link">

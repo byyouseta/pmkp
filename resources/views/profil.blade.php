@@ -38,16 +38,7 @@
                                         </div>
                                     @endif
                                 </div>
-                                <div class="form-group">
-                                    <label>Email</label>
-                                    <input type="text" class="form-control" placeholder="Masukkan Email User" name="email"
-                                        value="{{ $data->email }}">
-                                    @if ($errors->has('email'))
-                                        <div class="text-danger">
-                                            {{ $errors->first('email') }}
-                                        </div>
-                                    @endif
-                                </div>
+
                                 <div class="form-group">
                                     <label>Alamat</label>
                                     <textarea class="form-control" rows="3" placeholder="Masukkan Alamat Rumah"
@@ -62,6 +53,16 @@
 
                             <div class="col-6">
                                 <div class="form-group">
+                                    <label>Email</label>
+                                    <input type="text" class="form-control" placeholder="Masukkan Email User" name="email"
+                                        value="{{ $data->email }}">
+                                    @if ($errors->has('email'))
+                                        <div class="text-danger">
+                                            {{ $errors->first('email') }}
+                                        </div>
+                                    @endif
+                                </div>
+                                <div class="form-group">
                                     <label>No Handphone</label>
 
                                     <div class="input-group">
@@ -73,7 +74,7 @@
                                         </div>
                                     @endif
                                 </div>
-                                <div class="form-group">
+                                {{-- <div class="form-group">
                                     <label>Unit</label>
                                     <select class="form-control select2 " name="unit">
                                         <option value="">Pilih</option>
@@ -89,8 +90,7 @@
                                             {{ $errors->first('unit') }}
                                         </div>
                                     @endif
-                                </div>
-
+                                </div> --}}
                                 <div class="form-group">
                                     <label>Pembaharuan Terakhir</label>
 

@@ -23,6 +23,9 @@ class Nilai extends Model
 
         // $nilai = $query->nilai;
         // dd($query);
+        // if (empty($query)) {
+        //     $query = null;
+        // }
 
         return $query;
     }
@@ -43,11 +46,13 @@ class Nilai extends Model
             $nilai = 0;
         }
 
+        // dd($nilai);
+
         $cek = Range::where('detail_indikator_id', '=', $id)
             ->where('awal', '<=', $nilai)
             ->where('akhir', '>=', $nilai)
             ->first();
-        // dd($query);
+        // dd($cek);
 
         return $cek;
     }

@@ -44,7 +44,7 @@ class RekapBulananController extends Controller
         //         ->get();
 
         $data = Tahun::all();
-        $data3 = Unit::all();
+        $data3 = Unit::orderBy('nama', 'asc')->get();
         $data2 = null;
 
         //     return view('rekap_nilais', compact('data', 'data2', 'data3'));

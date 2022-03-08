@@ -23,7 +23,7 @@
         <!-- /.login-logo -->
         <div class="card card-outline card-primary">
             <div class="card-header text-center">
-                <a href="/" class="h1"><b>PMKP<br><small>RSUP Surakarta</small></a>
+                <a href="/" class="h1"><b>Indikator Performa<br><small>RSUP Surakarta</small></a>
             </div>
             <div class="card-body">
                 <p class="login-box-msg">Silahkan Masuk</p>

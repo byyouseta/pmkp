@@ -114,9 +114,9 @@ class UserController extends Controller
         // session()->put('anak', 'Master Users');
 
         $data = User::find(Auth::user()->id);
-        $data2 = Unit::all();
+        // $data2 = Unit::all();
 
-        return view('profil', compact('data', 'data2'));
+        return view('profil', compact('data'));
     }
 
     public function profileupdate(Request $request)
@@ -127,7 +127,7 @@ class UserController extends Controller
             'username' => 'required|unique:users,username,' . Auth::user()->id,
             'email' => 'required|email|unique:users,email,' . Auth::user()->id,
             // 'akses' => 'required',
-            'unit' => 'required',
+            // 'unit' => 'required',
             'nohp' => 'numeric|digits_between:10,13|unique:users,nohp,' . Auth::user()->id,
         ]);
 
@@ -137,7 +137,7 @@ class UserController extends Controller
         $user->email = $request->email;
         $user->alamat = $request->alamat;
         $user->nohp = $request->nohp;
-        $user->unit_id = $request->unit;
+        // $user->unit_id = $request->unit;
         // $user->akses = $request->akses;
         $user->save();
 

@@ -130,9 +130,18 @@
                                                     @endphp
                                                     @if (!empty(\App\Nilai::list($list->id, $tgl)))
                                                         <td>
-
                                                             @if (!empty(\App\Nilai::list($list->id, $tgl)->nilai))
-                                                                {{ \App\Nilai::list($list->id, $tgl)->nilai }}{{ $list->satuan->nama }}
+                                                                @php
+                                                                    if (\App\Nilai::list($list->id, $tgl)->nilai != 0) {
+                                                                        $nilai = \App\Nilai::list($list->id, $tgl)->nilai;
+                                                                    } else {
+                                                                        $nilai = 0;
+                                                                    }
+                                                                @endphp
+                                                                {{ $nilai }}
+                                                                @if ($list->satuan->nama == '%')
+                                                                    {{ $list->satuan->nama }}
+                                                                @endif
                                                             @else
                                                                 @php
                                                                     if (\App\Nilai::list($list->id, $tgl)->nilai_n != 0 and \App\Nilai::list($list->id, $tgl)->nilai_d != 0) {
@@ -141,7 +150,10 @@
                                                                         $nilai = 0;
                                                                     }
                                                                 @endphp
-                                                                {{ number_format($nilai, 2) }}{{ $list->satuan->nama }}
+                                                                {{ number_format($nilai, 2) }}
+                                                                @if ($list->satuan->nama == '%')
+                                                                    {{ $list->satuan->nama }}
+                                                                @endif
                                                             @endif
                                                         </td>
                                                     @else
@@ -151,7 +163,12 @@
                                                     @if (!empty(\App\Nilai::list($list->id, $tgl)))
                                                         @if ($list->range->count() > 0)
                                                             <td>
-                                                                {{ \App\Nilai::haper($list->id, $tgl)->nilai }}
+                                                                @if (!empty(\App\Nilai::haper($list->id, $tgl)->nilai))
+                                                                    {{ \App\Nilai::haper($list->id, $tgl)->nilai }}
+                                                                @else
+                                                                    Nilai tidak ada dalam range
+                                                                @endif
+
                                                             </td>
                                                         @else
                                                             <td>

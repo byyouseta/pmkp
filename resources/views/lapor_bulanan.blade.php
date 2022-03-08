@@ -111,7 +111,7 @@
                                                                 @if (!empty(\App\Nilai::list($list->id, $tgl)->nilai))
                                                                     {{ \App\Nilai::list($list->id, $tgl)->nilai }}{{ $list->satuan->nama }}
                                                                     <small>({{ \Carbon\Carbon::parse(\App\Nilai::list($list->id, $tgl)->updated_at)->format('d-m-Y') }})</small>
-                                                                @else
+                                                                @elseif (\App\Nilai::list($list->id, $tgl)->nilai_n > 0)
                                                                     @php
                                                                         $nilai = (\App\Nilai::list($list->id, $tgl)->nilai_n / \App\Nilai::list($list->id, $tgl)->nilai_d) * 100;
                                                                     @endphp
