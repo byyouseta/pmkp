@@ -25,27 +25,27 @@
                             <table id="example2" class="table table-bordered table-hover">
                                 <thead>
                                     <tr>
-                                        <th>Nama</th>
-                                        <th>Penulisan</th>
-                                        <th>Keterangan</th>
+                                        <th>Nilai Awal</th>
+                                        <th>Nilai Akhir</th>
+                                        <th>Nilai</th>
                                         <th>Aksi</th>
                                     </tr>
                                 </thead>
                                 <tbody>
                                     @foreach ($data as $data)
                                         <tr>
-                                            <td>{{ $data->nama }}</td>
-                                            <td>{{ $data->posisi }}</td>
-                                            <td>{{ $data->keterangan }}</td>
+                                            <td>{{ $data->awal }}</td>
+                                            <td>{{ $data->akhir }}</td>
+                                            <td>{{ $data->nilai }}</td>
                                             <td>
                                                 <div class="col text-center">
                                                     <div class="btn-group align-center">
-                                                        <a href="/satuan/edit/{{ Crypt::encrypt($data->id) }}"
+                                                        <a href="/rangeiku/edit/{{ Crypt::encrypt($data->id) }}"
                                                             class="btn btn-warning btn-sm @cannot('satuan-edit') disabled @endcannot"
                                                             data-toggle="tooltip" data-placement="bottom" title="Ubah">
                                                             <i class="fas fa-pencil-alt"></i>
                                                         </a>
-                                                        <a href="/satuan/delete/{{ Crypt::encrypt($data->id) }}"
+                                                        <a href="/rangeiku/delete/{{ Crypt::encrypt($data->id) }}"
                                                             class="btn btn-danger btn-sm delete-confirm @cannot('satuan-edit') disabled @endcannot"
                                                             data-toggle="tooltip" data-placement="bottom" title="Hapus">
                                                             <i class="fas fa-ban"></i>
@@ -74,42 +74,38 @@
         <div class="modal-dialog">
             <div class="modal-content">
                 <div class="modal-header">
-                    <h4 class="modal-title">Tambah Satuan</h4>
+                    <h4 class="modal-title">Tambah Range</h4>
                     <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                         <span aria-hidden="true">&times;</span>
                     </button>
                 </div>
                 <div class="modal-body">
-                    <form method="POST" action="/satuan/store">
+                    <form method="POST" action="/rangeiku/store">
                         @csrf
                         <div class="form-group">
-                            <label>Nama Satuan</label>
-                            <input type="text" class="form-control" name="nama" value="{{ old('nama') }}" required />
-                            @error('nama')
+                            <label>Nilai Awal</label>
+                            <input type="number" class="form-control" name="awal" value="{{ old('awal') }}" required />
+                            @error('awal')
                                 <span class="invalid-feedback text-red" role="alert">
                                     <strong>{{ $message }}</strong>
                                 </span>
                             @enderror
                         </div>
                         <div class="form-group">
-                            <label>Penulisan Satuan</label>
-                            <select class="form-control" name="posisi">
-                                <option value="Diawal">Diawal
-                                </option>
-                                <option value="Diakhir">Diakhir
-                                </option>
-                            </select>
-                            @if ($errors->has('posisi'))
-                                <div class="text-danger">
-                                    {{ $errors->first('posisi') }}
-                                </div>
-                            @endif
+                            <label>Nilai Akhir</label>
+                            <input type="number" class="form-control" name="akhir" value="{{ old('akhir') }}"
+                                required />
+                            @error('akhir')
+                                <span class="invalid-feedback text-red" role="alert">
+                                    <strong>{{ $message }}</strong>
+                                </span>
+                            @enderror
                         </div>
                         <div class="form-group">
-                            <label>Keterangan</label>
-                            <textarea class="form-control" name="keterangan"
-                                required>{{ old('keterangan') }}</textarea>
-                            @error('keterangan')
+                            <label>Nilai</label>
+                            <input type="number" step=".01" max="1" class="form-control" name="nilai"
+                                value="{{ old('nilai') }}" required />
+                            @error('nilai')
                                 <span class="invalid-feedback text-red" role="alert">
                                     <strong>{{ $message }}</strong>
                                 </span>

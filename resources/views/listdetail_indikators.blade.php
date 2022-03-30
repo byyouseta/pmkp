@@ -16,7 +16,7 @@
             <div class="row">
                 <div class="col-12">
                     @php
-                        
+
                         $hariini = \Carbon\Carbon::now();
                         $jmlhari = \Carbon\Carbon::now()->daysInMonth;
                     @endphp
@@ -84,9 +84,10 @@
                                     <div class="form-group row">
                                         <label class="col-sm-2 col-form-label">Capaian</label>
                                         <div class="col-sm-3 input-group">
-                                            <input type="number" name="nilai" class="form-control"
+                                            <input type="number" name="nilai" class="form-control" step="any"
                                                 placeholder="Ketikkan Nilai sesuai Tanggal" value="{{ old('nilai') }}"
-                                                required autocomplete="off" @if ($data->satuan->nama == '%') max="100" @endif />
+                                                required autocomplete="off"
+                                                @if ($data->satuan->nama == '%') max="100" @endif />
                                             <div class="input-group-append">
                                                 <span class="input-group-text">{{ $data->satuan->nama }}</span>
                                             </div>
@@ -100,6 +101,12 @@
                                                 <label class="custom-file-label" for="customFile">Pilih atau drop file
                                                     disini</label>
                                             </div>
+                                        </div>
+                                    </div>
+                                    <div class="form-group row">
+                                        <label class="col-sm-2 col-form-label"></label>
+                                        <div class="col-sm-5 input-group">
+                                            <small>* File dalam bentuk PDF/JPEG/JPG Maksimal 2Mb</small>
                                         </div>
                                     </div>
                                 @else
@@ -193,7 +200,6 @@
         </div>
         <!-- /.container-fluid -->
     </section>
-
 @endsection
 @section('plugin')
     <!-- bs-custom-file-input -->
@@ -210,5 +216,4 @@
             });
         });
     </script>
-
 @endsection

@@ -38,6 +38,7 @@ class SatuanController extends Controller
 
         $unit = new Satuan();
         $unit->nama = $request->nama;
+        $unit->posisi = $request->posisi;
         $unit->keterangan = $request->keterangan;
         $unit->save();
 
@@ -63,6 +64,7 @@ class SatuanController extends Controller
 
         $unit = Satuan::find($id);
         $unit->nama = $request->nama;
+        $unit->posisi = $request->posisi;
         $unit->keterangan = $request->keterangan;
         $unit->save();
 

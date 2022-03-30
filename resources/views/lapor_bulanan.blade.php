@@ -99,7 +99,15 @@
                                                     </a>
                                                 </td>
                                                 <td>{{ $list->kategori->nama }}</td>
-                                                <td>{{ $list->target }} {{ $list->satuan->nama }}</td>
+                                                <td>
+                                                    @if ($list->satuan->posisi == 'Diawal')
+                                                        {{ $list->satuan->nama }}
+                                                        {{ $list->target }}
+                                                    @else
+                                                        {{ $list->target }}
+                                                        {{ $list->satuan->nama }}
+                                                    @endif
+                                                </td>
                                                 @for ($i = 1; $i <= 12; $i++)
                                                     @php
                                                         $tgl = \Carbon\Carbon::create($hari->year, $i, 1, 0, 0, 0);
@@ -109,14 +117,38 @@
                                                             <a
                                                                 href="/indikator/{{ Crypt::encrypt($list->id) }}/edit/{{ Crypt::encrypt($tgl) }}">
                                                                 @if (!empty(\App\Nilai::list($list->id, $tgl)->nilai))
-                                                                    {{ \App\Nilai::list($list->id, $tgl)->nilai }}{{ $list->satuan->nama }}
+                                                                    @if ($list->satuan->posisi == 'Diawal')
+                                                                        {{ $list->satuan->nama }}
+                                                                        {{ \App\Nilai::list($list->id, $tgl)->nilai }}
+                                                                    @else
+                                                                        {{ \App\Nilai::list($list->id, $tgl)->nilai }}
+                                                                        {{ $list->satuan->nama }}
+                                                                    @endif
+                                                                    <small>({{ \Carbon\Carbon::parse(\App\Nilai::list($list->id, $tgl)->updated_at)->format('d-m-Y') }})</small>
+                                                                @elseif (\App\Nilai::list($list->id, $tgl)->nilai == 0)
+                                                                    @if ($list->satuan->posisi == 'Diawal')
+                                                                        {{ $list->satuan->nama }}
+                                                                        {{ \App\Nilai::list($list->id, $tgl)->nilai }}
+                                                                    @else
+                                                                        {{ \App\Nilai::list($list->id, $tgl)->nilai }}
+                                                                        {{ $list->satuan->nama }}
+                                                                    @endif
                                                                     <small>({{ \Carbon\Carbon::parse(\App\Nilai::list($list->id, $tgl)->updated_at)->format('d-m-Y') }})</small>
                                                                 @elseif (\App\Nilai::list($list->id, $tgl)->nilai_n > 0)
                                                                     @php
                                                                         $nilai = (\App\Nilai::list($list->id, $tgl)->nilai_n / \App\Nilai::list($list->id, $tgl)->nilai_d) * 100;
                                                                     @endphp
-                                                                    {{ number_format($nilai, 2) }}{{ $list->satuan->nama }}
+                                                                    @if ($list->satuan->posisi == 'Diawal')
+                                                                        {{ $list->satuan->nama }}
+                                                                        {{ number_format($nilai, 2) }}
+                                                                    @else
+                                                                        {{ number_format($nilai, 2) }}
+                                                                        {{ $list->satuan->nama }}
+                                                                    @endif
+
                                                                     <small>({{ \Carbon\Carbon::parse(\App\Nilai::list($list->id, $tgl)->updated_at)->format('d-m-Y') }})</small>
+                                                                @else
+                                                                    -
                                                                 @endif
                                                             </a>
                                                         </td>

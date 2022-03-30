@@ -120,8 +120,17 @@
                                                     <td class="text-center">{{ $list->bobot }}%</td>
                                                     <td>
                                                         @foreach ($list->range as $rangelist)
-                                                            ({{ $rangelist->awal }}{{ $list->satuan->nama }}-{{ $rangelist->akhir }}{{ $list->satuan->nama }})
-                                                            {{ $rangelist->nilai }}
+                                                            @if ($list->satuan->posisi == 'Diawal')
+                                                                ({{ $list->satuan->nama }}
+                                                                {{ $rangelist->awal }}-{{ $list->satuan->nama }}
+                                                                {{ $rangelist->akhir }})
+                                                                {{ $rangelist->nilai }}
+                                                            @else
+                                                                ({{ $rangelist->awal }}
+                                                                {{ $list->satuan->nama }}-{{ $rangelist->akhir }}
+                                                                {{ $list->satuan->nama }})
+                                                                {{ $rangelist->nilai }}
+                                                            @endif
                                                             <br>
                                                         @endforeach
                                                     </td>
@@ -138,9 +147,18 @@
                                                                         $nilai = 0;
                                                                     }
                                                                 @endphp
-                                                                {{ $nilai }}
-                                                                @if ($list->satuan->nama == '%')
+
+                                                                @if ($list->satuan->posisi == 'Diawal')
                                                                     {{ $list->satuan->nama }}
+                                                                    {{ $nilai }}
+                                                                @else
+                                                                    {{ $nilai }}
+                                                                    {{ $list->satuan->nama }}
+                                                                @endif
+                                                                @if (!empty(\App\Nilai::list($list->id, $tgl)->file))
+                                                                    <a href="/indikator/list/file/{{ \App\Nilai::list($list->id, $tgl)->file }}"
+                                                                        class="btn btn-success btn-sm"
+                                                                        target="new_tab">Bukti</a>
                                                                 @endif
                                                             @else
                                                                 @php
@@ -150,9 +168,18 @@
                                                                         $nilai = 0;
                                                                     }
                                                                 @endphp
-                                                                {{ number_format($nilai, 2) }}
-                                                                @if ($list->satuan->nama == '%')
+
+                                                                @if ($list->satuan->posisi == 'Diawal')
                                                                     {{ $list->satuan->nama }}
+                                                                    {{ number_format($nilai, 2) }}
+                                                                @else
+                                                                    {{ number_format($nilai, 2) }}
+                                                                    {{ $list->satuan->nama }}
+                                                                @endif
+                                                                @if (!empty(\App\Nilai::list($list->id, $tgl)->file))
+                                                                    <a href="/indikator/list/file/{{ \App\Nilai::list($list->id, $tgl)->file }}"
+                                                                        class="btn btn-success btn-sm"
+                                                                        target="new_tab">Bukti</a>
                                                                 @endif
                                                             @endif
                                                         </td>
@@ -210,7 +237,8 @@
                                             <tr>
                                                 <td colspan="8" class="font-weight-bold text-right">IKU
                                                 </td>
-                                                <td class="font-weight-bold">{{ $totalpersen / 100 }}</td>
+                                                <td class="font-weight-bold">{{ \App\RangeIku::nilaiiku($totalpersen) }}
+                                                </td>
                                             </tr>
                                         </tfoot>
                                     @endif

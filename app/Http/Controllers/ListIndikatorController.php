@@ -156,7 +156,7 @@ class ListIndikatorController extends Controller
 
             $update = new Nilai();
             $update->tanggal = $tanggal;
-            if (!empty($request->nilai)) {
+            if (isset($request->nilai)) {
                 $update->nilai = $request->nilai;
             } else {
                 $update->nilai_n = $request->nilai_n;
@@ -165,7 +165,7 @@ class ListIndikatorController extends Controller
             if (!empty($request->file)) {
                 //aksi file
                 $file = $request->file('file');
-                $random = Str::random(5);
+                $random = Str::random(3);
                 $extension = $file->getClientOriginalExtension();
                 $nama_file = Carbon::now()->format('dmYHi') . "_" . $random . '.' . $extension;
                 // isi dengan nama folder tempat kemana file diupload
@@ -219,9 +219,10 @@ class ListIndikatorController extends Controller
     public function update(Request $request)
     {
         // $tanggal = \Carbon\Carbon::parse($request->tanggal)->format('Y-m-d');
+        // dd($request);
 
         $update = Nilai::find($request->id);
-        if (!empty($request->nilai)) {
+        if (isset($request->nilai)) {
             $update->nilai = $request->nilai;
         }
         if (!empty($request->nilai_n)) {
@@ -233,7 +234,7 @@ class ListIndikatorController extends Controller
         if (!empty($request->file)) {
             //aksi file
             $file = $request->file('file');
-            $random = Str::random(5);
+            $random = Str::random(3);
             $extension = $file->getClientOriginalExtension();
             $nama_file = Carbon::now()->format('dmYHi') . "_" . $random . '.' . $extension;
             // isi dengan nama folder tempat kemana file diupload

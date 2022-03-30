@@ -66,6 +66,12 @@ Route::group(['middleware' => ['auth']], function () {
     Route::post('/permission/update/{id}', 'PermissionController@update')->name('permission.update');
     Route::get('/permission/delete/{id}', 'PermissionController@delete')->name('permission.delete');
 
+    Route::get('/rangeiku', 'RangeIkuController@index')->name('rangeiku.index');
+    Route::post('/rangeiku/store', 'RangeIkuController@store')->name('rangeiku.store');
+    Route::get('/rangeiku/edit/{id}', 'RangeIkuController@edit')->name('rangeiku.edit');
+    Route::post('/rangeiku/update/{id}', 'RangeIkuController@update')->name('rangeiku.update');
+    Route::get('/rangeiku/delete/{id}', 'RangeIkuController@delete')->name('rangeiku.delete');
+
     Route::resource('roles', 'RoleController');
 
     Route::get('/indikator', 'IndikatorController@index')->name('indikator');

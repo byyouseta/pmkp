@@ -179,6 +179,12 @@
                                 </a>
                             </li>
                         @endcan
+                        <li class="nav-item">
+                            <a href="/rangeiku" class="nav-link">
+                                <i class="nav-icon fas fa-th-large"></i>
+                                <p>Master Range IKU</p>
+                            </a>
+                        </li>
                     </ul>
                 </li>
             @endif

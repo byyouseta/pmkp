@@ -90,7 +90,14 @@ class RekapBulananController extends Controller
         if (empty($data)) {
             Session::flash('error', 'Belum ada indikator yang disetujui pada Unit yang dipilih!');
 
-            return redirect('/report/bulanan');
+            // return redirect('/report/bulanan');
+            $data2 = null;
+
+            $data = Tahun::all();
+            $data3 = Unit::orderBy('nama', 'asc')->get();
+            // dd($data2);
+
+            return view('rekap_bulanan', compact('data', 'data2', 'data3'));
         } else {
 
             $data2 = DetailIndikator::where('indikator_id', '=', $data->id)
@@ -99,7 +106,7 @@ class RekapBulananController extends Controller
                 ->get();
 
             $data = Tahun::all();
-            $data3 = Unit::all();
+            $data3 = Unit::orderBy('nama', 'asc')->get();
             // dd($data2);
 
             return view('rekap_bulanan', compact('data', 'data2', 'data3'));

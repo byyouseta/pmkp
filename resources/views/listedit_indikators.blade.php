@@ -48,7 +48,8 @@
                                         <div class="col-sm-3 input-group">
                                             <input type="number" name="nilai" class="form-control"
                                                 placeholder="Ketikkan Nilai sesuai Tanggal" value="{{ $data2->nilai }}"
-                                                required autocomplete="off" @if ($data->satuan->nama == '%') max="100" @endif />
+                                                required autocomplete="off"
+                                                @if ($data->satuan->nama == '%') max="100" @endif />
                                             <div class="input-group-append">
                                                 <span class="input-group-text">{{ $data->satuan->nama }}</span>
                                             </div>
@@ -64,6 +65,12 @@
                                                     <label class="custom-file-label" for="customFile">Pilih atau drop file
                                                         disini</label>
                                                 </div>
+                                            </div>
+                                        </div>
+                                        <div class="form-group row">
+                                            <label class="col-sm-2 col-form-label"></label>
+                                            <div class="col-sm-5 input-group">
+                                                <small>* File dalam bentuk PDF/JPEG/JPG Maksimal 2Mb</small>
                                             </div>
                                         </div>
                                     @else

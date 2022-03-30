@@ -6,11 +6,11 @@
     <section class="content">
         <div class="container-fluid">
 
-            <form role="form" action="/satuan/update/{{ $data->id }}" method="post">
+            <form role="form" action="/rangeiku/update/{{ $data->id }}" method="post">
                 {{ csrf_field() }}
                 <div class="card">
                     <div class="card-header">
-                        <h3 class="card-title">Edit Satuan</h3>
+                        <h3 class="card-title">Edit Range</h3>
                     </div>
                     <!-- /.box-header -->
 
@@ -19,42 +19,36 @@
                             <!-- text input -->
                             <div class="col-6">
                                 <div class="form-group">
-                                    <label>Nama Satuan</label>
-                                    <input type="text" class="form-control" placeholder="Masukkan Nama Satuan" name="nama"
-                                        value="{{ $data->nama }}">
-                                    @if ($errors->has('nama'))
-                                        <div class="text-danger">
-                                            {{ $errors->first('nama') }}
-                                        </div>
-                                    @endif
+                                    <label>Nilai Awal</label>
+                                    <input type="number" class="form-control" name="awal" value="{{ $data->awal }}"
+                                        required />
+                                    @error('awal')
+                                        <span class="invalid-feedback text-red" role="alert">
+                                            <strong>{{ $message }}</strong>
+                                        </span>
+                                    @enderror
                                 </div>
                                 <div class="form-group">
-                                    <label>Penulisan Satuan</label>
-                                    <select class="form-control" name="posisi">
-                                        <option value="Diawal" @if ($data->posisi == 'Diawal') selected @endif>Diawal
-                                        </option>
-                                        <option value="Diakhir" @if ($data->posisi == 'Diakhir') selected @endif>Diakhir
-                                        </option>
-                                    </select>
-                                    @if ($errors->has('posisi'))
-                                        <div class="text-danger">
-                                            {{ $errors->first('posisi') }}
-                                        </div>
-                                    @endif
+                                    <label>Nilai Akhir</label>
+                                    <input type="number" class="form-control" name="akhir" value="{{ $data->akhir }}"
+                                        required />
+                                    @error('akhir')
+                                        <span class="invalid-feedback text-red" role="alert">
+                                            <strong>{{ $message }}</strong>
+                                        </span>
+                                    @enderror
                                 </div>
                                 <div class="form-group">
-                                    <label>Keterangan</label>
-                                    <textarea class="form-control" rows="3" placeholder="Masukkan Keterangan"
-                                        name="keterangan">{{ $data->keterangan }}</textarea>
-                                    @if ($errors->has('keterangan'))
-                                        <div class="text-danger">
-                                            {{ $errors->first('keterangan') }}
-                                        </div>
-                                    @endif
+                                    <label>Nilai</label>
+                                    <input type="number" step=".01" max="1" class="form-control" name="nilai"
+                                        value="{{ $data->nilai }}" required />
+                                    @error('nilai')
+                                        <span class="invalid-feedback text-red" role="alert">
+                                            <strong>{{ $message }}</strong>
+                                        </span>
+                                    @enderror
                                 </div>
                             </div>
-
-
                             <div class="col-6">
                                 <div class="form-group">
                                     <label>Pembaharuan Terakhir</label>
@@ -79,7 +73,7 @@
 
                     <!-- /.box-body -->
                     <div class="card-footer">
-                        <a href="/satuan" class="btn btn-default">Kembali</a>
+                        <a href="/rangeiku" class="btn btn-default">Kembali</a>
                         <button type="submit" class="btn btn-primary">Perbaharui</button>
                     </div>
 
