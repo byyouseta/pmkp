@@ -1,6 +1,9 @@
 @extends('layouts.master')
 
 @section('head')
+    <!-- Select2 -->
+    <link rel="stylesheet" href="{{ asset('template/plugins/select2/css/select2.min.css') }}">
+    <link rel="stylesheet" href="{{ asset('template/plugins/select2-bootstrap4-theme/select2-bootstrap4.min.css') }}">
     <!-- DataTables -->
     <link rel="stylesheet" href="{{ asset('template/plugins/datatables-bs4/css/dataTables.bootstrap4.min.css') }}">
     <link rel="stylesheet" href="{{ asset('template/plugins/datatables-responsive/css/responsive.bootstrap4.min.css') }}">
@@ -93,7 +96,7 @@
 
                                 <div class="form-group">
                                     <label>Tahun</label>
-                                    <select class="form-control select2 " name="tahun" required>
+                                    <select class="form-control" name="tahun" required>
                                         <option value="">Pilih</option>
                                         @foreach ($data2 as $tahun)
                                             <option value="{{ $tahun->id }}"
@@ -157,6 +160,14 @@
     <script src="{{ asset('template/plugins/jquery/jquery.min.js') }}"></script>
     <!-- Bootstrap 4 -->
     <script src="{{ asset('template/plugins/bootstrap/js/bootstrap.bundle.min.js') }}"></script> --}}
+    <!-- Select2 -->
+    <script src="{{ asset('template/plugins/select2/js/select2.full.min.js') }}"></script>
+    <script>
+        $(function() {
+            //Initialize Select2 Elements
+            $('.select2').select2()
+        });
+    </script>
     <!-- DataTables  & Plugins -->
     <script src="{{ asset('template/plugins/datatables/jquery.dataTables.min.js') }}"></script>
     <script src="{{ asset('template/plugins/datatables-bs4/js/dataTables.bootstrap4.min.js') }}"></script>

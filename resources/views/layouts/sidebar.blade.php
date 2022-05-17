@@ -127,7 +127,40 @@
                     </ul>
                 </li>
             @endif
-
+            <li class="nav-item">
+                <a href="#" class="nav-link">
+                    <i class="nav-icon fas fa-hospital-symbol"></i>
+                    <p>
+                        IKT
+                        <i class="right fas fa-angle-left"></i>
+                    </p>
+                </a>
+                <ul class="nav nav-treeview">
+                    <li class="nav-item">
+                        <a href="/ikt/laporan" class="nav-link">
+                            <i class="nav-icon fas fa-pen"></i>
+                            <p>
+                                Pelaporan Bulanan
+                            </p>
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a href="/ikt" class="nav-link">
+                            <i class="far fa-calendar-alt nav-icon"></i>
+                            <p>Rekap Bulanan</p>
+                        </a>
+                    </li>
+                </ul>
+            </li>
+            <li class="nav-item">
+                <a href="#" class="nav-link">
+                    <i class="nav-icon fas fa-user-md"></i>
+                    <p>
+                        IKI
+                        <i class="right fas fa-angle-left"></i>
+                    </p>
+                </a>
+            </li>
             @if (Auth::user()->can('user-list') || Auth::user()->can('unit-list') || Auth::user()->can('satuan-list') || Auth::user()->can('kategori-list'))
                 <li class="nav-item">
                     <a href="#" class="nav-link">

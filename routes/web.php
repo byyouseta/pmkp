@@ -109,4 +109,15 @@ Route::group(['middleware' => ['auth']], function () {
     Route::get('/indikator/detail/send/{id}', 'DetailIndikatorController@send')->name('detailindikator.send');
     Route::get('/indikator/approval/{id}', 'DetailIndikatorController@detail')->name('detailindikator.detail');
     Route::post('/indikator/approval/{id}', 'DetailIndikatorController@approved')->name('detailindikator.approved');
+
+    // AJAX
+    Route::get('/detail/{id}/indikator', 'DetailIndikatorController@getindikator')->name('detailindikator.getindikator');
+    Route::post('/detail/link/store', 'DetailIndikatorController@linkstore')->name('detailindikator.linkstore');
+    Route::get('/detail/link/{id}/delete', 'DetailIndikatorController@linkdelete')->name('detailindikator.linkdelete');
+
+    // IKT
+    Route::get('/ikt', 'IktController@index')->name('ikt.index');
+    Route::get('/ikt/laporan', 'IktController@pelaporan')->name('ikt.pelaporan');
+    Route::get('/ikt/{id}', 'IktController@inputlapor')->name('ikt.inputlapor');
+    Route::post('/ikt/store', 'IktController@store')->name('ikt.store');
 });

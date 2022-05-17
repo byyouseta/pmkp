@@ -33,6 +33,11 @@ class Indikator extends Model
         return $this->hasMany('App\DetailIndikator');
     }
 
+    public function link()
+    {
+        return $this->hasOne('App\LinkIndikator');
+    }
+
     public static function status($id)
     {
         if ($id == 1) {

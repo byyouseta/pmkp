@@ -19,7 +19,7 @@
                         $hariini = \Carbon\Carbon::now();
                         $jmlhari = \Carbon\Carbon::now()->daysInMonth;
                     @endphp
-                    <form action="/indikator/list/store" method="POST" enctype="multipart/form-data">
+                    <form action="/ikt/store" method="POST" enctype="multipart/form-data">
                         @csrf
                         <div class="card">
                             <div class="card-header"><b>Input Data</b>

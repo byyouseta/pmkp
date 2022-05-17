@@ -16,7 +16,7 @@ class RangeIku extends Model
         $nilaiiku = 0;
 
         foreach ($data as $range) {
-            if (($nilai > $range->awal) and ($nilai < $range->akhir)) {
+            if (($nilai >= $range->awal) and ($nilai <= $range->akhir)) {
                 $nilaiiku = $range->nilai;
             }
         }

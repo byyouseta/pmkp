@@ -41,4 +41,9 @@ class DetailIndikator extends Model
     {
         return $this->hasMany('App\Range');
     }
+
+    public function link()
+    {
+        return $this->hasMany('App\LinkIndikator');
+    }
 }

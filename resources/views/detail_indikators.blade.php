@@ -64,7 +64,6 @@
             });
         });
     </script>
-
 @endsection
 
 @section('content')
@@ -139,6 +138,7 @@
                             <table id="example" class="table table-striped table-bordered nowrap" style="width:100%">
                                 <thead>
                                     <tr>
+                                        <th>Aksi</th>
                                         <th>Kategori</th>
                                         <th>Indikator</th>
                                         <th>Definisi Operational</th>
@@ -151,15 +151,78 @@
                                         <th>Bobot</th>
                                         <th style="min-width: 250px">Catatan</th>
                                         <th>PIC</th>
-                                        <th>Aksi</th>
                                     </tr>
                                 </thead>
                                 <tbody>
                                     @foreach ($data2 as $data2)
                                         <tr>
+                                            <td>
+                                                @if ($data->status == 0 or $data->status == 2)
+                                                    <div class="col text-center">
+                                                        <div class="btn-group">
+                                                            <a href="/detail/edit/{{ Crypt::encrypt($data2->id) }}"
+                                                                class="btn btn-warning btn-sm" data-toggle="tooltip"
+                                                                data-placement="bottom" title="Edit">
+                                                                <i class="fas fa-pencil-alt"></i>
+                                                            </a>
+                                                            <a href="/detail/range/{{ Crypt::encrypt($data2->id) }}"
+                                                                class="btn btn-info btn-sm" data-toggle="tooltip"
+                                                                data-placement="bottom" title="Input Range Nilai">
+                                                                <i class="fas fa-list"></i>
+                                                            </a>
+                                                            <a href="" class="btn btn-primary btn-sm" id="editCompany"
+                                                                data-toggle="modal" data-target='#practice_modal'
+                                                                data-id="{{ $data2->id }}" data-toggle="tooltip"
+                                                                data-placement="bottom" title="Link Indikator">
+                                                                <i class="fas fa-link"></i>
+                                                            </a>
+                                                            <a href="/detail/delete/{{ Crypt::encrypt($data2->id) }}"
+                                                                class="btn btn-danger btn-sm delete-confirm"
+                                                                data-toggle="tooltip" data-placement="bottom"
+                                                                title="Delete">
+                                                                <i class="fas fa-ban"></i>
+                                                            </a>
+                                                        </div>
+                                                    </div>
+                                                @else
+                                                    <div class="col text-center">
+                                                        <div class="btn-group">
+                                                            <a href="/detail/edit/{{ Crypt::encrypt($data2->id) }}"
+                                                                class="btn btn-warning btn-sm disabled"
+                                                                data-toggle="tooltip" data-placement="bottom" title="Edit">
+                                                                <i class="fas fa-pencil-alt"></i>
+                                                            </a>
+                                                            <a href="/detail/range/{{ Crypt::encrypt($data2->id) }}"
+                                                                class="btn btn-info btn-sm disabled" data-toggle="tooltip"
+                                                                data-placement="bottom" title="Input Range Nilai">
+                                                                <i class="fas fa-list"></i>
+                                                            </a>
+                                                            <a href="#" class="btn btn-info btn-sm disabled"
+                                                                data-toggle="tooltip" data-placement="bottom"
+                                                                title="Link Indikator">
+                                                                <i class="fas fa-link"></i>
+                                                            </a>
+                                                            <a href="/detail/delete/{{ Crypt::encrypt($data2->id) }}"
+                                                                class="btn btn-danger btn-sm delete-confirm disabled"
+                                                                data-toggle="tooltip" data-placement="bottom"
+                                                                title="Delete">
+                                                                <i class="fas fa-ban"></i>
+                                                            </a>
+                                                        </div>
+                                                    </div>
+                                                @endif
+
+                                            </td>
                                             <td>{{ $data2->kategori->nama }}</td>
                                             <td>{{ $data2->nama }}</td>
-                                            <td>{{ $data2->do }}</td>
+                                            <td>
+                                                @php
+                                                    $paragraphs = explode(PHP_EOL, $data2->do);
+                                                @endphp
+                                                @foreach ($paragraphs as $paragraph)
+                                                    <p>{{ $paragraph }}</p>
+                                                @endforeach
+                                            </td>
                                             <td>{{ $data2->pengumpulan }}</td>
                                             <td>{{ $data2->pelaporan }}</td>
                                             <td>{{ $data2->numerator }}</td>
@@ -189,52 +252,6 @@
                                                     {{ $data2->user->name }}
                                                 @endif
                                             </td>
-                                            <td>
-                                                @if ($data->status == 0 or $data->status == 2)
-                                                    <div class="col text-center">
-                                                        <div class="btn-group">
-                                                            <a href="/detail/edit/{{ Crypt::encrypt($data2->id) }}"
-                                                                class="btn btn-warning btn-sm" data-toggle="tooltip"
-                                                                data-placement="bottom" title="Edit">
-                                                                <i class="fas fa-pencil-alt"></i>
-                                                            </a>
-                                                            <a href="/detail/range/{{ Crypt::encrypt($data2->id) }}"
-                                                                class="btn btn-info btn-sm" data-toggle="tooltip"
-                                                                data-placement="bottom" title="Input Range Nilai">
-                                                                <i class="fas fa-list"></i>
-                                                            </a>
-                                                            <a href="/detail/delete/{{ Crypt::encrypt($data2->id) }}"
-                                                                class="btn btn-danger btn-sm delete-confirm"
-                                                                data-toggle="tooltip" data-placement="bottom"
-                                                                title="Delete">
-                                                                <i class="fas fa-ban"></i>
-                                                            </a>
-                                                        </div>
-                                                    </div>
-                                                @else
-                                                    <div class="col text-center">
-                                                        <div class="btn-group">
-                                                            <a href="/detail/edit/{{ Crypt::encrypt($data2->id) }}"
-                                                                class="btn btn-warning btn-sm disabled"
-                                                                data-toggle="tooltip" data-placement="bottom" title="Edit">
-                                                                <i class="fas fa-pencil-alt"></i>
-                                                            </a>
-                                                            <a href="/detail/range/{{ Crypt::encrypt($data2->id) }}"
-                                                                class="btn btn-info btn-sm disabled" data-toggle="tooltip"
-                                                                data-placement="bottom" title="Input Range Nilai">
-                                                                <i class="fas fa-list"></i>
-                                                            </a>
-                                                            <a href="/detail/delete/{{ Crypt::encrypt($data2->id) }}"
-                                                                class="btn btn-danger btn-sm delete-confirm disabled"
-                                                                data-toggle="tooltip" data-placement="bottom"
-                                                                title="Delete">
-                                                                <i class="fas fa-ban"></i>
-                                                            </a>
-                                                        </div>
-                                                    </div>
-                                                @endif
-
-                                            </td>
                                         </tr>
                                     @endforeach
 
@@ -258,6 +275,60 @@
                                     </tr>
                                 </tfoot>
 
+                            </table>
+                        </div>
+                        <!-- /.card-body -->
+                    </div>
+                    <!-- /.card -->
+                    <div class="card">
+                        <div class="card-header">
+                            <h3 class="card-title">Link Indikator</h3>
+                        </div>
+                        <!-- /.card-header -->
+                        <div class="card-body">
+                            <table class="table table-striped table-bordered">
+                                <thead>
+                                    <tr>
+                                        <th>Aksi</th>
+                                        <th>Kategori</th>
+                                        <th>Link Indikator</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    @foreach ($data5 as $data5)
+                                        <tr>
+                                            <td>
+                                                @if ($data->status == 0 or $data->status == 2)
+                                                    <div class="col text-center">
+                                                        <div class="btn-group">
+                                                            <a href="/detail/link/{{ Crypt::encrypt($data5->id) }}/delete"
+                                                                class="btn btn-danger btn-sm delete-confirm"
+                                                                data-toggle="tooltip" data-placement="bottom"
+                                                                title="Delete">
+                                                                <i class="fas fa-ban"></i>
+                                                            </a>
+                                                        </div>
+                                                    </div>
+                                                @else
+                                                    <div class="col text-center">
+                                                        <div class="btn-group">
+                                                            <a href="/detail/link/{{ Crypt::encrypt($data5->id) }}/delete"
+                                                                class="btn btn-danger btn-sm delete-confirm disabled"
+                                                                data-toggle="tooltip" data-placement="bottom"
+                                                                title="Delete">
+                                                                <i class="fas fa-ban"></i>
+                                                            </a>
+                                                        </div>
+                                                    </div>
+                                                @endif
+
+                                            </td>
+                                            <td>{{ $data5->kategori->nama }}</td>
+                                            <td>{{ $data5->detailindikator->nama }}</td>
+                                        </tr>
+                                    @endforeach
+
+                                </tbody>
                             </table>
                         </div>
                         <!-- /.card-body -->
@@ -289,8 +360,7 @@
                                 <input type="hidden" name="id" value="{{ $data->id }}" />
                                 <div class="form-group">
                                     <label>Indikator</label>
-                                    <textarea name="indikator" rows="1" class="form-control"
-                                        required>{{ old('indikator') }}</textarea>
+                                    <textarea name="indikator" rows="1" class="form-control" required>{{ old('indikator') }}</textarea>
                                     @if ($errors->has('indikator'))
                                         <div class="text-danger">
                                             {{ $errors->first('indikator') }}
@@ -299,8 +369,7 @@
                                 </div>
                                 <div class="form-group">
                                     <label>Definisi Operasional</label>
-                                    <textarea name="do" rows="3" class="form-control"
-                                        required>{{ old('do') }}</textarea>
+                                    <textarea name="do" rows="3" class="form-control" required>{{ old('do') }}</textarea>
                                     @if ($errors->has('do'))
                                         <div class="text-danger">
                                             {{ $errors->first('do') }}
@@ -464,8 +533,7 @@
                             <div class="col-12">
                                 <div class="form-group">
                                     <label>Catatan</label><small>* Optional</small>
-                                    <textarea name="catatan" rows="2"
-                                        class="form-control">{{ old('catatan') }}</textarea>
+                                    <textarea name="catatan" rows="2" class="form-control">{{ old('catatan') }}</textarea>
                                     @if ($errors->has('catatan'))
                                         <div class="text-danger">
                                             {{ $errors->first('catatan') }}
@@ -486,6 +554,108 @@
         <!-- /.modal-dialog -->
     </div>
     <!-- /.modal -->
+    <div class="modal fade" id="practice_modal">
+        <div class="modal-dialog modal-lg">
+            <form action="/detail/link/store" method="POST">
+                @csrf
+                <div class="modal-content ">
+                    <div class="modal-header">
+                        <h4 class="modal-title">Link Indikator</h4>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+                    <div class="modal-body">
+                        <div class="row">
+                            <div class="col-12">
+                                <input type="text" id="detail_indikator_id" name="detail_indikator_id" value=""
+                                    class="form-control" readonly>
+                                <input type="text" id="indikator_id" name="indikator_id" value="" class="form-control"
+                                    readonly>
+                                <div class="form-group">
+                                    <label>Nama Indikator</label>
+                                    <input type="text" name="name" id="name" value="" class="form-control" readonly>
+                                </div>
+                                <div class="form-group">
+                                    <label>Kategori</label>
+                                    <select class="form-control select2 " name="kategori" id="kategori" required>
+                                        <option value="">Pilih</option>
+                                        @foreach ($data3 as $list)
+                                            <option value="{{ $list->id }}"
+                                                {{ old('kategori') == $list->id ? 'selected' : '' }}>
+                                                {{ $list->nama }}
+                                            </option>
+                                        @endforeach
+                                    </select>
+                                </div>
+
+                            </div>
+                        </div>
+                        {{-- <input type="submit" value="Submit" id="submit" class="btn btn-sm btn-outline-danger py-0"
+                        style="font-size: 0.8em;"> --}}
+
+                    </div>
+                    <div class="modal-footer justify-content-between">
+                        <button type="button" class="btn btn-default" data-dismiss="modal">Tutup</button>
+                        <button type="submit" class="btn btn-primary">Simpan</button>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+@endsection
+@section('ajax')
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@9"></script>
+    <script>
+        $(document).ready(function() {
+
+            $.ajaxSetup({
+                headers: {
+                    'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                }
+            });
+
+            $('body').on('click', '#submit', function(event) {
+                event.preventDefault()
+                var detail_indikator_id = $("#detail_indikator_id").val();
+                var indikator_id = $("#indikator_id").val();
+                var kategori = $("#kategori").val();
+
+                $.ajax({
+                    url: '/detail/link/store',
+                    type: "POST",
+                    data: {
+                        detail_indikator_id: detail_indikator_id,
+                        indikator_id: indikator_id,
+                        kategori_id: kategori,
+                    },
+                    dataType: 'json',
+                    success: function(data) {
+                        $('#companydata').trigger("reset");
+                        $('#practice_modal').modal('hide');
+                        window.location.reload(true);
+                    }
+                });
+            });
+
+            $('body').on('click', '#editCompany', function(event) {
+
+                event.preventDefault();
+                var id = $(this).data('id');
+                console.log(id)
+                $.get('/detail/' + id + '/indikator', function(data) {
+                    $('#userCrudModal').html("Link Indikator");
+                    $('#submit').val("Simpan");
+                    $('#practice_modal').modal('show');
+                    $('#detail_indikator_id').val(data.data.id);
+                    $('#indikator_id').val(data.data.indikator_id);
+                    $('#name').val(data.data.nama);
+                })
+            });
+
+        });
+    </script>
 @endsection
 @section('plugin')
     {{-- <!-- jQuery -->

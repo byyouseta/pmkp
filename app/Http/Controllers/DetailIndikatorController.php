@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\DetailIndikator;
 use App\Indikator;
 use App\Kategori;
+use App\LinkIndikator;
 use App\Satuan;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -37,12 +38,15 @@ class DetailIndikatorController extends Controller
         $data3 = Kategori::all();
         //data satuan
         $data4 = Satuan::all();
+        $data5 = LinkIndikator::where('indikator_id', $id)
+            ->get();
 
         return view('detail_indikators', [
             'data' => $data,
             'data2' => $data2,
             'data3' => $data3,
             'data4' => $data4,
+            'data5' => $data5
         ]);
     }
 
@@ -198,5 +202,43 @@ class DetailIndikatorController extends Controller
         // $id = Crypt::encrypt($request->id);
 
         return redirect("/indikator/approval");
+    }
+
+    //ajax
+    public function getindikator($id)
+    {
+        $indikator = DetailIndikator::find($id);
+
+        return response()->json([
+            'data' => $indikator
+        ]);
+    }
+
+    public function linkstore(Request $request)
+    {
+        $tambah = new LinkIndikator();
+        $tambah->indikator_id = $request->indikator_id;
+        $tambah->detail_indikator_id = $request->detail_indikator_id;
+        $tambah->kategori_id = $request->kategori;
+        $tambah->save();
+
+        Session::flash('sukses', 'Data telah berhasil disimpan');
+
+        $id = Crypt::encrypt($request->indikator_id);
+
+        return redirect("/indikator/$id");
+    }
+
+    public function linkdelete($id)
+    {
+        $id = Crypt::decrypt($id);
+        $delete = LinkIndikator::find($id);
+        $delete->delete();
+
+        Session::flash('sukses', 'Data Berhasil dihapus!');
+
+        // $id = Crypt::encrypt($delete->$id);
+        // return redirect("/indikator/$id");
+        return redirect()->back();
     }
 }

@@ -102,7 +102,7 @@ class RekapBulananController extends Controller
 
             $data2 = DetailIndikator::where('indikator_id', '=', $data->id)
                 ->where('pelaporan', 'Bulanan')
-                // ->orWhere('pelaporan', 'Mingguan')
+                ->where('kategori_id', '=', 10)
                 ->get();
 
             $data = Tahun::all();

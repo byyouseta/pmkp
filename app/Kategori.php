@@ -13,8 +13,8 @@ class Kategori extends Model
         'nama', 'keterangan'
     ];
 
-    // public function imutlokal()
-    // {
-    //     return $this->hasMany('App\Lokal');
-    // }
+    public function link()
+    {
+        return $this->hasOne('App\LinkIndikator');
+    }
 }

@@ -49,6 +49,7 @@ class PelaporanController extends Controller
         } else {
             $data2 = DetailIndikator::where('indikator_id', '=', $cek->id)
                 ->where('pelaporan', '=', 'Bulanan')
+                ->where('kategori_id', '=', 10)
                 ->get();
         }
         // $query =  Nilai::where('detail_indikator_id', '=', 1)
@@ -92,6 +93,7 @@ class PelaporanController extends Controller
         } else {
             $data2 = DetailIndikator::where('indikator_id', '=', $cek->id)
                 ->where('pelaporan', '=', 'Bulanan')
+                ->where('kategori_id', '=', 10)
                 ->get();
         }
         // $query =  Nilai::where('detail_indikator_id', '=', 1)
