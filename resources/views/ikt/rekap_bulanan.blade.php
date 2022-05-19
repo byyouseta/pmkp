@@ -68,14 +68,14 @@
                                     <div class="col-sm-1 col-form-label">
                                         <button type="Submit" class="btn btn-primary btn-block">Lihat</button>
                                     </div>
-                                    @if (!empty(Request::get('bulan')))
+                                    {{-- @if (!empty(Request::get('bulan')))
                                         <div class="col-sm-1 col-form-label">
                                             <a href="/report/{{ Request::get('bulan') }}/bulanan/{{ Request::get('tahun') }}/{{ Crypt::encrypt(Request::get('unit')) }}"
                                                 class="btn btn-secondary btn-block" target="_blank"><i
                                                     class="fas fa-print"></i>
                                                 Print</a>
                                         </div>
-                                    @endif
+                                    @endif --}}
                                 </div>
                             </form>
 

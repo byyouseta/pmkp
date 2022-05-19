@@ -86,22 +86,27 @@ class IktController extends Controller
         }
     }
 
-    public function pelaporan()
+    public function pelaporan(Request $request)
     {
-        $hari = Carbon::now();
+
+        if (empty($request->input('tahun'))) {
+            $tahun = Carbon::now()->format('Y');
+        } else {
+            $tahun = $request->input('tahun');
+        }
 
         $cek = DB::table('indikators')
             ->join('tahuns', 'indikators.tahun_id', '=', 'tahuns.id')
             ->select('indikators.*', 'tahuns.nama as tahun')
             ->where('indikators.status', '=', 3)
             ->where('indikators.unit_id', '=', Auth::user()->unit_id)
-            ->where('tahuns.nama', '=', $hari->year)
+            ->where('tahuns.nama', '=', $tahun)
             ->first();
 
         if (empty($cek)) {
-            Session::flash('error', 'Belum ada indikator yang disetujui pada tahun ' . $hari->year);
+            Session::flash('error', 'Belum ada indikator yang disetujui pada tahun ' . $tahun);
 
-            return redirect("/indikator");
+            return redirect("/ikt/laporan");
         } else {
             $data2 = DetailIndikator::where('indikator_id', '=', $cek->id)
                 ->where('pelaporan', '=', 'Bulanan')

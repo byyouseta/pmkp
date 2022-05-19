@@ -10,6 +10,10 @@
     {{-- <script src="https://cdn.datatables.net/fixedcolumns/4.0.1/css/fixedColumns.bootstrap4.min.css"></script> --}}
     {{-- <link rel="stylesheet" type="text/css"
         href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.5.2/css/bootstrap.css"> --}}
+    <!-- Select2 -->
+    <link rel="stylesheet" href="{{ asset('template/plugins/select2/css/select2.min.css') }}">
+    <link rel="stylesheet" href="{{ asset('template/plugins/select2-bootstrap4-theme/select2-bootstrap4.min.css') }}">
+    <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
     <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.11.3/css/dataTables.bootstrap4.min.css">
     <link rel="stylesheet" type="text/css"
         href="https://cdn.datatables.net/fixedcolumns/4.0.1/css/fixedColumns.bootstrap4.min.css">
@@ -113,6 +117,12 @@
                                 <button class="btn btn-primary btn-sm" data-toggle="modal" data-target="#modal-default">
                                     <i class="fa fa-plus-circle"></i> Tambah</a>
                                 </button>
+                                <button class="btn btn-info btn-sm" data-toggle="modal" data-target="#modal-link">
+                                    <i class="fas fa-link"></i></i> Link Indikator</a>
+                                </button>
+                                {{-- <a href="/indikator/cari" class="btn btn-info btn-sm" data-toggle="tooltip"
+                                    data-placement="bottom" title="Tambah Link Indikator ">
+                                    <i class="fas fa-link"></i></i> Link Indikator</a> --}}
                                 <a href="/indikator/detail/send/{{ Crypt::encrypt($data->id) }}"
                                     class="btn btn-success btn-sm kirim-confirm" data-toggle="tooltip"
                                     data-placement="bottom" title="Ajukan Usulan">
@@ -122,6 +132,9 @@
                                     data-target="#modal-default">
                                     <i class="fa fa-plus-circle"></i> Tambah</a>
                                 </button>
+                                <a href="/indikator/cari" class="btn btn-info btn-sm disabled" data-toggle="tooltip"
+                                    data-placement="bottom" title="Tambah Link Indikator ">
+                                    <i class="fas fa-link"></i></i> Link Indikator</a>
                                 <a href="/indikator/detail/send/{{ Crypt::encrypt($data->id) }}"
                                     class="btn btn-success btn-sm disabled kirim-confirm" data-toggle="tooltip"
                                     data-placement="bottom" title="Ajukan Usulan">
@@ -170,12 +183,12 @@
                                                                 data-placement="bottom" title="Input Range Nilai">
                                                                 <i class="fas fa-list"></i>
                                                             </a>
-                                                            <a href="" class="btn btn-primary btn-sm" id="editCompany"
+                                                            {{-- <a href="" class="btn btn-primary btn-sm" id="editCompany"
                                                                 data-toggle="modal" data-target='#practice_modal'
                                                                 data-id="{{ $data2->id }}" data-toggle="tooltip"
                                                                 data-placement="bottom" title="Link Indikator">
                                                                 <i class="fas fa-link"></i>
-                                                            </a>
+                                                            </a> --}}
                                                             <a href="/detail/delete/{{ Crypt::encrypt($data2->id) }}"
                                                                 class="btn btn-danger btn-sm delete-confirm"
                                                                 data-toggle="tooltip" data-placement="bottom"
@@ -197,11 +210,11 @@
                                                                 data-placement="bottom" title="Input Range Nilai">
                                                                 <i class="fas fa-list"></i>
                                                             </a>
-                                                            <a href="#" class="btn btn-info btn-sm disabled"
+                                                            {{-- <a href="#" class="btn btn-primary btn-sm disabled"
                                                                 data-toggle="tooltip" data-placement="bottom"
                                                                 title="Link Indikator">
                                                                 <i class="fas fa-link"></i>
-                                                            </a>
+                                                            </a> --}}
                                                             <a href="/detail/delete/{{ Crypt::encrypt($data2->id) }}"
                                                                 class="btn btn-danger btn-sm delete-confirm disabled"
                                                                 data-toggle="tooltip" data-placement="bottom"
@@ -260,17 +273,17 @@
                                 <tfoot>
                                     <tr>
                                         @if ($total > 100)
-                                            <td colspan="9" class="text-center font-weight-bold text-danger">Total bobot
+                                            <td colspan="10" class="text-center font-weight-bold text-danger">Total bobot
                                                 lebih dari 100%</td>
-                                            <td colspan="4" class="font-weight-bold text-danger">{{ $total }}%</td>
+                                            <td colspan="3" class="font-weight-bold text-danger">{{ $total }}%</td>
                                         @elseif ($total < 100)
-                                            <td colspan="9" class="text-center font-weight-bold text-danger">Total bobot
+                                            <td colspan="10" class="text-center font-weight-bold text-danger">Total bobot
                                                 kurang dari 100%</td>
-                                            <td colspan="4" class="font-weight-bold text-danger">{{ $total }}%</td>
+                                            <td colspan="3" class="font-weight-bold text-danger">{{ $total }}%</td>
                                         @else
-                                            <td colspan="9" class="text-center font-weight-bold">Total bobot
+                                            <td colspan="10" class="text-center font-weight-bold">Total bobot
                                                 100%</td>
-                                            <td colspan="4" class="font-weight-bold">{{ $total }}%</td>
+                                            <td colspan="3" class="font-weight-bold">{{ $total }}%</td>
                                         @endif
                                     </tr>
                                 </tfoot>
@@ -324,7 +337,9 @@
 
                                             </td>
                                             <td>{{ $data5->kategori->nama }}</td>
-                                            <td>{{ $data5->detailindikator->nama }}</td>
+                                            <td>{{ $data5->detailindikator->nama }}
+                                                link <i>{{ $data5->detailindikator->indikator->unit->nama }}</i>
+                                            </td>
                                         </tr>
                                     @endforeach
 
@@ -553,6 +568,126 @@
         </div>
         <!-- /.modal-dialog -->
     </div>
+    <div class="modal fade" id="modal-link">
+        <div class="modal-dialog modal-lg">
+            <div class="modal-content">
+                <form method="POST" action="/detail/link/store">
+                    @csrf
+                    <div class="modal-header">
+                        <h4 class="modal-title">Tambah Link Indikator</h4>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+                    <div class="modal-body">
+                        <div class="row">
+                            <!-- text input -->
+                            <div class="col-12">
+                                <input type="hidden" name="indikator_id" value="{{ $data->id }}" />
+                                <div class="form-group">
+                                    <label>Cari Indikator</label>
+                                    <select class="cariIndikator form-control" style="width: 100%" id="cariIndikator"
+                                        name="cari" required>
+                                        <option value="">Cari</option>
+                                    </select>
+                                </div>
+                                <div class="form-group">
+                                    <label>Definisi Operasional</label>
+                                    <textarea rows="3" class="form-control" id="link-do" readonly>{{ old('do') }}</textarea>
+                                </div>
+                            </div>
+                            <div class="col-6">
+                                <div class="form-group">
+                                    <label>Kategori</label>
+                                    <input type="text" class="form-control" id="link-kategori" value="" readonly />
+                                </div>
+                            </div>
+                            <div class="col-6">
+                                <div class="form-group">
+                                    <label>Unit Pengusul</label>
+                                    <input type="text" class="form-control" id="link-unit" value="" readonly />
+                                </div>
+                            </div>
+
+                            <div class="col-6">
+                                <div class="form-group">
+                                    <label>Frekuensi Pengumpulan Data</label>
+                                    <input type="text" class="form-control" id="link-pengumpulan" value="" readonly />
+                                </div>
+                            </div>
+                            <div class="col-6">
+                                <div class="form-group">
+                                    <label>Periode Pelaporan</label>
+                                    <input type="text" class="form-control" id="link-pelaporan" value="" readonly />
+                                </div>
+                            </div>
+                            <div class="col-4">
+                                <div class="form-group">
+                                    <label>Target</label>
+                                    <div class="input-group mb-3">
+                                        <input type="text" class="form-control" readonly value="" id="link-target" />
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-4">
+                                <div class="form-group">
+                                    <label>Satuan</label>
+                                    <input type="text" class="form-control" id="link-satuan" readonly value="" />
+                                </div>
+                            </div>
+                            <div class="col-4">
+                                <div class="form-group">
+                                    <label>Bobot Penilaian</label>
+                                    <div class="input-group mb-3">
+                                        <input type="number" name="bobot" class="form-control" required step="0.05"
+                                            max="100" value="{{ old('bobot') }}" />
+                                        <div class="input-group-append">
+                                            <span class="input-group-text"><i class="fas fa-percent"></i></span>
+                                        </div>
+                                    </div>
+                                    @if ($errors->has('bobot'))
+                                        <div class="text-danger">
+                                            {{ $errors->first('bobot') }}
+                                        </div>
+                                    @endif
+                                </div>
+                            </div>
+                            <div class="col-6">
+                                <div class="form-group">
+                                    <label>Link Kategori</label>
+                                    <select class="form-control select2 " name="kategori" id="kategori" required>
+                                        <option value="">Pilih</option>
+                                        @foreach ($data3 as $datakategori)
+                                            <option value="{{ $datakategori->id }}"
+                                                {{ old('kategori') == $datakategori->id ? 'selected' : '' }}>
+                                                {{ $datakategori->nama }}
+                                            </option>
+                                        @endforeach
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="col-6">
+                                <div class="form-group">
+                                    <label>Link Sub Kategori</label>
+                                    <div class="input-group">
+                                        <select class="form-control select2" name="subkategori" id="subkategori" disabled>
+                                            <option value="">Pilih</option>
+                                        </select>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="modal-footer justify-content-between">
+                        <button type="button" class="btn btn-default" data-dismiss="modal">Tutup</button>
+                        <button type="submit" class="btn btn-primary">Tambah</button>
+                    </div>
+                </form>
+            </div>
+            <!-- /.modal-content -->
+        </div>
+        <!-- /.modal-dialog -->
+    </div>
     <!-- /.modal -->
     <div class="modal fade" id="practice_modal">
         <div class="modal-dialog modal-lg">
@@ -606,8 +741,54 @@
 @endsection
 @section('ajax')
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@9"></script>
+    <!-- Select2 -->
+    <script src="{{ asset('template/plugins/select2/js/select2.full.min.js') }}"></script>
     <script>
+        $('.cariIndikator')
+            .select2({
+                placeholder: 'Cari...',
+                ajax: {
+                    url: '/getIndikator',
+                    dataType: 'json',
+                    delay: 250,
+                    processResults: function(data) {
+                        // console.log(data);
+                        return {
+                            results: $.map(data, function(item) {
+                                return {
+                                    text: item.nama,
+                                    do: item.do,
+                                    kategori: item.kategori,
+                                    pengumpulan: item.pengumpulan,
+                                    pelaporan: item.pelaporan,
+                                    target: item.target,
+                                    satuan: item.satuan,
+                                    unit: item.unit,
+                                    indikator_id: item.indikator_id,
+                                    id: item.id
+                                }
+                            })
+
+                        };
+                    },
+                    cache: true
+                }
+            });
+
+        $('.cariIndikator').on('select2:select', function(e) {
+            var data = e.params.data;
+            console.log(data);
+            // alert(data['text']);
+            $('#link-do').val(data.do);
+            $('#link-kategori').val(data.kategori);
+            $('#link-pelaporan').val(data.pelaporan);
+            $('#link-pengumpulan').val(data.pengumpulan);
+            $('#link-satuan').val(data.satuan);
+            $('#link-target').val(data.target);
+            $('#link-unit').val(data.unit);
+            $('#link-indikator').val(data.indikator_id);
+        });
+
         $(document).ready(function() {
 
             $.ajaxSetup({
@@ -640,7 +821,6 @@
             });
 
             $('body').on('click', '#editCompany', function(event) {
-
                 event.preventDefault();
                 var id = $(this).data('id');
                 console.log(id)
@@ -653,7 +833,6 @@
                     $('#name').val(data.data.nama);
                 })
             });
-
         });
     </script>
 @endsection
@@ -677,7 +856,6 @@
     <script src="{{ asset('template/plugins/datatables-buttons/js/buttons.print.min.js') }}"></script>
     <script src="{{ asset('template/plugins/datatables-buttons/js/buttons.colVis.min.js') }}"></script>
     <script src="https://cdn.datatables.net/fixedcolumns/4.0.1/js/dataTables.fixedColumns.min.js"></script>
-
     <script>
         $(function() {
             $('#example2').DataTable()
@@ -699,7 +877,30 @@
                     "left": 2,
                 },
             })
-        })
+        });
+        $(function() {
+            $('#kategori').on('change', function() {
+                axios.post('{{ route('getSubKategori') }}', {
+                        id: $(this).val()
+                    })
+                    .then(function(response) {
+                        if (!response.data || response.data.length == 0) {
+                            $('#subkategori').empty();
+                            $('#subkategori').append(new Option("Tidak Ada Sub"));
+                            $('#subkategori').attr('disabled', 'disabled');
+                        } else {
+                            $('#subkategori').removeAttr('disabled');
+                            $('#subkategori').empty();
+                            // log.console(response);
+                            $('#subkategori').append(new Option("Pilih"))
+
+                            $.each(response.data, function(id, nama) {
+                                $('#subkategori').append(new Option(nama, id))
+                            })
+                        }
+                    });
+            });
+        });
     </script>
     <script>
         $('.kirim-confirm').on('click', function(event) {

@@ -63,6 +63,12 @@
                                 </a>
                             </li>
                         @endcan
+                        <li class="nav-item">
+                            <a href="/indikator/cari" class="nav-link">
+                                <i class="nav-icon fas fa-search"></i>
+                                <p>Cari Indikator</p>
+                            </a>
+                        </li>
                     </ul>
                 </li>
             @endif

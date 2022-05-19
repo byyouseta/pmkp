@@ -30,7 +30,7 @@
 
                     <div class="card">
                         <div class="card-header">
-                            <form action="/pelaporan/bulanan/cari" method="GET">
+                            <form action="/ikt/laporan" method="GET">
                                 <div class="form-group row">
                                     <div class="col-sm-2 col-form-label">
 

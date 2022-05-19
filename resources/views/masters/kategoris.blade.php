@@ -39,16 +39,17 @@
                                                 <div class="col text-center">
                                                     <div class="btn-group align-center">
                                                         <a href="/kategori/edit/{{ Crypt::encrypt($data->id) }}"
-                                                            class="btn btn-warning btn-sm @cannot('kategori-edit')
-                                                            disabled
-                                                        @endcannot"
+                                                            class="btn btn-warning btn-sm @cannot('kategori-edit') disabled @endcannot"
                                                             data-toggle="tooltip" data-placement="bottom" title="Ubah">
                                                             <i class="fas fa-pencil-alt"></i>
                                                         </a>
+                                                        <a href="/subkategori/{{ Crypt::encrypt($data->id) }}"
+                                                            class="btn btn-info btn-sm" data-toggle="tooltip"
+                                                            data-placement="bottom" title="Tambah Sub Kategori">
+                                                            <i class="fas fa-code-branch"></i>
+                                                        </a>
                                                         <a href="/kategori/delete/{{ Crypt::encrypt($data->id) }}"
-                                                            class="btn btn-danger btn-sm delete-confirm @cannot('kategori-delete')
-                                                            disabled
-                                                        @endcannot"
+                                                            class="btn btn-danger btn-sm delete-confirm @cannot('kategori-delete') disabled @endcannot"
                                                             data-toggle="tooltip" data-placement="bottom" title="Hapus">
                                                             <i class="fas fa-ban"></i>
                                                         </a>

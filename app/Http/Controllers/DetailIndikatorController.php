@@ -216,10 +216,14 @@ class DetailIndikatorController extends Controller
 
     public function linkstore(Request $request)
     {
+        // dd($request);
+
         $tambah = new LinkIndikator();
         $tambah->indikator_id = $request->indikator_id;
-        $tambah->detail_indikator_id = $request->detail_indikator_id;
+        $tambah->detail_indikator_id = $request->cari;
         $tambah->kategori_id = $request->kategori;
+        $tambah->sub_kategori_id = $request->subkategori;
+        $tambah->bobot = $request->bobot;
         $tambah->save();
 
         Session::flash('sukses', 'Data telah berhasil disimpan');

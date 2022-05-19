@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class CreateLinkIndikatorsTable extends Migration
+class CreateSubKategorisTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,13 +13,11 @@ class CreateLinkIndikatorsTable extends Migration
      */
     public function up()
     {
-        Schema::create('link_indikators', function (Blueprint $table) {
+        Schema::create('sub_kategoris', function (Blueprint $table) {
             $table->bigIncrements('id');
-            $table->bigInteger('indikator_id');
-            $table->bigInteger('detail_indikator_id');
             $table->integer('kategori_id');
-            $table->Integer('sub_kategori_id')->nullable();
-            $table->float('bobot', 5, 2)->nullable();
+            $table->string('nama');
+            $table->softDeletes();
             $table->timestamps();
         });
     }
@@ -31,6 +29,6 @@ class CreateLinkIndikatorsTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('link_indikators');
+        Schema::dropIfExists('sub_kategoris');
     }
 }

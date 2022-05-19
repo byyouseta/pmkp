@@ -11,6 +11,7 @@
 |
 */
 
+
 Route::get('/', function () {
     return view('auth.login2');
 });
@@ -54,6 +55,13 @@ Route::group(['middleware' => ['auth']], function () {
     Route::post('/kategori/update/{id}', 'KategoriController@update')->name('kategori.update');
     Route::get('/kategori/delete/{id}', 'KategoriController@delete')->name('kategori.delete');
 
+    Route::get('/subkategori/{id}', 'KategoriController@subkategori')->name('kategori.subkategori');
+    Route::post('/subkategori/store', 'KategoriController@storesub')->name('kategori.storesub');
+    Route::get('/subkategori/delete/{id}', 'KategoriController@deletesub')->name('kategori.deletesub');
+
+    //axios
+    Route::post('/getSubKategori', 'KategoriController@getSubKategori')->name('getSubKategori');
+
     Route::get('/satuan', 'SatuanController@index')->name('satuan.index');
     Route::post('/satuan/store', 'SatuanController@store')->name('satuan.store');
     Route::get('/satuan/edit/{id}', 'SatuanController@edit')->name('satuan.edit');
@@ -77,6 +85,8 @@ Route::group(['middleware' => ['auth']], function () {
     Route::get('/indikator', 'IndikatorController@index')->name('indikator');
     Route::post('/indikator/store', 'IndikatorController@store')->name('indikator.store');
     Route::get('/indikator/approval', 'IndikatorController@approval')->name('indikator.approval');
+
+    Route::get('/indikator/cari', 'IndikatorController@cari')->name('indikator.cari');
 
     Route::get('/indikator/list', 'ListIndikatorController@index')->name('listindikator');
     Route::get('/indikator/list/{id}', 'ListIndikatorController@detail')->name('listindikator.detail');
@@ -112,6 +122,9 @@ Route::group(['middleware' => ['auth']], function () {
 
     // AJAX
     Route::get('/detail/{id}/indikator', 'DetailIndikatorController@getindikator')->name('detailindikator.getindikator');
+    Route::get('/getIndikator', 'IndikatorController@getIndikator')->name('indikator.getIndikator');
+
+
     Route::post('/detail/link/store', 'DetailIndikatorController@linkstore')->name('detailindikator.linkstore');
     Route::get('/detail/link/{id}/delete', 'DetailIndikatorController@linkdelete')->name('detailindikator.linkdelete');
 

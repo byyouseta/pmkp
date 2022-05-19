@@ -24,4 +24,9 @@ class LinkIndikator extends Model
     {
         return $this->belongsTo('App\Kategori');
     }
+
+    public function subkategori()
+    {
+        return $this->belongsTo('App\SubKategori');
+    }
 }

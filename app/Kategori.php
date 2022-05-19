@@ -17,4 +17,9 @@ class Kategori extends Model
     {
         return $this->hasOne('App\LinkIndikator');
     }
+
+    public function subkategori()
+    {
+        return $this->hasMany('App\SubKategori');
+    }
 }
